@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 // Screens
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
+import LoginPage from '../components/Pages/LoginPage/LoginPage';
 
 // Screens names
 
