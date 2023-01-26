@@ -5,11 +5,13 @@ const { User } = require('../db/models');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-  const { name, email, password, description } = req.body;
+  const {
+    name, email, password, description,
+  } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ message: 'Заполните все поля' });
   }
-  const pass = await bcrypt.hash(pass, 2);
+  const pass = await bcrypt.hash(password, 2);
   const [currUser, isCreated] = await User.findOrCreate({
     where: { email },
     defaults: { name, email, password },
@@ -31,7 +33,7 @@ router.post('/signin', async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: 'Wrong login' });
   }
-  const compare = await bcrypt.compare(pass, user.password);
+  const compare = await bcrypt.compare(password, user.password);
   if (compare) {
     req.session.user = { id: user.id, name: user.name };
   } else {
