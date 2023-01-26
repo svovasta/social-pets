@@ -30,5 +30,7 @@ module.exports = {
     'default-param-last': 0,
     'react/style-prop-object': 0,
     'import/prefer-default-export': 0,
+    'no-use-before-define': 0,
+    'react/no-unstable-nested-components': 0,
   },
 };
