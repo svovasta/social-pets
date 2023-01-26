@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
   const pass = await bcrypt.hash(password, 2);
   const [currUser, isCreated] = await User.findOrCreate({
     where: { email },
-    defaults: { name, email, password },
+    defaults: { name, email, pass },
 
   });
   if (!isCreated) {
@@ -33,7 +33,7 @@ router.post('/signin', async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: 'Wrong login' });
   }
-  const compare = await bcrypt.compare(password, user.password);
+  const compare = await bcrypt.compare(password, user.pass);
   if (compare) {
     req.session.user = { id: user.id, name: user.name };
   } else {
