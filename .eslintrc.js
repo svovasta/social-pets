@@ -28,5 +28,6 @@ module.exports = {
     'no-nested-ternary': 0,
     'no-unused-vars': 0,
     'default-param-last': 0,
+    'react/style-prop-object': 0,
   },
 };
