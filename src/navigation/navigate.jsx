@@ -1,26 +1,39 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+// Screens
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 
-const Stack = createStackNavigator();
+// Screens names
+
+const mainPage = 'Home';
+const addPostPage = 'Post';
+
+const Tab = createBottomTabNavigator();
 
 export default function Navigate() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Main"
-          component={MainPage}
-          options={{ title: 'Главная' }}
-        />
-        <Stack.Screen
-          name="AddPostPage"
-          component={AddPostPage}
-          options={{ title: 'Добавить пост' }}
-        />
-      </Stack.Navigator>
+      <Tab.Navigator
+        initialRouteName={mainPage}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            const rn = route.name;
+            if (rn === mainPage) {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (rn === addPostPage) {
+              iconName = focused ? 'add' : 'add';
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
+        <Tab.Screen name={mainPage} component={MainPage} />
+        <Tab.Screen name={addPostPage} component={AddPostPage} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
