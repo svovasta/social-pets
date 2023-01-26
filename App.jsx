@@ -1,13 +1,11 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import MainStack from './src/navigation/navigate';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Ща как забабахеаем приложуху крутую УУУУУ держитесь блин!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MainStack />
   );
 }
 
