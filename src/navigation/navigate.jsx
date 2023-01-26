@@ -5,6 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 // Screens
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
+
+import ProfilePage from '../components/Pages/ProfilePage';
+import FavouritesPage from '../components/Pages/FavouritesPage';
+
 import LoginPage from '../components/Pages/LoginPage/LoginPage';
 
 // Screens names
@@ -17,6 +21,30 @@ const Tab = createBottomTabNavigator();
 export default function Navigate() {
   return (
     <NavigationContainer>
+
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={MainPage}
+          options={{ title: 'Главная' }}
+        />
+        <Stack.Screen
+          name="AddPostPage"
+          component={AddPostPage}
+          options={{ title: 'Добавить пост' }}
+        />
+        <Stack.Screen
+          name="ProfilePage"
+          component={ProfilePage}
+          options={{ title: 'ProfilePage' }}
+        />
+        <Stack.Screen
+          name="FavouritesPage"
+          component={FavouritesPage}
+          options={{ title: 'FavouritesPage' }}
+        />
+      </Stack.Navigator>
+
       <Tab.Navigator
         initialRouteName={mainPage}
         screenOptions={({ route }) => ({
@@ -35,6 +63,7 @@ export default function Navigate() {
         <Tab.Screen name={mainPage} component={MainPage} />
         <Tab.Screen name={addPostPage} component={AddPostPage} />
       </Tab.Navigator>
+
     </NavigationContainer>
   );
 }
