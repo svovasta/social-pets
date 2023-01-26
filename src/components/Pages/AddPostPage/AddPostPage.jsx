@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export default function PostCard() {
+export default function AddPostPage() {
   return (
     <View>
-      <Text>PostCard</Text>
+      <Text>AddPostPage</Text>
     </View>
   );
 }
