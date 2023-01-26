@@ -22,10 +22,6 @@ export default function MainPage({ navigation }) {
   ]);
   return (
     <View style={gStyle.main}>
-      <Text style={gStyle.title}>Главная страница</Text>
-      <Button title="Открыть страницу" onPress={loadScene} />
-      <Button title="Personal Profile" onPress={() => navigation.navigate('ProfilePage')} />
-
       <FlatList
         refreshControl={<RefreshControl />}
         data={posts}

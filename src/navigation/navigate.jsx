@@ -1,28 +1,29 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 // Screens
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
-
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
-
 import LoginPage from '../components/Pages/LoginPage/LoginPage';
 
 // Screens names
 
 const mainPage = 'Home';
 const addPostPage = 'Post';
+const profilePage = 'Profile';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function Navigate() {
   return (
     <NavigationContainer>
 
-      <Stack.Navigator>
+      {/* <Stack.Navigator>
         <Stack.Screen
           name="Main"
           component={MainPage}
@@ -43,7 +44,7 @@ export default function Navigate() {
           component={FavouritesPage}
           options={{ title: 'FavouritesPage' }}
         />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
 
       <Tab.Navigator
         initialRouteName={mainPage}
@@ -55,6 +56,8 @@ export default function Navigate() {
               iconName = focused ? 'home' : 'home-outline';
             } else if (rn === addPostPage) {
               iconName = focused ? 'add' : 'add';
+            } else if (rn === profilePage) {
+              iconName = focused ? 'profile' : 'profile';
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -62,6 +65,7 @@ export default function Navigate() {
       >
         <Tab.Screen name={mainPage} component={MainPage} />
         <Tab.Screen name={addPostPage} component={AddPostPage} />
+        <Tab.Screen name={profilePage} component={ProfilePage} />
       </Tab.Navigator>
 
     </NavigationContainer>
