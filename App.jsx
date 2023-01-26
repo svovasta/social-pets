@@ -1,11 +1,17 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import MainStack from './src/navigation/navigate';
+import { StyleSheet } from 'react-native';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components';
+import { createStackNavigator } from '@react-navigation/stack';
+import Navigate from './src/navigation/navigate';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <MainStack />
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <Navigate />
+    </ApplicationProvider>
   );
 }
 
