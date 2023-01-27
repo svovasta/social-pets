@@ -21,10 +21,7 @@ export default userSlice.reducer;
 
 export const registrationAction = (regInput) => (dispatch) => {
   axios.post('/user/signup', regInput).then((resp) => {
-    console.log(resp);
-    console.log(resp.data);
     dispatch(setUser(resp.data));
-    console.log(resp.data);
   }).catch(console.log('gg'));
 };
 export const loginAction = (input) => (dispatch) => {
