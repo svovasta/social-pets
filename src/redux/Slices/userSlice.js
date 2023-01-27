@@ -19,15 +19,15 @@ const userSlice = createSlice({
 export const { setUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
 
-export const registrationAction = (e) => (dispatch) => {
+export const registrationAction = (e, input) => (dispatch) => {
   e.preventDefault();
-  axios.post('', Object.fromEntries(new FormData(e.target))).then((resp) => {
+  axios.post('/user/signup', Object.fromEntries(new FormData(e.target))).then((resp) => {
     dispatch(setUser(resp.data));
   });
 };
-export const loginAction = (e) => (dispatch) => {
+export const loginAction = (e, input) => (dispatch) => {
   e.preventDefault();
-  axios.post('', Object.fromEntries(new FormData(e.target))).then((resp) => {
+  axios.post('/user/signin', input).then((resp) => {
     dispatch(setUser(resp.data));
   });
 };
