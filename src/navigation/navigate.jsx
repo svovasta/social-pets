@@ -57,7 +57,7 @@ export default function Navigate() {
             } else if (rn === addPostPage) {
               iconName = focused ? 'add' : 'add';
             } else if (rn === profilePage) {
-              iconName = focused ? 'profile' : 'profile';
+              iconName = focused ? undefined : null;
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
