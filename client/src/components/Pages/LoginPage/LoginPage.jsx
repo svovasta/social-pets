@@ -33,7 +33,7 @@ export default function LoginPage({ navigation }) {
           />
           <Button
             title="Create new account"
-            onPress={() => navigation.navigate('Registration')}
+            onPress={() => navigation.navigate('SignUpScreen')}
           />
         </View>
       )}

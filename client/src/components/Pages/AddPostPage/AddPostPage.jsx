@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import {
-  TextInput, View, StyleSheet, Button,
+  TextInput, View, StyleSheet, Button, TouchableOpacity,
 } from 'react-native';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { addPostAction, getPostsAction } from '../../../redux/Slices/postsSlice';
-import { userLogoutAction } from '../../../redux/Slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { addPostAction } from '../../../redux/Slices/postsSlice';
 
-export default function AddPostPage() {
+export default function AddPostPage({ navigation }) {
   const dispatch = useDispatch();
-  // const [input, setInput] = useState({ image: '', text: '' });
-  // const changeHandler = (e) => {
-  //   setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  // };
 
   return (
 
@@ -21,6 +17,7 @@ export default function AddPostPage() {
       onSubmit={(values) => {
         dispatch(addPostAction(values));
         console.log(values);
+        navigation.navigate('Main');
       }}
     >
       {(props) => (
