@@ -1,29 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState = [];
-
 const postsSlice = createSlice({
   name: 'posts',
-  initialState,
+  initialState: [],
   reducers: {
-    getPersonalPosts: (state, action) => action.payload,
-    getFaves: (state, action) => action.payload,
+    getPosts: (state, action) => action.payload,
+    addPost: (state, action) => state.unshift(action.payload),
+    deletePost: (state, action) => state.filter((el) => el.id !== action.payload),
+    editPost: (state, action) => state.map((el) => (el.id === action.payload ? { ...el, text: action.payload.editedInput.text, image: action.payload.editedInput.image } : el)),
   },
 });
 
-export const { getPersonalPosts, getFaves } = postsSlice.actions;
+export const {
+  getPosts, addPost, deletePost, editPost,
+} = postsSlice.actions;
 
 export const getPostsAction = () => (dispatch) => {
-  axios('/api/posts')
-    .then((res) => dispatch(getPersonalPosts(res.data)))
-    .catch(console.log);
+  axios('/posts').then((res) => dispatch(getPosts(res.data)));
 };
 
-export const getFavesAction = () => (dispatch) => {
-  axios('/api/favourites')
-    .then((res) => dispatch(getFaves(res.data)))
-    .catch(console.log);
+export const addPostAction = (input) => (dispatch) => {
+  axios.post('/posts', input).then((res) => {
+    dispatch(addPost(res.data));
+  });
+};
+
+export const deletePostAction = (postId) => (dispatch) => {
+  axios.post(`/${postId}`).then(() => dispatch(deletePost())).catch(console.log);
+};
+
+export const editPostAction = (postId, input) => (dispatch) => {
+  axios.patch(`/${postId}`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
 };
 
 export default postsSlice.reducer;

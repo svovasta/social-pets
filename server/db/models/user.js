@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate({
       Message, Favorites, Discussion, Like, Post, Comment,
     }) {
-      this.hasMany(Message, Favorites, Discussion, Like, Post, Comment, { foreignKey: 'userId' });
+      this.hasMany(Message, { foreignKey: 'userId' });
+      this.hasMany(Favorites, { foreignKey: 'userId' });
+      this.hasMany(Discussion, { foreignKey: 'userId' });
+      this.hasMany(Like, { foreignKey: 'userId' });
+      this.hasMany(Post, { foreignKey: 'userId' });
+      this.hasMany(Comment, { foreignKey: 'userId' });
     }
   }
   User.init({
