@@ -41,6 +41,7 @@ router.route('/')
     res.json(allPosts);
   })
   .post(async (req, res) => {
+
     console.log('REQ BODY--->', req.body);
     const newPost = await Post.create(req.body);
     // const sendPost = await Post.findOne({
@@ -48,6 +49,7 @@ router.route('/')
     //   include: User,
     // });
     res.json(newPost);
+
   });
 // .post(postsUpload.single('image'), async (req, res) => {
 //   console.log('REQ BODY--->', req.body);

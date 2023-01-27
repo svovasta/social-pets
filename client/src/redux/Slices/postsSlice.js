@@ -34,4 +34,12 @@ export const editPostAction = (postId, input) => (dispatch) => {
   axios.patch(`/${postId}`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
 };
 
+export const getPersonalPostsAction = () => (dispatch) => {
+  axios('/api/v1/posts').then((res) => dispatch(getPosts(res.data)));
+};
+
+export const getFavesAction = () => (dispatch) => {
+  axios('/api/v1/favourites').then((res) => dispatch(getPosts(res.data)));
+};
+
 export default postsSlice.reducer;

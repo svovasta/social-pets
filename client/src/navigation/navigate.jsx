@@ -10,14 +10,21 @@ import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
 import LoginPage from '../components/Pages/LoginPage';
+
+import PostPage from '../components/Pages/PostPage';
+import EditProfile from '../components/Pages/EditProfile';
+import HealthPage from '../components/Pages/HealthPage';
+
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 import { userCheckAction } from '../redux/Slices/userSlice';
+
 
 // Screens names
 
 const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
+const healthPage = 'Health';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -40,12 +47,17 @@ function NavBar() {
             iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
             return <Ionicons name={iconName} size={size} color={color} />;
           }
+          if (rn === healthPage) {
+            iconName = focused ? 'md-medical' : 'md-medical';
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
     >
       <Tab.Screen name={mainPage} component={MainPage} />
       <Tab.Screen name={addPostPage} component={AddPostPage} />
+      <Tab.Screen name={healthPage} component={HealthPage} />
       <Tab.Screen name={profilePage} component={ProfilePage} />
     </Tab.Navigator>
   );
@@ -63,6 +75,7 @@ export default function Navigate() {
     <NavigationContainer>
 
       <Stack.Navigator>
+
         {user ? (
           <>
             <Stack.Screen

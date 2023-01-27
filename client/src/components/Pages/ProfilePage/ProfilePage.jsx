@@ -1,7 +1,9 @@
 import React from 'react';
 import {
-  Button, Image, Text, View, StyleSheet,
+  Button, Image, Text, View, StyleSheet, Touchable,
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import PhotoCard from '../../UI/PhotoCard';
 
 export default function ProfilePage({ navigation }) {
@@ -32,6 +34,9 @@ export default function ProfilePage({ navigation }) {
           {'\n'}
           Comments
         </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+          <Feather style={{ marginRight: 20, marginTop: 5 }} name="settings" size={24} color="black" />
+        </TouchableOpacity>
       </View>
 
       <View>
