@@ -8,7 +8,9 @@ import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
+import CreateComment from '../components/Pages/CommentsPage/CreateCommentPage';
 import LoginPage from '../components/Pages/LoginPage';
+import CreateCommentPage from '../components/Pages/CommentsPage/CreateCommentPage';
 
 // Screens names
 
@@ -73,6 +75,11 @@ export default function Navigate() {
         <Stack.Screen
           name="FavouritesPage"
           component={FavouritesPage}
+        />
+        <Stack.Screen
+          name="AddPostPage"
+          component={CreateCommentPage}
+
         />
       </Stack.Navigator>
 

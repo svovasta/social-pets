@@ -36,5 +36,6 @@ app.use(
 
 app.use('/user', userRouter);
 app.use('/posts', postsRouter);
+app.use('/comments', postsRouter);
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`));

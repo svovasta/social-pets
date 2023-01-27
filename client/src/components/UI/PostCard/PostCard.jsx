@@ -8,7 +8,7 @@ import {
 import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
 import logo from '../../../../assets/favicon.png';
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, navigation }) {
   return (
     <Card style={styles.card}>
 
@@ -27,7 +27,9 @@ export default function PostCard({ post }) {
         <TouchableOpacity>
           <AntDesign style={styles.heart} name="hearto" size={25} color="red" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CreateCommentPage')}
+        >
           <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
         </TouchableOpacity>
         <TouchableOpacity>

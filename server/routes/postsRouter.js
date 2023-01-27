@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Post } = require('../db/models');
+const { User, Post, Comment } = require('../db/models');
 
 const router = express.Router();
 
@@ -19,6 +19,18 @@ router.route('/')
   });
 
 router.route('/:id')
+  .get(async (req, res) => {
+    const allComments = await Comment.findAll({ where: { PostId: req.params.id } });
+    res.json(allComments);
+  })
+  .post(async (req, res) => {
+    const commit = await Comment.create({
+      text: req.body.text, userId: req.session.id, postId: req.params.id,
+    });
+
+    res.json(commit);
+  })
+
   .delete(async (req, res) => {
     await Post.destroy({ where: { id: req.params.id } });
     res.sendStatus(200);
