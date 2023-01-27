@@ -5,11 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const userRouter = require('./routes/userRouter');
-<<<<<<< HEAD
-const apiRouter = require('./routes/apiRouter');
-=======
 const postsRouter = require('./routes/postsRouter');
->>>>>>> 688caf327f56776fd8053fb28bfecd3e429c1e26
 
 const app = express();
 const PORT = process.env.PORT || 3001;
