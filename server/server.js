@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
 const cors = require('cors');
@@ -8,6 +8,7 @@ const userRouter = require('./routes/userRouter');
 const postsRouter = require('./routes/postsRouter');
 
 const app = express();
+
 const PORT = process.env.PORT || 3001;
 
 app.use(
