@@ -7,7 +7,7 @@ import axios from 'axios';
 import Navigate from './src/navigation/navigate';
 import store from './src/redux/store';
 
-axios.defaults.baseURL = 'http://127.0.0.1:3001';
+axios.defaults.baseURL = 'http://192.168.3.127:3001';
 
 export default function App() {
   return (
