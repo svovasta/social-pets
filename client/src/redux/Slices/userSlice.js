@@ -33,9 +33,9 @@ export const loginAction = (input) => (dispatch) => {
   });
 };
 export const userCheckAction = () => (dispatch) => {
-  axios.post('').then((res) => dispatch(setUser(res.data))).catch(console.log);
+  axios.post('/user/check').then((res) => dispatch(setUser(res.data))).catch(console.log);
 };
 
 export const userLogoutAction = () => (dispatch) => {
-  axios.get('').then(() => dispatch(logoutUser())).catch(console.log);
+  axios.get('/user/logout').then(() => dispatch(logoutUser())).catch(console.log);
 };

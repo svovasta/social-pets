@@ -1,6 +1,6 @@
 import { Input } from '@ui-kitten/components';
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { registrationAction } from '../../../redux/Slices/userSlice';
@@ -16,6 +16,9 @@ export default function RegistrationPage() {
     >
       {(props) => (
         <View>
+          <Text>
+            Create new account
+          </Text>
           <Input
             value={props.values.name}
             onChangeText={props.handleChange('name')}

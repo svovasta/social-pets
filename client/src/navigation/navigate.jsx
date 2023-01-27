@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 // Screens
+import { useDispatch, useSelector } from 'react-redux';
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
 import LoginPage from '../components/Pages/LoginPage';
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
+import { userCheckAction } from '../redux/Slices/userSlice';
 
 // Screens names
 
@@ -50,39 +52,57 @@ function NavBar() {
 }
 
 export default function Navigate() {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userCheckAction());
+  }, []);
+
   return (
     <NavigationContainer>
 
       <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginPage}
-        />
-        <Stack.Screen
-          name="Registration"
-          component={RegistrationPage}
-        />
-        <Stack.Screen
-          name="Back"
-          component={NavBar}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Main"
-          component={MainPage}
-        />
-        <Stack.Screen
-          name="AddPostPage"
-          component={AddPostPage}
-        />
-        <Stack.Screen
-          name="ProfilePage"
-          component={ProfilePage}
-        />
-        <Stack.Screen
-          name="FavouritesPage"
-          component={FavouritesPage}
-        />
+        {user ? (
+          <>
+            <Stack.Screen
+              name="Back"
+              component={NavBar}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Main"
+              component={MainPage}
+            />
+            <Stack.Screen
+              name="AddPostPage"
+              component={AddPostPage}
+            />
+            <Stack.Screen
+              name="ProfilePage"
+              component={ProfilePage}
+            />
+            <Stack.Screen
+              name="FavouritesPage"
+              component={FavouritesPage}
+            />
+          </>
+
+        )
+          : (
+
+            <>
+              <Stack.Screen
+                name="Login"
+                component={LoginPage}
+              />
+              <Stack.Screen
+                name="Registration"
+                component={RegistrationPage}
+              />
+            </>
+          )}
+
       </Stack.Navigator>
 
     </NavigationContainer>
