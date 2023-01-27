@@ -41,6 +41,7 @@ router.route('/')
     res.json(allPosts);
   })
   .post(async (req, res) => {
+
     try {
       const { text, image } = req.body;
       console.log('REQ BODY--->', req.body);

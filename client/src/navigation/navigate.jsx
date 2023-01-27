@@ -15,6 +15,7 @@ import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationP
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
 import HealthPage from '../components/Pages/HealthPage';
+import DiscussionsPage from '../components/Pages/DiscussionsPage';
 
 import { userCheckAction } from '../redux/Slices/userSlice';
 
@@ -24,6 +25,8 @@ const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
+
+
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
 
