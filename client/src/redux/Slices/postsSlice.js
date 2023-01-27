@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Alert } from 'react-native';
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -17,13 +18,18 @@ export const {
 } = postsSlice.actions;
 
 export const getPostsAction = () => (dispatch) => {
-  axios('/posts').then((res) => dispatch(getPosts(res.data)));
+  axios('/posts')
+    .then((res) => dispatch(getPosts(res.data)))
+    .catch((err) => {
+      console.log(err);
+      Alert.alert('Ошибка', 'Не удалось загрузить посты');
+    });
 };
 
 export const addPostAction = (input) => (dispatch) => {
-  axios.post('/posts', input).then((res) => {
-    dispatch(addPost(res.data));
-  });
+  axios.post('/posts', input)
+    .then((res) => dispatch(addPost(res.data)))
+    .catch(console.log);
 };
 
 export const deletePostAction = (postId) => (dispatch) => {
@@ -32,6 +38,14 @@ export const deletePostAction = (postId) => (dispatch) => {
 
 export const editPostAction = (postId, input) => (dispatch) => {
   axios.patch(`/${postId}`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
+};
+
+export const getPersonalPostsAction = () => (dispatch) => {
+  axios('/api/v1/posts').then((res) => dispatch(getPosts(res.data)));
+};
+
+export const getFavesAction = () => (dispatch) => {
+  axios('/api/v1/favourites').then((res) => dispatch(getPosts(res.data)));
 };
 
 export default postsSlice.reducer;

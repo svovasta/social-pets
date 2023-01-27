@@ -5,23 +5,27 @@ const { User } = require('../db/models');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-  const {
-    name, email, password, description,
-  } = req.body;
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'Заполните все поля' });
-  }
-  const pass = await bcrypt.hash(password, 2);
-  const [currUser, isCreated] = await User.findOrCreate({
-    where: { email },
-    defaults: { name, email, pass },
+  try {
+    const {
+      name, email, password,
+    } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Заполните все поля' });
+    }
+    const pass = await bcrypt.hash(password, 2);
+    const [currUser, isCreated] = await User.findOrCreate({
+      where: { email },
+      defaults: { name, email, password: pass },
 
-  });
-  if (!isCreated) {
-    return res.status(403).json({ message: 'User already exist' });
+    });
+    if (!isCreated) {
+      return res.status(403).json({ message: 'User already exist' });
+    }
+    req.session.user = { id: currUser.id, name: currUser.name, email: currUser.email };
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
   }
-  req.session.user = { id: currUser.id, name: currUser.name, email: currUser.email };
-  res.sendStatus(200);
 });
 
 router.post('/signin', async (req, res) => {

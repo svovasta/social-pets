@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity,
+  StyleSheet, View, Text, TouchableOpacity, Image,
 } from 'react-native';
 import {
   Card, Avatar,
@@ -10,16 +10,29 @@ import logo from '../../../../assets/favicon.png';
 
 export default function PostCard({ post, navigation }) {
   return (
-    <Card style={styles.card}>
+    <View style={styles.card}>
 
       <View style={styles.topContainer}>
         <Avatar style={styles.avatar} source={logo} />
-        <Text>{post.username}</Text>
+        <Text style={styles.username}>{post.User.name}</Text>
+      </View>
+      <View>
+        <Image style={styles.postImage} source={{ uri: post.image }} />
+
+      </View>
+
+      <View style={styles.text}>
+        <Text style={styles.username}>
+          {post.User.name}
+        </Text>
+        <Text>
+          {post.text}
+        </Text>
       </View>
 
       <View>
-        <Text>
-          {post.text}
+        <Text style={{ color: 'grey' }}>
+          {new Date(post.createdAt).toLocaleDateString()}
         </Text>
       </View>
 
@@ -37,7 +50,7 @@ export default function PostCard({ post, navigation }) {
         </TouchableOpacity>
       </View>
 
-    </Card>
+    </View>
   );
 }
 
@@ -53,6 +66,24 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 10,
   },
+  postImage: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    width: '100%',
+    height: '100%',
+  },
+  text: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  username: {
+    fontWeight: '700',
+    marginRight: 5,
+  },
   heart: {
     marginRight: 15,
   },
@@ -67,12 +98,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    gap: 3,
     padding: 10,
   },
   bookmark: {
     display: 'flex',
     justifySelf: 'flex-end',
-    marginLeft: 220,
+    marginLeft: 250,
   },
 });

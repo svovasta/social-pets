@@ -32,5 +32,6 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-use-before-define': 0,
     'react/no-unstable-nested-components': 0,
+    'global-require': 0,
   },
 };

@@ -5,7 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate({
-      Message, Favorites, Discussion, Like, Post, Comment,
+      Message, Favorites, Discussion, Like, Post, Comment, Checkup,
     }) {
       this.hasMany(Message, { foreignKey: 'userId' });
       this.hasMany(Favorites, { foreignKey: 'userId' });
@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Like, { foreignKey: 'userId' });
       this.hasMany(Post, { foreignKey: 'userId' });
       this.hasMany(Comment, { foreignKey: 'userId' });
+      this.hasMany(Checkup, { foreignKey: 'user_id' });
     }
   }
   User.init({
