@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
 const cors = require('cors');
@@ -6,6 +6,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const userRouter = require('./routes/userRouter');
 const postsRouter = require('./routes/postsRouter');
+const apiRouter = require('./routes/apiRouter');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -36,5 +37,6 @@ app.use(
 
 app.use('/user', userRouter);
 app.use('/posts', postsRouter);
+app.use('/api/v1', apiRouter);
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`));
