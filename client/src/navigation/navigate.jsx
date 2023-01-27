@@ -87,6 +87,14 @@ export default function BottomTabNavigator() {
               name="Profile"
               component={ProfileNavigator}
             />
+            <Stack.Screen
+              name="PostPage"
+              component={PostPage}
+            />
+            <Stack.Screen
+              name="EditProfile"
+              component={EditProfile}
+            />
           </>
         ) : (
           <>
