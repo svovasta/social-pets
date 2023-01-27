@@ -41,13 +41,20 @@ router.route('/')
     res.json(allPosts);
   })
   .post(async (req, res) => {
-    console.log('REQ BODY--->', req.body);
-    const newPost = await Post.create(req.body);
-    // const sendPost = await Post.findOne({
-    //   where: req.body,
-    //   include: User,
-    // });
-    res.json(newPost);
+    try {
+      const { text, image } = req.body;
+      console.log('REQ BODY--->', req.body);
+      await Post.create({
+        text, image, userId: req.session.user.id,
+      });
+      const sendPost = await Post.findOne({
+        where: req.body,
+        include: User,
+      });
+      res.json(sendPost);
+    } catch (err) {
+      console.log(err);
+    }
 
   });
 // .post(postsUpload.single('image'), async (req, res) => {
