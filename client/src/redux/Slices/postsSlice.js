@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Alert } from 'react-native';
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -17,7 +18,12 @@ export const {
 } = postsSlice.actions;
 
 export const getPostsAction = () => (dispatch) => {
-  axios('/posts').then((res) => dispatch(getPosts(res.data)));
+  axios('/posts')
+    .then((res) => dispatch(getPosts(res.data)))
+    .catch((err) => {
+      console.log(err);
+      Alert.alert('Ошибка', 'Не удалось загрузить посты');
+    });
 };
 
 export const addPostAction = (input) => (dispatch) => {
