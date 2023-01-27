@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/signup', async (req, res) => {
   const {
-    name, email, password, description,
+    name, email, password,
   } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ message: 'Заполните все поля' });
@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
   const pass = await bcrypt.hash(password, 2);
   const [currUser, isCreated] = await User.findOrCreate({
     where: { email },
-    defaults: { name, email, password },
+    defaults: { name, email, password: pass },
 
   });
   if (!isCreated) {
