@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button, View, FlatList, RefreshControl,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { gStyle } from '../../../styles/styles';
 import PostCard from '../../UI/PostCard';
+// import getPostsAction from '../../../redux/Slices/postsSlice';
 
 export default function MainPage({ navigation }) {
+  // const posts = useSelector((state) => state.posts);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getPostsAction());
+  // }, []);
   const loadScene = () => {
     navigation.navigate('AddPostPage');
   };
 
-  const [posts, setPosts] = useState([
+  const [testPosts, setPosts] = useState([
     { username: 'Vova', text: 'Text' },
     { username: 'Zarina', text: 'Text2' },
     { username: 'Lesha', text: 'Text3' },
@@ -24,7 +31,7 @@ export default function MainPage({ navigation }) {
     <View style={gStyle.main}>
       <FlatList
         refreshControl={<RefreshControl />}
-        data={posts}
+        data={testPosts}
         renderItem={({ item }) => (
           <PostCard post={item} />
         )}

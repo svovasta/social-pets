@@ -21,9 +21,9 @@ export const getPostsAction = () => (dispatch) => {
 };
 
 export const addPostAction = (input) => (dispatch) => {
-  axios.post('/posts', input).then((res) => {
-    dispatch(addPost(res.data));
-  });
+  axios.post('/posts', input)
+    .then((res) => dispatch(addPost(res.data)))
+    .catch(console.log);
 };
 
 export const deletePostAction = (postId) => (dispatch) => {

@@ -9,6 +9,7 @@ const postsRouter = require('./routes/postsRouter');
 const apiRouter = require('./routes/apiRouter');
 
 const app = express();
+
 const PORT = process.env.PORT || 3001;
 
 app.use(
