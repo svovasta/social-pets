@@ -19,7 +19,7 @@ export default function AddPostPage() {
     <Formik
       initialValues={{ image: '', text: '' }}
       onSubmit={(values) => {
-        dispatch(getPostsAction());
+        dispatch(addPostAction(values));
         console.log(values);
       }}
     >

@@ -14,10 +14,10 @@ import LoginPage from '../components/Pages/LoginPage';
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
 import HealthPage from '../components/Pages/HealthPage';
+import DiscussionsPage from '../components/Pages/DiscussionsPage';
 
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 import { userCheckAction } from '../redux/Slices/userSlice';
-
 
 // Screens names
 
@@ -25,6 +25,7 @@ const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
+const discussionPage = 'Discussions';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -40,7 +41,11 @@ function NavBar() {
           if (rn === mainPage) {
             iconName = focused ? 'home' : 'home-outline';
             return <Ionicons name={iconName} size={size} color={color} />;
-          } if (rn === addPostPage) {
+          } if (rn === discussionPage) {
+            iconName = focused ? 'chatbubbles' : 'chatbubbles';
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+          if (rn === addPostPage) {
             iconName = focused ? 'add' : 'add';
             return <Ionicons name={iconName} size={size} color={color} />;
           } if (rn === profilePage) {
@@ -56,6 +61,7 @@ function NavBar() {
       })}
     >
       <Tab.Screen name={mainPage} component={MainPage} />
+      <Tab.Screen name={discussionPage} component={DiscussionsPage} />
       <Tab.Screen name={addPostPage} component={AddPostPage} />
       <Tab.Screen name={healthPage} component={HealthPage} />
       <Tab.Screen name={profilePage} component={ProfilePage} />
@@ -86,6 +92,10 @@ export default function Navigate() {
             <Stack.Screen
               name="Main"
               component={MainPage}
+            />
+            <Stack.Screen
+              name="Discussions"
+              component={DiscussionsPage}
             />
             <Stack.Screen
               name="AddPostPage"

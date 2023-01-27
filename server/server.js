@@ -7,6 +7,7 @@ const FileStore = require('session-file-store')(session);
 const userRouter = require('./routes/userRouter');
 const postsRouter = require('./routes/postsRouter');
 const apiRouter = require('./routes/apiRouter');
+const discussionsRouter = require('./routes/discussionRouter');
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use(
 app.use('/user', userRouter);
 app.use('/posts', postsRouter);
 app.use('/api/v1', apiRouter);
+app.use('/discussins', discussionsRouter);
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`));
