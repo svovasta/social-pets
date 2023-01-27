@@ -14,7 +14,7 @@ router.post('/signup', async (req, res) => {
   const pass = await bcrypt.hash(password, 2);
   const [currUser, isCreated] = await User.findOrCreate({
     where: { email },
-    defaults: { name, email, password },
+    defaults: { name, email, password: pass },
 
   });
   if (!isCreated) {

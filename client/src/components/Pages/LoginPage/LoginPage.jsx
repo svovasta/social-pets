@@ -1,40 +1,43 @@
 import React, { useState } from 'react';
-import { Input, Button } from '@ui-kitten/components';
-import { StyleSheet, Text, View } from 'react-native';
+import { Input } from '@ui-kitten/components';
+import { Button, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { Formik } from 'formik';
 import { loginAction } from '../../../redux/Slices/userSlice';
 
-export default function LoginPage() {
-  const [input, setInput] = useState({ email: '', password: '' });
+export default function LoginPage({ navigation }) {
   const dispatch = useDispatch();
-
-  const changeHandler = (e) => {
-    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-  const submitHandler = () => {
-    dispatch(loginAction(input));
-  };
-
   return (
-    <View>
-      <Text>LoginPage</Text>
-      <Input
-        placeholder="Email..."
-        name="email"
-        type="email"
-        value={input.email}
-        onChange={changeHandler}
-      />
-      <Input
-        placeholder="Password"
-        name="password"
-        type="password"
-        value={input.password}
-        onChange={changeHandler}
-      />
-      <Button onPress={(e) => submitHandler(e)}>
-        BUTTON
-      </Button>
-    </View>
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      onSubmit={(values) => {
+        dispatch(loginAction(values));
+      }}
+    >
+      {(props) => (
+        <View>
+          <Text>Already have an account?</Text>
+          <Input
+            value={props.values.email}
+            onChangeText={props.handleChange('email')}
+            placeholder="Email"
+          />
+          <Input
+            value={props.values.password}
+            onChangeText={props.handleChange('password')}
+            placeholder="Password..."
+          />
+          <Button
+            title="SignIn"
+            onPress={props.handleSubmit}
+          />
+          <Button
+            title="Create new account"
+            onPress={() => navigation.navigate('Registration')}
+          />
+        </View>
+      )}
+    </Formik>
+
   );
 }

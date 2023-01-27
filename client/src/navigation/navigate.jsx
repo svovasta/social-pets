@@ -9,6 +9,7 @@ import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
 import LoginPage from '../components/Pages/LoginPage';
+import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 
 // Screens names
 
@@ -53,6 +54,14 @@ export default function Navigate() {
     <NavigationContainer>
 
       <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginPage}
+        />
+        <Stack.Screen
+          name="Registration"
+          component={RegistrationPage}
+        />
         <Stack.Screen
           name="Back"
           component={NavBar}
