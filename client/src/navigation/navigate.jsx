@@ -8,7 +8,7 @@ import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
-import LoginPage from '../components/Pages/LoginPage/LoginPage';
+import LoginPage from '../components/Pages/LoginPage';
 
 // Screens names
 
@@ -19,54 +19,62 @@ const profilePage = 'Profile';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+function NavBar() {
+  return (
+    <Tab.Navigator
+      initialRouteName={mainPage}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          const rn = route.name;
+          if (rn === mainPage) {
+            iconName = focused ? 'home' : 'home-outline';
+            return <Ionicons name={iconName} size={size} color={color} />;
+          } if (rn === addPostPage) {
+            iconName = focused ? 'add' : 'add';
+            return <Ionicons name={iconName} size={size} color={color} />;
+          } if (rn === profilePage) {
+            iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
+      <Tab.Screen name={mainPage} component={MainPage} />
+      <Tab.Screen name={addPostPage} component={AddPostPage} />
+      <Tab.Screen name={profilePage} component={ProfilePage} />
+    </Tab.Navigator>
+  );
+}
+
 export default function Navigate() {
   return (
     <NavigationContainer>
 
-      {/* <Stack.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Back"
+          component={NavBar}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Main"
           component={MainPage}
-          options={{ title: 'Главная' }}
         />
         <Stack.Screen
           name="AddPostPage"
           component={AddPostPage}
-          options={{ title: 'Добавить пост' }}
         />
         <Stack.Screen
           name="ProfilePage"
           component={ProfilePage}
-          options={{ title: 'ProfilePage' }}
         />
         <Stack.Screen
           name="FavouritesPage"
           component={FavouritesPage}
-          options={{ title: 'FavouritesPage' }}
         />
-      </Stack.Navigator> */}
-
-      <Tab.Navigator
-        initialRouteName={mainPage}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            const rn = route.name;
-            if (rn === mainPage) {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (rn === addPostPage) {
-              iconName = focused ? 'add' : 'add';
-            } else if (rn === profilePage) {
-              iconName = focused ? 'profile' : 'profile';
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
-        <Tab.Screen name={mainPage} component={MainPage} />
-        <Tab.Screen name={addPostPage} component={AddPostPage} />
-        <Tab.Screen name={profilePage} component={ProfilePage} />
-      </Tab.Navigator>
+      </Stack.Navigator>
 
     </NavigationContainer>
   );
