@@ -41,7 +41,6 @@ router.route('/')
     res.json(allPosts);
   })
   .post(async (req, res) => {
-
     console.log('REQ BODY--->', req.body);
     const newPost = await Post.create(req.body);
     // const sendPost = await Post.findOne({

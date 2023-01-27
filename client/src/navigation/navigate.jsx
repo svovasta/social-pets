@@ -18,7 +18,6 @@ import HealthPage from '../components/Pages/HealthPage';
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 import { userCheckAction } from '../redux/Slices/userSlice';
 
-
 // Screens names
 
 const mainPage = 'Home';
@@ -98,6 +97,14 @@ export default function Navigate() {
             <Stack.Screen
               name="FavouritesPage"
               component={FavouritesPage}
+            />
+            <Stack.Screen
+              name="PostPage"
+              component={PostPage}
+            />
+            <Stack.Screen
+              name="EditProfile"
+              component={EditProfile}
             />
           </>
 
