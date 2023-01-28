@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
-const { User, Post } = require('../db/models');
+const { User, Post, Like } = require('../db/models');
 
 const router = express.Router();
 
@@ -89,5 +89,40 @@ router.route('/:id')
     post.save();
     res.json(post);
   });
+
+router.route('/:id/likes')
+  .get(async (req, res) => {
+    const postId = req.params.id;
+    const postLikes = await Like.findAll({ where: { postId } });
+    res.json(postLikes);
+  })
+  .post(async (req, res) => {
+    const postId = req.params.id;
+    const userId = req.session.user.id;
+    const [oneLike, isExist] = await Like.findOrCreate({
+      where: { postId, userId },
+      defaults: { postId, userId },
+    });
+    if (!isExist) {
+      await Like.destroy({ where: { postId, userId } });
+      const allLeftLikes = await Like.findAll({ where: { postId } });
+      return res.json(allLeftLikes);
+    }
+    const allLikesPlusOne = await Like.findAll({ where: { postId } });
+    return res.json(allLikesPlusOne);
+  });
+router.get('/:id/user/like', async (req, res) => {
+  const userId = req.session.user.id;
+  const postId = req.params.id;
+  const userLike = await Like.findOne({
+    where: {
+      userId, postId,
+    },
+  });
+  console.log(userLike);
+  if (userLike) {
+    return res.json({ message: 'yes' });
+  } return res.json({ message: 'no' });
+});
 
 module.exports = router;

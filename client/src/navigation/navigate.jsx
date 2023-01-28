@@ -35,6 +35,10 @@ export default function BottomTabNavigator() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  console.log('====================================');
+  console.log(user);
+  console.log('====================================');
+
   useEffect(() => {
     dispatch(userCheckAction());
   }, []);
