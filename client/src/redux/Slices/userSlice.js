@@ -7,6 +7,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    findUser(state, action) {
+      return action.payload;
+    },
     setUser(state, action) {
       return action.payload;
     },
@@ -16,8 +19,14 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, logoutUser } = userSlice.actions;
+export const { findUser, setUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
+
+export const findUserAction = () => (dispatch) => {
+  axios('/user')
+    .then((res) => dispatch(findUser(res.data)))
+    .catch(console.log);
+};
 
 export const registrationAction = (regInput) => (dispatch) => {
   axios.post('/user/signup', regInput).then((resp) => {

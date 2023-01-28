@@ -7,11 +7,17 @@ import { getPostsAction } from '../../../redux/Slices/postsSlice';
 import { gStyle } from '../../../styles/styles';
 import PostCard from '../../UI/PostCard';
 import logo from '../../../../assets/pets.png';
+import { findUserAction } from '../../../redux/Slices/userSlice';
 
 export default function MainPage({ navigation }) {
+  const user = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts);
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(findUserAction());
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

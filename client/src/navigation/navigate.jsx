@@ -35,10 +35,6 @@ export default function BottomTabNavigator() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log('====================================');
-  console.log(user);
-  console.log('====================================');
-
   useEffect(() => {
     dispatch(userCheckAction());
   }, []);
@@ -192,6 +188,11 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="FavouritesScreen"
         component={FavouritesPage}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfile}
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>
