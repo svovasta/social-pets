@@ -2,11 +2,33 @@ import { StyleSheet } from 'react-native';
 
 export const gStyle = StyleSheet.create({
   main: {
-    display: 'flex',
     flex: 1,
-    padding: 20,
+    backgroundColor: 'rgb(216, 227, 232)',
   },
   title: {
     fontSize: 20,
+  },
+  input: {
+    borderWidth: 1,
+    padding: 15,
+    marginVertical: 20,
+    marginHorizontal: '20%',
+    width: '60%',
+    borderColor: 'black',
+    borderRadius: 5,
+  },
+  btn: {
+    borderWidth: 1,
+    width: '30%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderColor: 'green',
+    backgroundColor: 'rgba(0, 249, 166, 1)',
+    borderRadius: 25,
+    shadowColor: 'rgba(0, 0, 255, .2)',
+  },
+  gText: {
+    fontFamily: 'rob-regular',
+    fontSize: 18,
   },
 });
