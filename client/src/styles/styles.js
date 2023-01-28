@@ -2,9 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const gStyle = StyleSheet.create({
   main: {
-    display: 'flex',
     flex: 1,
-    padding: 20,
+    backgroundColor: 'rgb(216, 227, 232)',
   },
   title: {
     fontSize: 20,
@@ -28,10 +27,8 @@ export const gStyle = StyleSheet.create({
     borderRadius: 25,
     shadowColor: 'rgba(0, 0, 255, .2)',
   },
-  button: {
-    display: 'none',
-  },
   gText: {
     fontFamily: 'rob-regular',
+    fontSize: 18,
   },
 });

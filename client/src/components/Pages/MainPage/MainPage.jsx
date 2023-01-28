@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Button, View, FlatList, RefreshControl,
+  StyleSheet, SafeAreaView, FlatList, RefreshControl, Image,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostsAction } from '../../../redux/Slices/postsSlice';
 import { gStyle } from '../../../styles/styles';
 import PostCard from '../../UI/PostCard';
+import logo from '../../../../assets/pets.png';
 
 export default function MainPage({ navigation }) {
   const posts = useSelector((state) => state.posts);
@@ -25,7 +26,7 @@ export default function MainPage({ navigation }) {
   }, []);
 
   return (
-    <View style={gStyle.main}>
+    <SafeAreaView style={gStyle.main}>
       <FlatList
         refreshControl={(
           <RefreshControl
@@ -38,6 +39,15 @@ export default function MainPage({ navigation }) {
           <PostCard post={item} />
         )}
       />
-    </View>
+
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    width: '100%',
+    height: 200,
+    justifyContent: 'center',
+  },
+});

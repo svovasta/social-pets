@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  Button, Image, Text, View, StyleSheet, Touchable,
+  Button, Image, Text, View, SafeAreaView, StyleSheet, Touchable,
 } from 'react-native';
 import { Feather, Octicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import PhotoCard from '../../UI/PhotoCard';
 import { userLogoutAction } from '../../../redux/Slices/userSlice';
+import { gStyle } from '../../../styles/styles';
 
 export default function ProfilePage({ navigation }) {
   const photos = [{ img: 'https://static01.nyt.com/images/2022/11/29/science/00tb-cats1/00tb-cats1-mediumSquareAt3X.jpg' },
@@ -19,7 +20,7 @@ export default function ProfilePage({ navigation }) {
   const dispatch = useDispatch();
 
   return (
-    <>
+    <SafeAreaView style={gStyle.main}>
       <View style={styles.profileRow}>
         <View>
           <Image
@@ -39,10 +40,10 @@ export default function ProfilePage({ navigation }) {
           Comments
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-          <Feather style={{ marginRight: 20, marginTop: 5 }} name="settings" size={24} color="black" />
+          <Feather style={{ marginRight: 10, marginTop: 5 }} name="settings" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => dispatch(userLogoutAction())}>
-          <Octicons name="sign-out" size={24} color="black" />
+          <Octicons name="sign-out" size={24} color="black" style={{ marginRight: 10, marginTop: 5 }} />
         </TouchableOpacity>
       </View>
 
@@ -61,7 +62,7 @@ export default function ProfilePage({ navigation }) {
       </View>
 
       <View />
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -78,14 +79,15 @@ const styles = StyleSheet.create({
   },
   profileRow: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
     justifyContent: 'space-around',
   },
   profileInfo: {
     margin: 20,
   },
   posts: {
-    display: 'flex',
+    marginLeft: '3%',
+    marginRight: 'auto',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
