@@ -28,7 +28,7 @@ const healthPage = 'Health';
 
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
-
+const discussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -49,7 +49,12 @@ export default function BottomTabNavigator() {
             if (rn === mainPage) {
               iconName = focused ? 'home' : 'home-outline';
               return <Ionicons name={iconName} size={size} color={color} />;
-            } if (rn === addPostPage) {
+            }
+            if (rn === discussionPage) {
+              iconName = focused ? 'chatbox' : 'chatbox-outline';
+              return <Ionicons name={iconName} size={size} color={color} />;
+            }
+            if (rn === addPostPage) {
               iconName = focused ? 'add' : 'add';
               return <Ionicons name={iconName} size={size} color={color} />;
             } if (rn === profilePage) {
@@ -73,6 +78,10 @@ export default function BottomTabNavigator() {
               name="Home"
               component={HomeNavigator}
               options={{ headerShown: false }}
+            />
+            <BottomTab.Screen
+              name="Discussions"
+              component={DiscussionNavigator}
             />
             <BottomTab.Screen
               name="Post"
@@ -124,6 +133,19 @@ function HomeNavigator() {
   );
 }
 
+const DiscussionStack = createStackNavigator();
+
+function DiscussionNavigator() {
+  return (
+    <DiscussionStack.Navigator initialRouteName="Discussions">
+      <DiscussionStack.Screen
+        name="Discussinos"
+        component={DiscussionsPage}
+        options={{ headerShown: false }}
+      />
+    </DiscussionStack.Navigator>
+  );
+}
 const AddPostStack = createStackNavigator();
 
 function AddPostNavigator() {
@@ -133,6 +155,7 @@ function AddPostNavigator() {
         name="AddPostScreen"
         component={AddPostPage}
         options={{ headerShown: false }}
+
       />
     </AddPostStack.Navigator>
   );

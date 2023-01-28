@@ -1,17 +1,17 @@
 const express = require('express');
-const { Discussions } = require('../db/models');
+const { Discussion } = require('../db/models');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const discussions = await Discussions.findAll();
-  res.json(discussions);
+  const allDiscussions = await Discussion.findAll();
+  res.json(allDiscussions);
 });
 
 router.post('/add', async (req, res) => {
   const { userId } = req.session.user.id;
   const { title } = req.body;
-  const newDiscussion = await Discussions.create({ title, userId });
+  const newDiscussion = await Discussion.create({ title, userId });
   res.json(newDiscussion);
 });
 
