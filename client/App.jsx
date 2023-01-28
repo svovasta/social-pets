@@ -7,7 +7,6 @@ import axios from 'axios';
 import Navigate from './src/navigation/navigate';
 import store from './src/redux/store';
 
-
 axios.defaults.baseURL = 'http://localhost:3001';
 
 export default function App() {
