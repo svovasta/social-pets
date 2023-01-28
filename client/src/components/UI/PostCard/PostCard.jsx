@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, Image,
+  StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image,
 } from 'react-native';
 import {
   Card, Avatar,
@@ -10,7 +10,7 @@ import logo from '../../../../assets/favicon.png';
 
 export default function PostCard({ post }) {
   return (
-    <View style={styles.card}>
+    <SafeAreaView style={styles.card}>
 
       <View style={styles.topContainer}>
         <Avatar style={styles.avatar} source={logo} />
@@ -21,34 +21,34 @@ export default function PostCard({ post }) {
 
       </View>
 
-      <View style={styles.text}>
-        <Text style={styles.username}>
-          {post.User.name}
-        </Text>
-        <Text>
-          {post.text}
-        </Text>
+      <View style={styles.cardBottom}>
+        <View style={styles.text}>
+          <Text style={styles.username}>
+            {post.User.name}
+          </Text>
+          <Text>
+            {post.text}
+          </Text>
+        </View>
+        <View>
+          <Text style={{ color: 'grey' }}>
+            {new Date(post.createdAt).toLocaleDateString()}
+          </Text>
+        </View>
+        <View style={styles.footerContainer}>
+          <TouchableOpacity>
+            <AntDesign style={styles.heart} name="hearto" size={25} color="red" />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bookmark}>
+            <Feather name="bookmark" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View>
-        <Text style={{ color: 'grey' }}>
-          {new Date(post.createdAt).toLocaleDateString()}
-        </Text>
-      </View>
-
-      <View style={styles.footerContainer}>
-        <TouchableOpacity>
-          <AntDesign style={styles.heart} name="hearto" size={25} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Feather name="bookmark" size={25} color="black" style={styles.bookmark} />
-        </TouchableOpacity>
-      </View>
-
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
   },
   avatar: {
     width: 40,
@@ -69,8 +69,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 'auto',
     marginLeft: 'auto',
+    maxWidth: 400,
     width: '100%',
-    height: '100%',
+    height: 400,
+  },
+  cardBottom: {
+    left: 5,
   },
   text: {
     display: 'flex',
@@ -88,19 +92,13 @@ const styles = StyleSheet.create({
   card: {
     margin: 5,
   },
-  comment: {
-    display: 'flex',
-    justifySelf: 'end',
-  },
   footerContainer: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    padding: 10,
+    marginTop: 10,
+    position: 'relative',
   },
   bookmark: {
-    display: 'flex',
-    justifySelf: 'flex-end',
-    marginLeft: 250,
+    position: 'absolute',
+    right: '2%',
   },
 });

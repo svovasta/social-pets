@@ -1,12 +1,13 @@
 import {
-  StyleSheet, Text, View, Arrow,
+  StyleSheet, SafeAreaView,
 } from 'react-native';
 import React from 'react';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
+import { gStyle } from '../../../styles/styles';
 
 export default function HealthPage() {
   return (
-    <View>
+    <SafeAreaView style={gStyle.main}>
       <Calendar
         minDate="2010-05-10"
         maxDate="2060-05-30"
@@ -29,9 +30,6 @@ export default function HealthPage() {
           },
         }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-});

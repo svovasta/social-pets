@@ -55,8 +55,12 @@ router.route('/')
     } catch (err) {
       console.log(err);
     }
-
   });
+
+router.post('/upload-image', (req, res) => {
+  console.log();
+  res.sendStatus(200);
+});
 // .post(postsUpload.single('image'), async (req, res) => {
 //   console.log('REQ BODY--->', req.body);
 //   const { text, userId } = req.body;
