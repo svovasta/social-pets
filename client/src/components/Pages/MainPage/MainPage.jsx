@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button, View, FlatList, RefreshControl,
 } from 'react-native';
@@ -9,8 +9,17 @@ import PostCard from '../../UI/PostCard';
 
 export default function MainPage({ navigation }) {
   const posts = useSelector((state) => state.posts);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(getPostsAction());
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
   useEffect(() => {
     dispatch(getPostsAction());
   }, []);
@@ -18,13 +27,17 @@ export default function MainPage({ navigation }) {
   return (
     <View style={gStyle.main}>
       <FlatList
-        refreshControl={<RefreshControl />}
+        refreshControl={(
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+)}
         data={posts}
         renderItem={({ item }) => (
           <PostCard post={item} />
         )}
       />
-
     </View>
   );
 }

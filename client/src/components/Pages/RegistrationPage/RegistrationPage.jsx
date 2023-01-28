@@ -1,9 +1,12 @@
 import { Input } from '@ui-kitten/components';
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import {
+  View, Button, Text, TextInput,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { registrationAction } from '../../../redux/Slices/userSlice';
+import { gStyle } from '../../../styles/styles';
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
@@ -16,28 +19,36 @@ export default function RegistrationPage() {
     >
       {(props) => (
         <View>
-          <Text>
+          <Text style={[gStyle.gText, {
+            textAlign: 'center', marginTop: 15, marginBottom: 15, fontSize: 18,
+          }]}
+          >
             Create new account
           </Text>
-          <Input
+          <TextInput
+            style={gStyle.input}
             value={props.values.name}
             onChangeText={props.handleChange('name')}
             placeholder="Username"
           />
-          <Input
+          <TextInput
+            style={gStyle.input}
             value={props.values.email}
             onChangeText={props.handleChange('email')}
             placeholder="Email"
           />
-          <Input
+          <TextInput
+            style={gStyle.input}
             value={props.values.password}
             onChangeText={props.handleChange('password')}
             placeholder="Password..."
           />
-          <Button
-            title="SignUp"
-            onPress={props.handleSubmit}
-          />
+          <View style={gStyle.btn}>
+            <Button
+              title="SignUp"
+              onPress={props.handleSubmit}
+            />
+          </View>
         </View>
       )}
     </Formik>

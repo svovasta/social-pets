@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { Input } from '@ui-kitten/components';
-import { Button, Text, View } from 'react-native';
+import React from 'react';
+import {
+  TextInput, Button, Text, View,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { loginAction } from '../../../redux/Slices/userSlice';
+import { gStyle } from '../../../styles/styles';
 
 export default function LoginPage({ navigation }) {
   const dispatch = useDispatch();
@@ -16,28 +18,38 @@ export default function LoginPage({ navigation }) {
     >
       {(props) => (
         <View>
-          <Text>Already have an account?</Text>
-          <Input
+          <TextInput
+            style={gStyle.input}
             value={props.values.email}
             onChangeText={props.handleChange('email')}
             placeholder="Email"
           />
-          <Input
+          <TextInput
+            style={gStyle.input}
             value={props.values.password}
             onChangeText={props.handleChange('password')}
             placeholder="Password..."
           />
-          <Button
-            title="SignIn"
-            onPress={props.handleSubmit}
-          />
-          <Button
-            title="Create new account"
-            onPress={() => navigation.navigate('SignUpScreen')}
-          />
+          <View style={gStyle.btn}>
+            <Button
+              title="SignIn"
+              onPress={props.handleSubmit}
+            />
+          </View>
+          <Text style={[gStyle.gText, {
+            textAlign: 'center', marginTop: 15, marginBottom: 15, fontSize: 18,
+          }]}
+          >
+            Already have an account?
+          </Text>
+          <View style={gStyle.btn}>
+            <Button
+              title="Create new account"
+              onPress={() => navigation.navigate('SignUpScreen')}
+            />
+          </View>
         </View>
       )}
     </Formik>
-
   );
 }

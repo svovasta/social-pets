@@ -26,7 +26,6 @@ const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
 
-
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
 
@@ -86,14 +85,6 @@ export default function BottomTabNavigator() {
             <BottomTab.Screen
               name="Profile"
               component={ProfileNavigator}
-            />
-            <Stack.Screen
-              name="PostPage"
-              component={PostPage}
-            />
-            <Stack.Screen
-              name="EditProfile"
-              component={EditProfile}
             />
           </>
         ) : (

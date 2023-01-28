@@ -7,7 +7,7 @@ const postsSlice = createSlice({
   initialState: [],
   reducers: {
     getPosts: (state, action) => action.payload,
-    addPost: (state, action) => state.unshift(action.payload),
+    addPost: (state, action) => [action.payload, ...state],
     deletePost: (state, action) => state.filter((el) => el.id !== action.payload),
     editPost: (state, action) => state.map((el) => (el.id === action.payload ? { ...el, text: action.payload.editedInput.text, image: action.payload.editedInput.image } : el)),
   },

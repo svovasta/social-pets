@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 'auto',
     marginLeft: 'auto',
-    width: '100%',
-    height: '100%',
+    width: 340,
+    height: 340,
   },
   text: {
     display: 'flex',
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 5,
+    flex: 1,
   },
   comment: {
     display: 'flex',
