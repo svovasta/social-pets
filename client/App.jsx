@@ -11,6 +11,7 @@ import store from './src/redux/store';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
+
 const fonts = () => Font.loadAsync({
   'rob-bold': require('./assets/fonts/Roboto-Bold.ttf'),
   'rob-light': require('./assets/fonts/Roboto-Light.ttf'),

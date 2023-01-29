@@ -7,9 +7,13 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
+
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCheckupAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
+
+import { TextInput } from 'react-native-gesture-handler';
+
 
 export default function HealthPage() {
   const [showModal, setShowModal] = useState(false);
@@ -82,6 +86,7 @@ export default function HealthPage() {
     </TouchableOpacity>
   );
 
+
   return (
     // <ScrollView
     //   refreshControl={
@@ -89,6 +94,9 @@ export default function HealthPage() {
     //     }
     // >
     <>
+
+    <SafeAreaView style={{ flex: 1 }}>
+
       <Agenda
         selected={new Date()}
         loadItemsForMonth={loadItems}

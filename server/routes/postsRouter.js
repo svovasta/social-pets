@@ -1,39 +1,45 @@
 const express = require('express');
-const path = require('path');
 const multer = require('multer');
 const { User, Post, Like } = require('../db/models');
 
 const router = express.Router();
 
-const avatarsPath = './img/usersAvatars';
-
-const avatarsStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, avatarsPath);
-  },
-
-  filename: (req, file, cb) => {
-    console.log(file);
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const avatarsUpload = multer({ storage: avatarsStorage });
-
 const imagesPath = './img/postsImages';
 
 const postsStorage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log('FILE =======>', file);
     cb(null, imagesPath);
   },
 
   filename: (req, file, cb) => {
-    console.log(file);
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, `${file.originalname}.jpg`);
   },
 });
 
 const postsUpload = multer({ storage: postsStorage });
+
+router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
+  console.log('REQ BODY--->', req.body);
+  console.log('REQ FILE--->', req.file);
+  // const { text } = req.body;
+  const userId = req.session.user.id;
+  const newPost = await Post.create({
+    // text,
+    image: req.file ? req.file.path : '',
+    userId,
+  });
+  // const sendPost = await Post.findOne({
+  //   where: { text, userId },
+  //   include: User,
+  // });
+  res.json(newPost);
+});
+
+router.get('/img/postsImages/:name.jpg', (req, res) => {
+  const { name } = req.params;
+  res.sendFile(`/home/vova/ElbrusFinalProject/SocialPets/server/img/postsImages/${name}.jpg`);
+});
 
 router.route('/')
   .get(async (req, res) => {
@@ -56,25 +62,6 @@ router.route('/')
       console.log(err);
     }
   });
-
-router.post('/upload-image', (req, res) => {
-  console.log();
-  res.sendStatus(200);
-});
-// .post(postsUpload.single('image'), async (req, res) => {
-//   console.log('REQ BODY--->', req.body);
-//   const { text, userId } = req.body;
-//   const newPost = await Post.create({
-//     text,
-//     image: req.file ? req.file.path : '',
-//     userId,
-//   });
-//   const sendPost = await Post.findOne({
-//     where: req.body,
-//     include: User,
-//   });
-//   res.json(sendPost);
-// });
 
 router.route('/:id')
   .delete(async (req, res) => {

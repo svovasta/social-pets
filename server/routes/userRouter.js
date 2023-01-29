@@ -1,10 +1,40 @@
 const express = require('express');
+const multer = require('multer');
 const bcrypt = require('bcrypt');
 const {
   User, Post,
 } = require('../db/models');
 
 const router = express.Router();
+
+const avatarsPath = './img/usersAvatars';
+
+const avatarsStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, avatarsPath);
+  },
+
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, `${file.originalname}.jpg`);
+  },
+});
+
+const avatarsUpload = multer({ storage: avatarsStorage });
+
+router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) => {
+  console.log('REQ FILE--->', req.file);
+  const userId = req.session.user.id;
+  const user = await User.findByPk(userId);
+  user.avatar = req.file.path;
+  user.save();
+  res.sendStatus(200);
+});
+
+router.get('/img/usersAvatars/:name.jpg', (req, res) => {
+  const { name } = req.params;
+  res.sendFile(`/home/vova/ElbrusFinalProject/SocialPets/server/img/usersAvatars/${name}.jpg`);
+});
 
 router.get('/', async (req, res) => {
   const user = await User.findOne({
