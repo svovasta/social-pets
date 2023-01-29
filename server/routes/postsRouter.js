@@ -1,24 +1,8 @@
 const express = require('express');
-const path = require('path');
 const multer = require('multer');
 const { User, Post, Like } = require('../db/models');
 
 const router = express.Router();
-
-// const avatarsPath = './img/usersAvatars';
-
-// const avatarsStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, avatarsPath);
-//   },
-
-//   filename: (req, file, cb) => {
-//     console.log(file);
-//     cb(null, Date.now() + path.extname(file.originalname));
-//   },
-// });
-
-// const avatarsUpload = multer({ storage: avatarsStorage });
 
 const imagesPath = './img/postsImages';
 

@@ -23,7 +23,15 @@ export default function ProfilePage({ navigation }) {
   const dispatch = useDispatch();
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [avatar, setAvatar] = useState('');
+  const [changeAvatarStatus, setChangeAvatarStatus] = useState(false);
   const user = useSelector((state) => state.user);
+
+  console.log('changeAvatarStatus--->', changeAvatarStatus);
+
+  useEffect(() => {
+    setChangeAvatarStatus(!changeAvatarStatus);
+  }, [avatar]);
 
   useEffect(() => {
     dispatch(findUserAction());
@@ -36,8 +44,6 @@ export default function ProfilePage({ navigation }) {
       setRefreshing(false);
     }, 1500);
   }, []);
-
-  const [avatar, setAvatar] = useState('');
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -56,23 +62,20 @@ export default function ProfilePage({ navigation }) {
 
   const uploadImage = async () => {
     const formData = new FormData();
-    formData.append('image', {
+    formData.append('avatar', {
       name: `${new Date().getTime()}`,
       uri: avatar,
       type: 'image/jpg',
     });
 
-    console.log('====================================');
-    console.log(formData);
-    console.log('====================================');
-
     try {
-      const uploadRes = await axios.post('/posts/upload-image', formData, {
+      const uploadRes = await axios.post('/user/upload-avatar', formData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         },
       });
+      setChangeAvatarStatus(false);
     } catch (error) {
       console.log(error.message);
     }
@@ -88,7 +91,7 @@ export default function ProfilePage({ navigation }) {
                 <Image source={{ uri: avatar }} style={styles.avatar} />) : (
                   <Image
                     style={styles.avatar}
-                    source={user.avatar || defaultAvatar}
+                    source={{ uri: `http://192.168.3.127:3001/user/${user.avatar}` || defaultAvatar }}
                   />
               )}
             </TouchableOpacity>
@@ -120,6 +123,15 @@ export default function ProfilePage({ navigation }) {
           </TouchableOpacity>
         </View>
         <View>
+          <View style={{ alignItems: 'flex-start' }}>
+            {changeAvatarStatus && (
+            <Button
+              title="Save changes"
+              onPress={uploadImage}
+            />
+            )}
+
+          </View>
           <Text style={{ margin: 10, fontSize: 20 }}>{user.name}</Text>
           <Text style={{ marginLeft: 10, fontSize: 20 }}>Bio</Text>
         </View>
