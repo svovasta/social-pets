@@ -1,8 +1,18 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const { User } = require('../db/models');
+const {
+  User, Post,
+} = require('../db/models');
 
 const router = express.Router();
+
+router.get('/', async (req, res) => {
+  const user = await User.findOne({
+    where: { id: req.session.user.id },
+    include: Post,
+  });
+  res.json(user);
+});
 
 router.post('/signup', async (req, res) => {
   try {

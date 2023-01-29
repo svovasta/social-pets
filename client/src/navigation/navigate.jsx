@@ -190,6 +190,11 @@ function ProfileNavigator() {
         component={FavouritesPage}
         options={{ headerShown: false }}
       />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfile}
+        options={{ headerShown: false }}
+      />
     </ProfileStack.Navigator>
   );
 }
