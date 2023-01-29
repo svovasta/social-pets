@@ -15,7 +15,7 @@ router.get('/favourites', async (req, res) => {
 });
 
 router.get('/checkup', async (req, res) => {
-  const checkups = await Checkup.findAll({ where: { user_id: req.session.user?.id }, order: ['date', 'DESC'] });
+  const checkups = await Checkup.findAll({ where: { user_id: req.session.user?.id }, order: [['date', 'DESC']] });
   res.json(checkups);
 });
 

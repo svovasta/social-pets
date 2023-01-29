@@ -39,9 +39,9 @@ export default function ProfilePage({ navigation }) {
         </View>
 
         <Text style={styles.profileText}>
-          {user.Posts.length}
+          {user.Posts?.length}
           {'\n'}
-          {user.Posts.length % 10 === 1 ? (
+          {user.Posts?.length % 10 === 1 ? (
             <Text>
               Post
             </Text>
