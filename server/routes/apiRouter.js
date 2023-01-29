@@ -14,8 +14,18 @@ router.get('/favourites', async (req, res) => {
   res.json(faves);
 });
 
+router.post('/:id/favourites', async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.session?.user?.id;
+  const fave = await Favorites.create({ postId, userId });
+  // if (!created) {
+  //   await Favorites.destroy({ where: { postId, userId } });
+  // }
+  res.json(fave);
+});
+
 router.get('/checkup', async (req, res) => {
-  const checkups = await Checkup.findAll({ where: { user_id: req.session.user?.id }, order: ['date', 'DESC'] });
+  const checkups = await Checkup.findAll({ where: { user_id: req.session.user?.id }, order: [['date', 'DESC']] });
   res.json(checkups);
 });
 

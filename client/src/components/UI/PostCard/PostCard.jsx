@@ -7,11 +7,17 @@ import {
 } from '@ui-kitten/components';
 import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import logo from '../../../../assets/corgi2.png';
+import { addFavesAction } from '../../../redux/Slices/postsSlice';
 
 export default function PostCard({ post }) {
   const [postLikes, setPostLikes] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
+  const [added, setAdded] = useState(false);
+
+  const dispatch = useDispatch();
+
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/posts/${postId}/likes`)
       .then((res) => setPostLikes(res.data))
@@ -73,8 +79,14 @@ export default function PostCard({ post }) {
           <TouchableOpacity>
             <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bookmark}>
-            <Feather name="bookmark" size={25} color="black" />
+          <TouchableOpacity
+            style={styles.bookmark}
+            onPress={() => {
+              dispatch(addFavesAction(post.id));
+              setAdded(!added);
+            }}
+          >
+            <Feather name="bookmark" size={25} color={added ? 'red' : 'black'} />
           </TouchableOpacity>
         </View>
       </View>

@@ -45,6 +45,7 @@ export default function ProfilePage({ navigation }) {
     }, 1500);
   }, []);
 
+
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -54,6 +55,7 @@ export default function ProfilePage({ navigation }) {
     });
 
     console.log(result);
+
 
     if (!result.canceled) {
       setAvatar(result.assets[0].uri);
