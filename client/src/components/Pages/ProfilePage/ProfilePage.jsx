@@ -27,8 +27,6 @@ export default function ProfilePage({ navigation }) {
   const [changeAvatarStatus, setChangeAvatarStatus] = useState(false);
   const user = useSelector((state) => state.user);
 
-  console.log('changeAvatarStatus--->', changeAvatarStatus);
-
   useEffect(() => {
     setChangeAvatarStatus(!changeAvatarStatus);
   }, [avatar]);
@@ -45,7 +43,6 @@ export default function ProfilePage({ navigation }) {
     }, 1500);
   }, []);
 
-
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -55,7 +52,6 @@ export default function ProfilePage({ navigation }) {
     });
 
     console.log(result);
-
 
     if (!result.canceled) {
       setAvatar(result.assets[0].uri);
@@ -89,13 +85,10 @@ export default function ProfilePage({ navigation }) {
         <View style={styles.profileRow}>
           <View>
             <TouchableOpacity onPress={pickImage} onLongPress={() => setShowModal(true)}>
-              {avatar ? (
-                <Image source={{ uri: avatar }} style={styles.avatar} />) : (
-                  <Image
-                    style={styles.avatar}
-                    source={{ uri: `http://192.168.3.127:3001/user/${user.avatar}` || defaultAvatar }}
-                  />
-              )}
+              <Image
+                style={styles.avatar}
+                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
+              />
             </TouchableOpacity>
           </View>
           <Text style={styles.profileText}>

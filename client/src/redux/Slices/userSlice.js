@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Alert } from 'react-native';
 
 const initialState = null;
 
@@ -29,14 +30,20 @@ export const findUserAction = () => (dispatch) => {
 };
 
 export const registrationAction = (regInput) => (dispatch) => {
-  axios.post('/user/signup', regInput).then((resp) => {
-    dispatch(setUser(resp.data));
-  }).catch(console.log('gg'));
+  axios.post('/user/signup', regInput)
+    .then((resp) => dispatch(setUser(resp.data)))
+    .catch((err) => {
+      Alert.alert('Error', err.response.data.message);
+      console.log(err);
+    });
 };
 export const loginAction = (input) => (dispatch) => {
-  axios.post('/user/signin', input).then((resp) => {
-    dispatch(setUser(resp.data));
-  });
+  axios.post('/user/signin', input)
+    .then((resp) => dispatch(setUser(resp.data)))
+    .catch((err) => {
+      Alert.alert('Error', err.response.data.message);
+      console.log(err.response.data);
+    });
 };
 export const userCheckAction = () => (dispatch) => {
   axios.post('/user/check').then((res) => dispatch(setUser(res.data))).catch(console.log);

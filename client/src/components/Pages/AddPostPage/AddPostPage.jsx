@@ -57,7 +57,7 @@ export default function AddPostPage({ navigation }) {
   return (
     <SafeAreaView style={gStyle.main}>
       <Formik
-        initialValues={{ text: '', image: image }}
+        initialValues={{ text: '', image }}
         onSubmit={(values, { resetForm }) => {
           console.log('---------   ', values);
           console.log('+++++++++   ', image);
@@ -77,11 +77,10 @@ export default function AddPostPage({ navigation }) {
                 placeholder="Выберите фото"
               /> */}
               <View style={[gStyle.btn, {
-                width: 65,
+                width: 125, marginTop: 30,
               }]}
-              // position: 'absolute', right: '21%', top: '27%',
               >
-                <Button title="Pick" onPress={pickImage} />
+                <Button title="Pick photo" onPress={pickImage} />
               </View>
             </View>
             <View
@@ -103,11 +102,11 @@ export default function AddPostPage({ navigation }) {
               value={props.values.text}
               // multiline
               onChangeText={props.handleChange('text')}
-              placeholder="Текст поста"
+              placeholder="Post text"
             />
-            <View style={[gStyle.btn, { width: 170 }]}>
+            <View style={[gStyle.btn, { width: 120 }]}>
               <Button
-                title="Добавить пост"
+                title="Add post"
                 onPress={props.handleSubmit}
               />
             </View>

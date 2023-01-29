@@ -44,6 +44,9 @@ router.get('/img/postsImages/:name.jpg', (req, res) => {
 router.route('/')
   .get(async (req, res) => {
     const allPosts = await Post.findAll({ include: User });
+    console.log('====================================');
+    console.log(allPosts);
+    console.log('====================================');
     res.json(allPosts);
   })
   .post(async (req, res) => {

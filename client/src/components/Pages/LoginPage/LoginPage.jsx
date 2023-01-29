@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextInput, Button, Text, View, SafeAreaView, Image, StyleSheet,
 } from 'react-native';
@@ -9,6 +9,7 @@ import { gStyle } from '../../../styles/styles';
 import cat from '../../../../assets/cat.png';
 
 export default function LoginPage({ navigation }) {
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   return (
     <SafeAreaView style={[gStyle.main, styles.container]}>
@@ -69,6 +70,11 @@ export default function LoginPage({ navigation }) {
           </View>
         )}
       </Formik>
+      <View>
+        <Text>
+          Hello
+        </Text>
+      </View>
     </SafeAreaView>
   );
 }
