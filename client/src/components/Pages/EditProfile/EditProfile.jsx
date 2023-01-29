@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet, Text, View, SafeAreaView,
+} from 'react-native';
 import React from 'react';
+import { gStyle } from '../../../styles/styles';
 
 export default function EditProfile() {
   return (
-    <View>
+    <SafeAreaView style={gStyle.main}>
       <Text>EditProfile</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 

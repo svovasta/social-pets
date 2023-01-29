@@ -1,4 +1,5 @@
 import {
+
   StyleSheet, Text, View,
   Modal,
   TouchableOpacity,
@@ -9,6 +10,7 @@ import { Button } from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
 import { TextInput } from 'react-native-gesture-handler';
+
 
 export default function HealthPage() {
   // const [showModal, setShowModal] = useState(false);
@@ -57,6 +59,7 @@ export default function HealthPage() {
     </TouchableOpacity>
   );
   return (
+
     <View style={{ flex: 1 }}>
       <Agenda
         selected={new Date()}
@@ -68,9 +71,10 @@ export default function HealthPage() {
           agendaDayNumColor: 'green',
           agendaTodayColor: 'red',
           agendaKnobColor: 'blue',
+
         }}
 
       />
-    </View>
+    </SafeAreaView>
   );
 }

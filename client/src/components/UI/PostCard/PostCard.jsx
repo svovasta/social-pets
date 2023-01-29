@@ -1,16 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, Image,
+  StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image,
 } from 'react-native';
 import {
-  Card, Avatar,
+  Avatar,
 } from '@ui-kitten/components';
 import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
-import logo from '../../../../assets/favicon.png';
+import axios from 'axios';
+import logo from '../../../../assets/corgi2.png';
 
 export default function PostCard({ post }) {
+  const [postLikes, setPostLikes] = useState([]);
+  const [likeStatus, setLikeStatus] = useState(false);
+  const addorDeleteLikeHandler = (postId) => {
+    axios.post(`/posts/${postId}/likes`)
+      .then((res) => setPostLikes(res.data))
+      .catch(console.log);
+  };
+  useEffect(() => {
+    axios(`/posts/${post.id}/user/like`)
+      .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [likeStatus]);
+
+  useEffect(() => {
+    axios(`/posts/${post.id}/likes`)
+      .then((res) => setPostLikes(res.data))
+      .catch(console.log);
+  }, []);
+
   return (
-    <View style={styles.card}>
+    <SafeAreaView style={styles.card}>
 
       <View style={styles.topContainer}>
         <Avatar style={styles.avatar} source={logo} />
@@ -21,34 +43,43 @@ export default function PostCard({ post }) {
 
       </View>
 
-      <View style={styles.text}>
-        <Text style={styles.username}>
-          {post.User.name}
-        </Text>
-        <Text>
-          {post.text}
-        </Text>
+      <View style={styles.cardBottom}>
+        <View style={styles.text}>
+          <Text style={styles.username}>
+            {post.User.name}
+          </Text>
+          <Text>
+            {post.text}
+          </Text>
+        </View>
+        <View>
+          <Text style={{ color: 'grey' }}>
+            {new Date(post.createdAt).toLocaleDateString()}
+          </Text>
+        </View>
+        <View style={styles.footerContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              setLikeStatus((prev) => !prev);
+              addorDeleteLikeHandler(post.id);
+            }}
+            style={styles.heartContainer}
+          >
+            <AntDesign style={styles.heart} name={likeStatus ? 'heart' : 'hearto'} size={25} color="red" />
+            <Text style={{ alignSelf: 'center', fontSize: 20, marginRight: 15 }}>
+              {postLikes.length}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.bookmark}>
+            <Feather name="bookmark" size={25} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View>
-        <Text style={{ color: 'grey' }}>
-          {new Date(post.createdAt).toLocaleDateString()}
-        </Text>
-      </View>
-
-      <View style={styles.footerContainer}>
-        <TouchableOpacity>
-          <AntDesign style={styles.heart} name="hearto" size={25} color="red" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Feather name="bookmark" size={25} color="black" style={styles.bookmark} />
-        </TouchableOpacity>
-      </View>
-
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -57,7 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
   },
   avatar: {
     width: 40,
@@ -69,8 +100,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 'auto',
     marginLeft: 'auto',
+    maxWidth: 400,
     width: '100%',
-    height: '100%',
+    height: 400,
+  },
+  cardBottom: {
+    left: 5,
   },
   text: {
     display: 'flex',
@@ -82,25 +117,22 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginRight: 5,
   },
+  heartContainer: {
+    flexDirection: 'row',
+  },
   heart: {
-    marginRight: 15,
+    marginRight: 5,
   },
   card: {
     margin: 5,
   },
-  comment: {
-    display: 'flex',
-    justifySelf: 'end',
-  },
   footerContainer: {
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    padding: 10,
+    marginTop: 10,
+    position: 'relative',
   },
   bookmark: {
-    display: 'flex',
-    justifySelf: 'flex-end',
-    marginLeft: 250,
+    position: 'absolute',
+    right: '2%',
   },
 });
