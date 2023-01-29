@@ -27,7 +27,7 @@ export const getPostsAction = () => (dispatch) => {
 };
 
 export const addPostAction = (input) => (dispatch) => {
-  axios.post('/posts', input)
+  axios.post('/posts/upload-image', input)
     .then((res) => dispatch(addPost(res.data)))
     .catch(console.log);
 };

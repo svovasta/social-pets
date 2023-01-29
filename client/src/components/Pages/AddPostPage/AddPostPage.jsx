@@ -17,7 +17,7 @@ export default function AddPostPage({ navigation }) {
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -33,21 +33,22 @@ export default function AddPostPage({ navigation }) {
   const uploadImage = async () => {
     const formData = new FormData();
     formData.append('image', {
-      name: `${new Date()}_image`,
+      name: `${new Date().getTime()}`,
       uri: image,
       type: 'image/jpg',
     });
 
+    console.log('====================================');
+    console.log(formData);
+    console.log('====================================');
+
     try {
-      const res = await axios.post('/posts/upload-image', formData, {
+      const uploadRes = await axios.post('/posts/upload-image', formData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('++++++++++++++++++++++++++++');
-      console.log(res.data);
-      console.log('++++++++++++++++++++++++++++');
     } catch (error) {
       console.log(error.message);
     }
@@ -56,29 +57,29 @@ export default function AddPostPage({ navigation }) {
   return (
     <SafeAreaView style={gStyle.main}>
       <Formik
-        initialValues={{ image: '', text: '' }}
+        initialValues={{ text: '', image: image }}
         onSubmit={(values, { resetForm }) => {
+          console.log('---------   ', values);
+          console.log('+++++++++   ', image);
+          uploadImage();
           // dispatch(addPostAction(values));
-          console.log(values);
-          console.log('====================================');
-          console.log(image);
-          console.log('====================================');
-          // navigation.navigate('HomeScreen');
+          navigation.navigate('HomeScreen');
           resetForm({ values: '' });
         }}
       >
         {(props) => (
           <View>
             <View style={{ position: 'relative' }}>
-              <TextInput
+              {/* <TextInput
                 style={gStyle.input}
                 value={props.values.text}
                 onChangeText={props.handleChange('text')}
                 placeholder="Выберите фото"
-              />
+              /> */}
               <View style={[gStyle.btn, {
-                width: 65, position: 'absolute', right: '21%', top: '27%',
+                width: 65,
               }]}
+              // position: 'absolute', right: '21%', top: '27%',
               >
                 <Button title="Pick" onPress={pickImage} />
               </View>

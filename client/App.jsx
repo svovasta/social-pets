@@ -9,9 +9,9 @@ import AppLoading from 'expo-app-loading';
 import Navigate from './src/navigation/navigate';
 import store from './src/redux/store';
 
+// axios.defaults.baseURL = 'http://localhost:3001';
 
-axios.defaults.baseURL = 'http://localhost:3001';
-
+axios.defaults.baseURL = 'http://192.168.3.127:3001';
 
 const fonts = () => Font.loadAsync({
   'rob-bold': require('./assets/fonts/Roboto-Bold.ttf'),
@@ -19,7 +19,6 @@ const fonts = () => Font.loadAsync({
   'rob-thin': require('./assets/fonts/Roboto-Thin.ttf'),
   'rob-regular': require('./assets/fonts/Roboto-Regular.ttf'),
 });
-
 
 export default function App() {
   const [font, setFont] = useState(false);
