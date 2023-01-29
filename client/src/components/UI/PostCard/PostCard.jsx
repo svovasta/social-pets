@@ -39,7 +39,7 @@ export default function PostCard({ post }) {
         <Text style={styles.username}>{post.User.name}</Text>
       </View>
       <View>
-        <Image style={styles.postImage} source={{ uri: post.image }} />
+        <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
 
       </View>
 

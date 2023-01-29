@@ -11,7 +11,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
 import { TextInput } from 'react-native-gesture-handler';
 
-
 export default function HealthPage() {
   // const [showModal, setShowModal] = useState(false);
   // const [items, setItems] = useState(checkups);
@@ -60,7 +59,7 @@ export default function HealthPage() {
   );
   return (
 
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Agenda
         selected={new Date()}
         loadItemsForMonth={loadItems}

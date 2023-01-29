@@ -27,7 +27,6 @@ const profilePage = 'Profile';
 const healthPage = 'Health';
 const postPage = 'PostPage';
 
-
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
 const discussionPage = 'Discussions';
@@ -98,24 +97,15 @@ export default function BottomTabNavigator() {
             <BottomTab.Screen
               name="Profile"
               component={ProfileNavigator}
-
               options={{ headerShown: false }}
-
             />
           </>
         ) : (
-          <>
-            <BottomTab.Screen
-              name="Home"
-              component={HomeNavigator}
-              options={{ headerShown: false }}
-            />
-            <BottomTab.Screen
-              name="Sign In"
-              component={SignInNavigator}
-              options={{ headerShown: false }}
-            />
-          </>
+          <BottomTab.Screen
+            name="Sign In"
+            component={SignInNavigator}
+            options={{ headerShown: false }}
+          />
         )}
 
       </BottomTab.Navigator>
