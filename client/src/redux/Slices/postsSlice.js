@@ -10,11 +10,13 @@ const postsSlice = createSlice({
     addPost: (state, action) => [action.payload, ...state],
     deletePost: (state, action) => state.filter((el) => el.id !== action.payload),
     editPost: (state, action) => state.map((el) => (el.id === action.payload ? { ...el, text: action.payload.editedInput.text, image: action.payload.editedInput.image } : el)),
+    favePosts: (state, action) => action.payload,
+    addFave: (state, action) => [...state, action.payload],
   },
 });
 
 export const {
-  getPosts, addPost, deletePost, editPost,
+  getPosts, addPost, deletePost, editPost, favePosts, addFave,
 } = postsSlice.actions;
 
 export const getPostsAction = () => (dispatch) => {
@@ -45,7 +47,11 @@ export const getPersonalPostsAction = () => (dispatch) => {
 };
 
 export const getFavesAction = () => (dispatch) => {
-  axios('/api/v1/favourites').then((res) => dispatch(getPosts(res.data)));
+  axios('/api/v1/favourites').then((res) => dispatch(favePosts(res.data)));
+};
+
+export const addFavesAction = (id) => (dispatch) => {
+  axios(`/api/v1/${id}/favourites`).then((res) => dispatch(addFave(res.data)));
 };
 
 export default postsSlice.reducer;

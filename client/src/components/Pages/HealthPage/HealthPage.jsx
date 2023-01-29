@@ -83,12 +83,12 @@ export default function HealthPage() {
   );
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollView}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-    >
+    // <ScrollView
+    //   refreshControl={
+    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    //     }
+    // >
+    <>
       <Agenda
         selected={new Date()}
         loadItemsForMonth={loadItems}
@@ -157,7 +157,8 @@ export default function HealthPage() {
           )}
         </Formik>
       </Modal>
-    </ScrollView>
+    </>
+  // </ScrollView>
   );
 }
 
