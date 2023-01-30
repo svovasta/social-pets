@@ -23,7 +23,6 @@ export default function PostCard({ post }) {
     dispatch(getFavesAction());
   }, []);
   const faves = useSelector((s) => s.faves);
-  console.log(faves);
 
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/posts/${postId}/likes`)
@@ -52,7 +51,7 @@ export default function PostCard({ post }) {
         <Text style={styles.username}>{post.User.name}</Text>
       </View>
       <View>
-        <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
+        <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
 
       </View>
 

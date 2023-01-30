@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const path = require('path');
 const { User, Post, Like } = require('../db/models');
 
 const router = express.Router();
@@ -38,7 +39,8 @@ router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
 
 router.get('/img/postsImages/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/Users/zarinaromanova/Desktop/Elbrus/social-pets/server/img/postsImages/${name}.jpg`);
+  // res.sendFile(path.join(__dirname, `/server/img/postsImages/${name}.jpg`));
+  res.sendFile(`/home/vova/ElbrusFinalProject/SocialPets/server/img/postsImages/${name}.jpg`);
 });
 
 router.route('/')
