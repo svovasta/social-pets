@@ -1,21 +1,35 @@
-import { Input } from '@ui-kitten/components';
 import React from 'react';
 import {
   View, Button, Text, TextInput, SafeAreaView, StyleSheet,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
-import { registrationAction } from '../../../redux/Slices/userSlice';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../../config/firebase';
+import { setUser } from '../../../redux/Slices/userSlice';
 import { gStyle } from '../../../styles/styles';
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
+
+  const handleRegistration = (email, password) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        console.log(user);
+        dispatch(setUser({
+          email: user.email,
+          id: user.id,
+          token: user.accessToken,
+        }));
+      })
+      .catch(console.error);
+  };
   return (
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
-        initialValues={{ name: '', email: '', password: '' }}
+        initialValues={{ email: '', password: '' }}
         onSubmit={(values) => {
-          dispatch(registrationAction(values));
+          handleRegistration(values.email, values.password);
         }}
       >
         {(props) => (
@@ -26,7 +40,7 @@ export default function RegistrationPage() {
             >
               Create new account
             </Text>
-            <Text style={[gStyle.gText, { textAlign: 'center', marginTop: 15 }]}>
+            {/* <Text style={[gStyle.gText, { textAlign: 'center', marginTop: 15 }]}>
               Username
             </Text>
             <TextInput
@@ -34,7 +48,7 @@ export default function RegistrationPage() {
               value={props.values.name}
               onChangeText={props.handleChange('name')}
               placeholder="John Snow"
-            />
+            /> */}
             <Text style={[gStyle.gText, { textAlign: 'center', marginTop: 5 }]}>
               Email
             </Text>

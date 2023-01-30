@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
 import {
-  TextInput, Button, Text, View, SafeAreaView, Image, StyleSheet,
+  TextInput, Button, Text, View, SafeAreaView, Image, StyleSheet, Alert,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
-import { loginAction } from '../../../redux/Slices/userSlice';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { setUser } from '../../../redux/Slices/userSlice';
 import { gStyle } from '../../../styles/styles';
 import cat from '../../../../assets/cat.png';
+import { auth } from '../../../../config/firebase';
 
 export default function LoginPage({ navigation }) {
-  const [error, setError] = useState('');
   const dispatch = useDispatch();
+  const handleLogin = (email, password) => {
+    console.log(email, password);
+    signInWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        dispatch(setUser({
+          email: user.email,
+          id: user.id,
+          token: user.accessToken,
+        }));
+      })
+      .catch((error) => Alert.alert('Invalid user!', error.message));
+  };
   return (
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
         initialValues={{ email: '', password: '' }}
         onSubmit={(values) => {
-          dispatch(loginAction(values));
+          handleLogin(values.email, values.password);
         }}
       >
         {(props) => (

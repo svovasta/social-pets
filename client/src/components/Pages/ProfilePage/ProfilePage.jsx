@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import PhotoCard from '../../UI/PhotoCard';
-import { userLogoutAction, findUserAction } from '../../../redux/Slices/userSlice';
+import { removeUser } from '../../../redux/Slices/userSlice';
 import { gStyle } from '../../../styles/styles';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 
@@ -35,9 +35,9 @@ export default function ProfilePage({ navigation }) {
     }
   }, [avatar]);
 
-  useEffect(() => {
-    dispatch(findUserAction());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(findUserAction());
+  // }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -122,7 +122,7 @@ export default function ProfilePage({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen')}>
             <Feather style={{ marginRight: 10, marginTop: 5 }} name="settings" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => dispatch(userLogoutAction())}>
+          <TouchableOpacity onPress={() => dispatch(removeUser())}>
             <Octicons name="sign-out" size={24} color="black" style={{ marginRight: 10, marginTop: 5 }} />
           </TouchableOpacity>
         </View>

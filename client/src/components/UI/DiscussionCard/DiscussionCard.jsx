@@ -19,7 +19,7 @@ export default function DiscussionCard(props) {
       <Text>Ну и хулИ???</Text>
     </TouchableOpacity>
   );
-}  
+}
 // const styles = StyleSheet.create({
 //   card: {
 //     fontSize: 'bold',

@@ -18,8 +18,7 @@ import EditProfile from '../components/Pages/EditProfile';
 import HealthPage from '../components/Pages/HealthPage';
 import AllDiscussionsPage from '../components/Pages/AllDiscussionsPage';
 import DiscussionPage from '../components/Pages/DiscussionPage';
-import { userCheckAction } from '../redux/Slices/userSlice';
-
+import { useAuth } from '../redux/Slices/userSlice';
 // Screens names
 
 const mainPage = 'Home';
@@ -34,12 +33,13 @@ const allDiscussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(userCheckAction());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(userCheckAction());
+  // }, []);
+  const { isAuth } = useAuth();
   return (
     <NavigationContainer>
       <BottomTab.Navigator
@@ -74,7 +74,7 @@ export default function BottomTabNavigator() {
           },
         })}
       >
-        {user ? (
+        {isAuth ? (
           <>
             <BottomTab.Screen
               name="Home"
@@ -108,7 +108,6 @@ export default function BottomTabNavigator() {
             options={{ headerShown: false }}
           />
         )}
-
       </BottomTab.Navigator>
     </NavigationContainer>
   );

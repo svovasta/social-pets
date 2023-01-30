@@ -11,6 +11,7 @@
   "dependencies": {
     "@eva-design/eva": "^2.1.1",
     "@expo/vector-icons": "^13.0.0",
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.5.3",
     "@react-navigation/native": "^6.1.2",
@@ -21,9 +22,12 @@
     "cors": "^2.8.5",
     "expo": "~47.0.12",
     "expo-app-loading": "~2.1.1",
+    "expo-constants": "~14.0.2",
+    "expo-file-system": "~15.1.1",
     "expo-image-picker": "~14.0.2",
     "expo-status-bar": "~1.4.2",
     "expo-web-browser": "~12.0.0",
+    "firebase": "^9.16.0",
     "formik": "^2.2.9",
     "react": "18.1.0",
     "react-dom": "18.1.0",
@@ -37,10 +41,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
-
-    "react-redux": "^8.0.5",
-    "expo-constants": "~14.0.2",
-    "expo-file-system": "~15.1.1"
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
