@@ -15,7 +15,7 @@ const avatarsStorage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    console.log(file);
+    // console.log(file);
     cb(null, `${file.originalname}.jpg`);
   },
 });
@@ -23,7 +23,7 @@ const avatarsStorage = multer.diskStorage({
 const avatarsUpload = multer({ storage: avatarsStorage });
 
 router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) => {
-  console.log('REQ FILE--->', req.file);
+  // console.log('REQ FILE--->', req.file);
   const userId = req.session.user.id;
   const user = await User.findByPk(userId);
   user.avatar = req.file.path;
@@ -70,6 +70,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
     return res.status(400).json({ message: 'All fields must be filled' });
   }
@@ -77,7 +78,7 @@ router.post('/signin', async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "User with this email doesn't exist" });
   }
-  const compare = await bcrypt.compare(password, user.pass);
+  const compare = await bcrypt.compare(password, user.password);
   if (compare) {
     req.session.user = { id: user.id, name: user.name };
   } else {

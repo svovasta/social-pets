@@ -20,6 +20,7 @@ import HealthPage from '../components/Pages/HealthPage';
 import DiscussionsPage from '../components/Pages/DiscussionsPage';
 
 import { userCheckAction } from '../redux/Slices/userSlice';
+import FollowersPage from '../components/Pages/FollowersPage';
 
 // Screens names
 
@@ -128,6 +129,11 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="CommentScreen"
         component={CommentsPage}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="FollowersPage"
+        component={FollowersPage}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>

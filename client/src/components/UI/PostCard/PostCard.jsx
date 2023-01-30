@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image,
+  StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button,
 } from 'react-native';
 import {
   Avatar,
@@ -12,18 +12,20 @@ import logo from '../../../../assets/corgi2.png';
 import {
   addFavesAction, deleteFave, deleteFavesAction, getFavesAction,
 } from '../../../redux/Slices/faveSlice';
+import { followAction } from '../../../redux/Slices/followersSlice';
 
 export default function PostCard({ post }) {
   const [postLikes, setPostLikes] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
-
+  const [followed, setFollowed] = useState(false);
   const dispatch = useDispatch();
+  const followers = useSelector((s) => s.followers);
 
+  console.log('------', followers);
   useEffect(() => {
     dispatch(getFavesAction());
   }, []);
   const faves = useSelector((s) => s.faves);
-  console.log(faves);
 
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/posts/${postId}/likes`)
@@ -50,6 +52,7 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar style={styles.avatar} source={logo} />
         <Text style={styles.username}>{post.User.name}</Text>
+        <Button title={followers.some((el) => el.User.id === post.User.id) ? 'unfollow' : 'follow'} onPress={() => dispatch(followAction(post.User.id))} />
       </View>
       <View>
         <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
@@ -84,13 +87,13 @@ export default function PostCard({ post }) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-          onPress={() => navigation.navigate(
-            'CommentsPage',
-            { activePost: activePostId },
-          )}
-        >
-          <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
-        </TouchableOpacity>
+            onPress={() => navigation.navigate(
+              'CommentsPage',
+              { activePost: activePostId },
+            )}
+          >
+            <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.bookmark}
             onPress={() => (!faves.find((el) => el.postId === post.id)

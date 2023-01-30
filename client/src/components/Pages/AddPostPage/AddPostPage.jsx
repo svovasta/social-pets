@@ -23,8 +23,6 @@ export default function AddPostPage({ navigation }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
@@ -38,9 +36,6 @@ export default function AddPostPage({ navigation }) {
       type: 'image/jpg',
     });
 
-    console.log('====================================');
-    console.log(formData);
-    console.log('====================================');
 
     try {
       const uploadRes = await axios.post('/posts/upload-image', formData, {
@@ -61,8 +56,6 @@ export default function AddPostPage({ navigation }) {
         initialValues={{ text: '', image: '' }}
         onSubmit={(values, { resetForm }) => {
           uploadImage();
-          console.log('---------   ', values);
-          console.log('+++++++++   ', image);
           // dispatch(addPostAction(values));
           resetForm({ values: '' });
           // navigation.navigate('HomeScreen');

@@ -10,7 +10,7 @@ const imagesPath = './img/postsImages';
 
 const postsStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log('FILE =======>', file);
+    // console.log('FILE =======>', file);
     cb(null, imagesPath);
   },
 
@@ -22,8 +22,8 @@ const postsStorage = multer.diskStorage({
 const postsUpload = multer({ storage: postsStorage });
 
 router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
-  console.log('REQ BODY--->', req.body);
-  console.log('REQ FILE--->', req.file);
+  // console.log('REQ BODY--->', req.body);
+  // console.log('REQ FILE--->', req.file);
   // const { text } = req.body;
   const userId = req.session.user.id;
   const newPost = await Post.create({
@@ -51,7 +51,7 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const { text, image } = req.body;
-      console.log('REQ BODY--->', req.body);
+      // console.log('REQ BODY--->', req.body);
       await Post.create({
         text, image, userId: req.session.user.id,
       });
@@ -127,7 +127,7 @@ router.get('/:id/user/like', async (req, res) => {
       userId, postId,
     },
   });
-  console.log(userLike);
+  // console.log(userLike);
   if (userLike) {
     return res.json({ message: 'yes' });
   } return res.json({ message: 'no' });

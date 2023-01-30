@@ -12,8 +12,6 @@ export default function FavouritesPage() {
   const faves = useSelector((s) => s.faves);
   const dispatch = useDispatch();
 
-  console.log(faves);
-
   useEffect(() => {
     dispatch(getFavesAction());
   }, []);
