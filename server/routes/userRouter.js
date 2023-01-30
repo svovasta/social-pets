@@ -77,7 +77,7 @@ router.post('/signin', async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "User with this email doesn't exist" });
   }
-  const compare = await bcrypt.compare(password, user.password);
+  const compare = await bcrypt.compare(password, user.pass);
   if (compare) {
     req.session.user = { id: user.id, name: user.name };
   } else {

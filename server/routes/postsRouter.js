@@ -1,6 +1,8 @@
 const express = require('express');
 const multer = require('multer');
-const { User, Post, Like } = require('../db/models');
+const {
+  User, Post, Like, Comment,
+} = require('../db/models');
 
 const router = express.Router();
 
@@ -64,8 +66,10 @@ router.route('/')
   });
 
 router.route('/:id')
+
   .delete(async (req, res) => {
     await Post.destroy({ where: { id: req.params.id } });
+    await Comment.destroy({ where: { PostId: req.params.id } });
     res.sendStatus(200);
   })
   .patch(async (req, res) => {
@@ -75,6 +79,23 @@ router.route('/:id')
     post.image = image;
     post.save();
     res.json(post);
+  });
+
+router.route('/:id/comments')
+  .get(async (req, res) => {
+    const allComments = await Comment.findAll({
+      where: { PostId: req.params.id },
+      include: [{
+        model: User,
+      }],
+    });
+    res.json(allComments);
+  })
+  .post(async (req, res) => {
+    const commit = await Comment.create({
+      text: req.body.text, userId: req.session.user.id, postId: req.params.id,
+    });
+    res.json(commit);
   });
 
 router.route('/:id/likes')
