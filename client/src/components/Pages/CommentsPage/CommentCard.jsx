@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Text, View, StyleSheet, TouchableOpacity, Pressable,
+  Text, View, StyleSheet, TouchableOpacity, Pressable, Button,
 } from 'react-native';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import {
@@ -8,6 +8,7 @@ import {
 } from '@ui-kitten/components';
 import { useSelector } from 'react-redux';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
+import { gStyle } from '../../../styles/styles';
 
 export default function CommentCard({ comment }) {
   const user = useSelector((state) => state.user);
@@ -27,20 +28,23 @@ export default function CommentCard({ comment }) {
               <Feather name="more-vertical" size={24} color="black" />
             </TouchableOpacity>
           </View>
-          <View style={styles.modalWindow}>
+          <View>
             <Modal visible={visible}>
-              <Card disabled>
-                <View>
-                  <TouchableOpacity>
+              <Card disabled style={styles.modalWindow}>
+                <View style={styles.commentActions}>
+                  <TouchableOpacity style={{ marginRight: 20 }}>
                     <Feather name="edit" size={24} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <AntDesign name="delete" size={24} color="red" />
                   </TouchableOpacity>
                 </View>
-                <Pressable onPress={() => setVisible(false)}>
-                  <Text>Close</Text>
-                </Pressable>
+                <View style={[gStyle.btn, { width: 70, marginTop: 20 }]}>
+                  <Button
+                    title="Close"
+                    onPress={() => setVisible(false)}
+                  />
+                </View>
               </Card>
             </Modal>
           </View>
@@ -81,9 +85,11 @@ const styles = StyleSheet.create({
     marginTop: 2,
     alignItems: 'flex-start',
     marginLeft: '13%',
-    // maxWidth: 300,
-    // width: 1,
     flexWrap: 'wrap',
+  },
+  commentActions: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   more: {
     position: 'relative',
@@ -93,5 +99,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '30%',
     left: '65%',
+    borderRadius: 20,
   },
 });

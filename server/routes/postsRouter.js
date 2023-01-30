@@ -59,12 +59,22 @@ router.route('/')
     }
   });
 
-router.route('/:id')
+router.route('/:id/post')
+  .get(async (req, res) => {
+    const onePost = await Post.findOne({
+      where: { id: req.params.id },
+      include: User,
+    });
+    res.json(onePost);
+  })
   .delete(async (req, res) => {
     await Post.destroy({ where: { id: req.params.id } });
     await Comment.destroy({ where: { postId: req.params.id } });
     res.sendStatus(200);
-  })
+  });
+
+router.route('/:id')
+
   .patch(async (req, res) => {
     const { text, image } = req.body;
     const post = await Post.findOne({ where: { id: req.params.id } });

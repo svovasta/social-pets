@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons, Octicons, MaterialIcons } from '@expo/vector-icons';
+import {
+  Ionicons, Octicons, MaterialIcons, MaterialCommunityIcons,
+} from '@expo/vector-icons';
 // Screens
 import { useDispatch, useSelector } from 'react-redux';
 import MainPage from '../components/Pages/MainPage';
@@ -66,8 +68,8 @@ export default function BottomTabNavigator() {
               return <MaterialIcons name={iconName} size={size} color={color} />;
             }
             if (rn === healthPage) {
-              iconName = focused ? 'md-medical' : 'md-medical';
-              return <Ionicons name={iconName} size={size} color={color} />;
+              iconName = focused ? 'note-check' : 'note-check-outline';
+              return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
             }
             if (rn === loginPage) {
               iconName = focused ? 'sign-in' : 'sign-in';
@@ -200,7 +202,11 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="EditProfileScreen"
         component={EditProfile}
-
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="OnePostScreen"
+        component={PostPage}
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>

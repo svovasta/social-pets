@@ -7,7 +7,7 @@ import discussionsReducer from './Slices/discussionsSlice';
 import favesReducer from './Slices/faveSlice';
 import followersReducer from './Slices/followersSlice';
 import myPostsReducer from './Slices/myPostsSlice';
-
+import onePostReducer from './Slices/onePostSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,7 +19,7 @@ const store = configureStore({
     faves: favesReducer,
     followers: followersReducer,
     myPosts: myPostsReducer,
-
+    onePost: onePostReducer,
   },
 });
 

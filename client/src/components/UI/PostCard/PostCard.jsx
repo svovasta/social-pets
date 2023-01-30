@@ -27,13 +27,9 @@ export default function PostCard({ post }) {
   const dispatch = useDispatch();
   const followers = useSelector((s) => s.followers);
 
-  console.log('------', followers);
   useEffect(() => {
     dispatch(getFavesAction());
   }, []);
-
-  const faves = useSelector((s) => s.faves);
-
 
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/posts/${postId}/likes`)

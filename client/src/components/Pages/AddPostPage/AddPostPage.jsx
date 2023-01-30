@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TextInput, SafeAreaView, StyleSheet, Button, Image, View,
+  TextInput, SafeAreaView, StyleSheet, Button, Image, View, Alert,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
@@ -31,9 +31,10 @@ export default function AddPostPage({ navigation }) {
       uri: image,
       type: 'image/jpg',
     });
-
     formData.append('text', text);
-
+    if (formData._parts) {
+      return Alert.alert('Pick photo, please', '');
+    }
     try {
       const uploadRes = await axios.post('/posts/upload-image', formData, {
         headers: {
@@ -52,10 +53,8 @@ export default function AddPostPage({ navigation }) {
       <Formik
         initialValues={{ text: '' }}
         onSubmit={(values, { resetForm }) => {
-
           uploadImage(values.text);
           setImage('');
-
           resetForm({ values: '' });
         }}
       >
