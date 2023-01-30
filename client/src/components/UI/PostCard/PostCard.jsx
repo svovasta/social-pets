@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image,
 } from 'react-native';
 import {
-  Card, Avatar,
+  Avatar,
 } from '@ui-kitten/components';
 import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
-import logo from '../../../../assets/favicon.png';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import logo from '../../../../assets/corgi2.png';
+import {
+  addFavesAction, deleteFave, deleteFavesAction, getFavesAction,
+} from '../../../redux/Slices/faveSlice';
 
 export default function PostCard({ post }) {
+  const [postLikes, setPostLikes] = useState([]);
+  const [likeStatus, setLikeStatus] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getFavesAction());
+  }, []);
+  const faves = useSelector((s) => s.faves);
+  console.log(faves);
+
+  const addorDeleteLikeHandler = (postId) => {
+    axios.post(`/posts/${postId}/likes`)
+      .then((res) => setPostLikes(res.data))
+      .catch(console.log);
+  };
+  useEffect(() => {
+    axios(`/posts/${post.id}/user/like`)
+      .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [likeStatus]);
+
+  useEffect(() => {
+    axios(`/posts/${post.id}/likes`)
+      .then((res) => setPostLikes(res.data))
+      .catch(console.log);
+  }, []);
+
   return (
     <SafeAreaView style={styles.card}>
 
@@ -17,7 +52,7 @@ export default function PostCard({ post }) {
         <Text style={styles.username}>{post.User.name}</Text>
       </View>
       <View>
-        <Image style={styles.postImage} source={{ uri: post.image }} />
+        <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
 
       </View>
 
@@ -36,14 +71,28 @@ export default function PostCard({ post }) {
           </Text>
         </View>
         <View style={styles.footerContainer}>
-          <TouchableOpacity>
-            <AntDesign style={styles.heart} name="hearto" size={25} color="red" />
+          <TouchableOpacity
+            onPress={() => {
+              setLikeStatus((prev) => !prev);
+              addorDeleteLikeHandler(post.id);
+            }}
+            style={styles.heartContainer}
+          >
+            <AntDesign style={styles.heart} name={likeStatus ? 'heart' : 'hearto'} size={25} color="red" />
+            <Text style={{ alignSelf: 'center', fontSize: 20, marginRight: 15 }}>
+              {postLikes.length}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity>
             <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bookmark}>
-            <Feather name="bookmark" size={25} color="black" />
+          <TouchableOpacity
+            style={styles.bookmark}
+            onPress={() => (!faves.find((el) => el.postId === post.id)
+              ? dispatch(addFavesAction(post.id))
+              : dispatch(deleteFavesAction(post.id)))}
+          >
+            <Feather name="bookmark" size={25} color={faves.find((el) => el.postId === post.id) ? 'red' : 'black'} />
           </TouchableOpacity>
         </View>
       </View>
@@ -86,8 +135,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginRight: 5,
   },
+  heartContainer: {
+    flexDirection: 'row',
+  },
   heart: {
-    marginRight: 15,
+    marginRight: 5,
   },
   card: {
     margin: 5,

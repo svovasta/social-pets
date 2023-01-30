@@ -26,6 +26,7 @@ const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
+const postPage = 'PostPage';
 
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
@@ -101,18 +102,11 @@ export default function BottomTabNavigator() {
             />
           </>
         ) : (
-          <>
-            <BottomTab.Screen
-              name="Home"
-              component={HomeNavigator}
-              options={{ headerShown: false }}
-            />
-            <BottomTab.Screen
-              name="Sign In"
-              component={SignInNavigator}
-              options={{ headerShown: false }}
-            />
-          </>
+          <BottomTab.Screen
+            name="Sign In"
+            component={SignInNavigator}
+            options={{ headerShown: false }}
+          />
         )}
 
       </BottomTab.Navigator>
@@ -194,6 +188,12 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="FavouritesScreen"
         component={FavouritesPage}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfile}
+
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>
