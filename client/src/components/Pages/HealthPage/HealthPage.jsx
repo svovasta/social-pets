@@ -91,7 +91,6 @@ export default function HealthPage() {
     // >
     <>
 
-      {/* <SafeAreaView style={{ flex: 1 }}> */}
 
       <Agenda
         selected={new Date()}
