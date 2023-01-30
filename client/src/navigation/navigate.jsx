@@ -9,9 +9,9 @@ import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
-import CreateComment from '../components/Pages/CommentsPage/CreateCommentPage';
+import CommentsPage from '../components/Pages/CommentsPage/CommentsPage';
 import LoginPage from '../components/Pages/LoginPage';
-import CreateCommentPage from '../components/Pages/CommentsPage/CreateCommentPage';
+
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 
 import PostPage from '../components/Pages/PostPage';
@@ -27,7 +27,6 @@ const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
-
 
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
@@ -89,14 +88,6 @@ export default function BottomTabNavigator() {
               name="Profile"
               component={ProfileNavigator}
             />
-            <Stack.Screen
-              name="PostPage"
-              component={PostPage}
-            />
-            <Stack.Screen
-              name="EditProfile"
-              component={EditProfile}
-            />
           </>
         ) : (
           <>
@@ -124,6 +115,11 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeScreen"
         component={MainPage}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="CommentScreen"
+        component={CommentsPage}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>

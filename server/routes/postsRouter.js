@@ -53,7 +53,6 @@ router.route('/')
     } catch (err) {
       console.log(err);
     }
-
   });
 // .post(postsUpload.single('image'), async (req, res) => {
 //   console.log('REQ BODY--->', req.body);
@@ -74,6 +73,7 @@ router.route('/:id')
 
   .delete(async (req, res) => {
     await Post.destroy({ where: { id: req.params.id } });
+    await Comment.destroy({ where: { PostId: req.params.id } });
     res.sendStatus(200);
   })
   .patch(async (req, res) => {
@@ -87,7 +87,12 @@ router.route('/:id')
 
 router.route('/:id/comments')
   .get(async (req, res) => {
-    const allComments = await Comment.findAll({ where: { PostId: req.params.id } });
+    const allComments = await Comment.findAll({
+      where: { PostId: req.params.id },
+      include: [{
+        model: User,
+      }],
+    });
     res.json(allComments);
   })
   .post(async (req, res) => {

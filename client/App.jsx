@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import axios from 'axios';
 import Navigate from './src/navigation/navigate';
 import store from './src/redux/store';
-
-
-axios.defaults.baseURL = 'http://localhost:3001';
+import 'react-native-gesture-handler';
+// axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.baseURL = 'http://192.168.2.49:19000';
 
 export default function App() {
   return (

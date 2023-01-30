@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet, View, Text, TouchableOpacity, Image,
 } from 'react-native';
@@ -9,6 +9,7 @@ import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
 import logo from '../../../../assets/favicon.png';
 
 export default function PostCard({ post, navigation }) {
+  const [activePostId, setActivePostId] = useState(null);
   return (
     <View style={styles.card}>
 
@@ -36,12 +37,18 @@ export default function PostCard({ post, navigation }) {
         </Text>
       </View>
 
-      <View style={styles.footerContainer}>
+      <View
+        style={styles.footerContainer}
+        onPress={() => setActivePostId(post.id)}
+      >
         <TouchableOpacity>
           <AntDesign style={styles.heart} name="hearto" size={25} color="red" />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('CreateCommentPage')}
+          onPress={() => navigation.navigate(
+            'CommentsPage',
+            { activePost: activePostId },
+          )}
         >
           <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
         </TouchableOpacity>

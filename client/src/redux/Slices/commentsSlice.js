@@ -17,14 +17,18 @@ export const {
   getComments, addComment, deleteComment, editComment,
 } = commentsSlice.actions;
 
-export const getCommentsAction = () => (dispatch) => {
-  axios('/comments').then((res) => dispatch(getComments(res.data)));
+export const getCommentsAction = (PostId) => (dispatch) => {
+  axios(`/:${PostId}/comments`)
+    .then((res) => dispatch(getComments(res.data)))
+    .catch(console.log);
 };
 
-export const addCommentAction = (input) => (dispatch) => {
-  axios.post('/comments', input).then((res) => {
-    dispatch(addComment(res.data));
-  });
+export const addCommentAction = (PostId, input) => (dispatch) => {
+  axios.post(`/:${PostId}/comments`, input)
+    .then((res) => {
+      dispatch(addComment(res.data))
+        .catch(console.log);
+    });
 };
 
 export default commentsSlice.reducer;
