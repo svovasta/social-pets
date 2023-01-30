@@ -31,6 +31,7 @@ export default function AddPostPage({ navigation }) {
       uri: image,
       type: 'image/jpg',
     });
+
     formData.append('text', text);
 
     try {
@@ -51,8 +52,10 @@ export default function AddPostPage({ navigation }) {
       <Formik
         initialValues={{ text: '' }}
         onSubmit={(values, { resetForm }) => {
+
           uploadImage(values.text);
           setImage('');
+
           resetForm({ values: '' });
         }}
       >

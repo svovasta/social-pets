@@ -11,7 +11,7 @@ const imagesPath = './img/postsImages';
 
 const postsStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log('FILE =======>', file);
+    // console.log('FILE =======>', file);
     cb(null, imagesPath);
   },
 
@@ -45,7 +45,7 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const { text, image } = req.body;
-      console.log('REQ BODY--->', req.body);
+      // console.log('REQ BODY--->', req.body);
       await Post.create({
         text, image, userId: req.session.user.id,
       });

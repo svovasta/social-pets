@@ -1,7 +1,7 @@
 import {
   StyleSheet, Text, View,
   Modal,
-  TouchableOpacity, Button, RefreshControl,
+  TouchableOpacity, Button, Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -22,9 +22,12 @@ export default function HealthPage() {
 
   const checkups = useSelector((s) => s.checkups);
 
-  useEffect(() => {
-    getCheckupsActon();
-  }, []);
+  // const user = useSelector((s) => s.user);
+
+  // useEffect(() => {
+  //   getCheckupsActon();
+  //   Alert.alert('VOILA');
+  // }, [user]);
 
   const newData = checkups.reduce((acc, curr) => {
     const { date, name, description } = curr;
@@ -91,12 +94,11 @@ export default function HealthPage() {
     // >
     <>
 
-
       <Agenda
         selected={new Date()}
         loadItemsForMonth={loadItems}
         maxDate="2023-12-31"
-        minDate="2010-12-31"
+        minDate="2020-12-31"
         items={items}
         renderItem={renderItem}
         onDayPress={(res) => {

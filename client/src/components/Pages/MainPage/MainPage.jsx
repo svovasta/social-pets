@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  StyleSheet, SafeAreaView, FlatList, RefreshControl, Image,
+  StyleSheet, SafeAreaView, FlatList, RefreshControl, Image, Text, Button,
 } from 'react-native';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { getPostsAction } from '../../../redux/Slices/postsSlice';
 import { gStyle } from '../../../styles/styles';
 import PostCard from '../../UI/PostCard';
 import { findUserAction } from '../../../redux/Slices/userSlice';
+import { getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
 
 export default function MainPage({ navigation }) {
   const user = useSelector((state) => state.user);
@@ -47,7 +49,7 @@ export default function MainPage({ navigation }) {
           <PostCard post={item} />
         )}
       />
-
+      <Button title="followers" onPress={() => navigation.navigate('FollowersPage')} />
     </SafeAreaView>
   );
 }

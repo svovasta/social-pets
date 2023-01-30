@@ -12,8 +12,10 @@ export default function FavouritesPage() {
   const [refreshing, setRefreshing] = useState(false);
   const faves = useSelector((s) => s.faves);
   const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+
 
   useEffect(() => {
     console.log('====================================');
