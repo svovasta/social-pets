@@ -49,6 +49,7 @@ export default function AddPostPage({ navigation }) {
           'Content-Type': 'multipart/form-data',
         },
       });
+      navigation.navigate('HomeScreen');
     } catch (error) {
       console.log(error.message);
     }
@@ -57,14 +58,14 @@ export default function AddPostPage({ navigation }) {
   return (
     <SafeAreaView style={gStyle.main}>
       <Formik
-        initialValues={{ text: '', image }}
+        initialValues={{ text: '', image: '' }}
         onSubmit={(values, { resetForm }) => {
+          uploadImage();
           console.log('---------   ', values);
           console.log('+++++++++   ', image);
-          uploadImage();
           // dispatch(addPostAction(values));
-          navigation.navigate('HomeScreen');
           resetForm({ values: '' });
+          // navigation.navigate('HomeScreen');
         }}
       >
         {(props) => (

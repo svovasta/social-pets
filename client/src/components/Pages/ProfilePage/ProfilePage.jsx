@@ -28,7 +28,11 @@ export default function ProfilePage({ navigation }) {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    setChangeAvatarStatus(!changeAvatarStatus);
+    console.log('avatar--->', avatar);
+    if (avatar.length) {
+      console.log('changeAvatarStatus--->', changeAvatarStatus);
+      setChangeAvatarStatus(!changeAvatarStatus);
+    }
   }, [avatar]);
 
   useEffect(() => {
@@ -84,7 +88,12 @@ export default function ProfilePage({ navigation }) {
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.profileRow}>
           <View>
-            <TouchableOpacity onPress={pickImage} onLongPress={() => setShowModal(true)}>
+            <TouchableOpacity
+              onPress={
+              pickImage
+}
+              onLongPress={() => setShowModal(true)}
+            >
               <Image
                 style={styles.avatar}
                 source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
@@ -122,7 +131,10 @@ export default function ProfilePage({ navigation }) {
             {changeAvatarStatus && (
             <Button
               title="Save changes"
-              onPress={uploadImage}
+              onPress={() => {
+                uploadImage();
+                setAvatar('');
+              }}
             />
             )}
 
