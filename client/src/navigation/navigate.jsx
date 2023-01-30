@@ -14,9 +14,10 @@ import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationP
 
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
-import HealthPage from '../components/Pages/HealthPage';
-import DiscussionsPage from '../components/Pages/DiscussionsPage';
 
+import HealthPage from '../components/Pages/HealthPage';
+import AllDiscussionsPage from '../components/Pages/AllDiscussionsPage';
+import DiscussionPage from '../components/Pages/DiscussionPage';
 import { userCheckAction } from '../redux/Slices/userSlice';
 
 // Screens names
@@ -28,7 +29,7 @@ const healthPage = 'Health';
 
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
-const discussionPage = 'Discussions';
+const allDiscussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -50,7 +51,7 @@ export default function BottomTabNavigator() {
               iconName = focused ? 'home' : 'home-outline';
               return <Ionicons name={iconName} size={size} color={color} />;
             }
-            if (rn === discussionPage) {
+            if (rn === allDiscussionPage) {
               iconName = focused ? 'chatbox' : 'chatbox-outline';
               return <Ionicons name={iconName} size={size} color={color} />;
             }
@@ -81,7 +82,7 @@ export default function BottomTabNavigator() {
             />
             <BottomTab.Screen
               name="Discussions"
-              component={DiscussionNavigator}
+              component={AllDiscussionNavigator}
             />
             <BottomTab.Screen
               name="Post"
@@ -135,12 +136,17 @@ function HomeNavigator() {
 
 const DiscussionStack = createStackNavigator();
 
-function DiscussionNavigator() {
+function AllDiscussionNavigator() {
   return (
-    <DiscussionStack.Navigator initialRouteName="Discussions">
+    <DiscussionStack.Navigator initialRouteName="AllDiscussions">
       <DiscussionStack.Screen
-        name="Discussinos"
-        component={DiscussionsPage}
+        name="AllDiscussinos"
+        component={AllDiscussionsPage}
+        options={{ headerShown: false }}
+      />
+      <DiscussionStack.Screen
+        name="Discussion"
+        component={DiscussionPage}
         options={{ headerShown: false }}
       />
     </DiscussionStack.Navigator>

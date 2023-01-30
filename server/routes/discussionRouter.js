@@ -1,5 +1,5 @@
 const express = require('express');
-const { Discussion } = require('../db/models');
+const { Discussion,Message } = require('../db/models');
 
 const router = express.Router();
 
@@ -15,4 +15,7 @@ router.post('/add', async (req, res) => {
   res.json(newDiscussion);
 });
 
+router.get('/messages/', async (req, res) => {
+const allDiscussions = await Message.findAll({})
+});
 module.exports = router;

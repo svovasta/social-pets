@@ -3,6 +3,7 @@ import postsReducer from './Slices/postsSlice';
 import userReducer from './Slices/userSlice';
 import checkUpReducer from './Slices/checkUpSlice';
 import discussionsReducer from './Slices/discussionsSlice';
+import messagesReeducer from './Slices/messageSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     posts: postsReducer,
     checkups: checkUpReducer,
     discussions: discussionsReducer,
+    messages: messagesReeducer,
   },
 });
 

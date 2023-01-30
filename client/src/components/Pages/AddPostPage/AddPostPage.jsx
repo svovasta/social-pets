@@ -58,12 +58,12 @@ export default function AddPostPage({ navigation }) {
       <Formik
         initialValues={{ image: '', text: '' }}
         onSubmit={(values, { resetForm }) => {
-          // dispatch(addPostAction(values));
-          console.log(values);
-          console.log('====================================');
-          console.log(image);
-          console.log('====================================');
-          // navigation.navigate('HomeScreen');
+          dispatch(addPostAction(values));
+          // console.log(values);
+          // console.log('====================================');
+          // console.log(image);
+          // console.log('====================================');
+          navigation.navigate('HomeScreen');
           resetForm({ values: '' });
         }}
       >
@@ -91,12 +91,12 @@ export default function AddPostPage({ navigation }) {
                 {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 20 }} />}
               </View>
             </View>
-            {/* <TextInput
+            <TextInput
               style={gStyle.input}
               value={props.values.image}
               onChangeText={props.handleChange('image')}
               placeholder="Вставьте URL ссылку на изображение"
-            /> */}
+            />
             <TextInput
               style={gStyle.input}
               value={props.values.text}
