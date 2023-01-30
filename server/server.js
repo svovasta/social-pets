@@ -40,6 +40,6 @@ app.use(
 app.use('/user', userRouter);
 app.use('/posts', postsRouter);
 app.use('/api/v1', apiRouter);
-app.use('/discussins', discussionsRouter);
+app.use('/discussions', discussionsRouter);
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`));

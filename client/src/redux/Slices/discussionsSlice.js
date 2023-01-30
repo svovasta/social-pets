@@ -22,7 +22,7 @@ export const { getDiscussions, addDiscussion, deleteDiscussion } = discussionSli
 export default discussionSlice.reducer;
 
 export const getDiscussionsAction = () => (dispatch) => {
-  axios('')
+  axios('/discussions/')
     .then((resp) => dispatch(getDiscussions(resp.data)))
     .catch(console.log());
 };

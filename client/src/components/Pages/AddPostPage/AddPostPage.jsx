@@ -1,59 +1,144 @@
 import React, { useState } from 'react';
 import {
-  TextInput, View, StyleSheet, Button, TouchableOpacity,
+  TextInput, SafeAreaView, StyleSheet, Button, Image, View,
 } from 'react-native';
 import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 import { addPostAction } from '../../../redux/Slices/postsSlice';
+import { gStyle } from '../../../styles/styles';
+import pic from '../../../../assets/dog.png';
 
 export default function AddPostPage({ navigation }) {
   const dispatch = useDispatch();
 
+  const [image, setImage] = useState('');
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('image', {
+      name: `${new Date().getTime()}`,
+      uri: image,
+      type: 'image/jpg',
+    });
+
+    console.log('====================================');
+    console.log(formData);
+    console.log('====================================');
+
+    try {
+      const uploadRes = await axios.post('/posts/upload-image', formData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-
-    <Formik
-      initialValues={{ image: '', text: '' }}
-      onSubmit={(values) => {
-        dispatch(addPostAction(values));
-        console.log(values);
-        navigation.navigate('Main');
-      }}
-    >
-      {(props) => (
-        <View>
-          <TextInput
-            style={styles.input}
-            value={props.values.image}
-            onChangeText={props.handleChange('image')}
-            placeholder="Выберите файл из галереи"
-          />
-          <TextInput
-            style={styles.input}
-            value={props.values.text}
-            // multiline
-            onChangeText={props.handleChange('text')}
-            placeholder="Текст поста"
-          />
-          <Button
-            title="Добавить пост"
-            onPress={props.handleSubmit}
-          />
-        </View>
-
-      )}
-    </Formik>
+    <SafeAreaView style={gStyle.main}>
+      <Formik
+        initialValues={{ text: '', image: '' }}
+        onSubmit={(values, { resetForm }) => {
+          uploadImage();
+          console.log('---------   ', values);
+          console.log('+++++++++   ', image);
+          // dispatch(addPostAction(values));
+          resetForm({ values: '' });
+          // navigation.navigate('HomeScreen');
+        }}
+      >
+        {(props) => (
+          <View>
+            <View style={{ position: 'relative' }}>
+              {/* <TextInput
+                style={gStyle.input}
+                value={props.values.text}
+                onChangeText={props.handleChange('text')}
+                placeholder="Выберите фото"
+              /> */}
+              <View style={[gStyle.btn, {
+                width: 125, marginTop: 30,
+              }]}
+              >
+                <Button title="Pick photo" onPress={pickImage} />
+              </View>
+            </View>
+            <View
+              value={props.values.image}
+              style={{ alignItems: 'center', justifyContent: 'center' }}
+            >
+              <View>
+                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 20 }} />}
+              </View>
+            </View>
+            {/* <TextInput
+              style={gStyle.input}
+              value={props.values.image}
+              onChangeText={props.handleChange('image')}
+              placeholder="Вставьте URL ссылку на изображение"
+            /> */}
+            <TextInput
+              style={gStyle.input}
+              value={props.values.text}
+              // multiline
+              onChangeText={props.handleChange('text')}
+              placeholder="Post text"
+            />
+            <View style={[gStyle.btn, { width: 120 }]}>
+              <Button
+                title="Add post"
+                onPress={props.handleSubmit}
+              />
+            </View>
+            <Image source={pic} style={styles.pic} />
+          </View>
+        )}
+      </Formik>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  input: {
+  uploadContainer: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnStyle: {
+    height: 48,
+    width: '30%',
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
-    padding: 15,
-    marginVertical: 30,
-    marginHorizontal: '20%',
-    width: '60%',
-    borderColor: 'silver',
-    borderRadius: 5,
+    backgroundColor: 'rgba(0, 249, 166, 1)',
+  },
+  pic: {
+    width: 150,
+    height: 300,
+    marginTop: 20,
+    marginLeft: 'auto',
+    marginRight: 20,
   },
 });

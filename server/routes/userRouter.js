@@ -1,8 +1,48 @@
 const express = require('express');
+const multer = require('multer');
 const bcrypt = require('bcrypt');
-const { User } = require('../db/models');
+const {
+  User, Post,
+} = require('../db/models');
 
 const router = express.Router();
+
+const avatarsPath = './img/usersAvatars';
+
+const avatarsStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, avatarsPath);
+  },
+
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, `${file.originalname}.jpg`);
+  },
+});
+
+const avatarsUpload = multer({ storage: avatarsStorage });
+
+router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) => {
+  console.log('REQ FILE--->', req.file);
+  const userId = req.session.user.id;
+  const user = await User.findByPk(userId);
+  user.avatar = req.file.path;
+  user.save();
+  res.sendStatus(200);
+});
+
+router.get('/img/usersAvatars/:name.jpg', (req, res) => {
+  const { name } = req.params;
+  res.sendFile(`/Users/zarinaromanova/Desktop/Elbrus/social-pets/server/img/usersAvatars/${name}.jpg`);
+});
+
+router.get('/', async (req, res) => {
+  const user = await User.findOne({
+    where: { id: req.session.user.id },
+    include: Post,
+  });
+  res.json(user);
+});
 
 router.post('/signup', async (req, res) => {
   try {
@@ -10,7 +50,7 @@ router.post('/signup', async (req, res) => {
       name, email, password,
     } = req.body;
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Заполните все поля' });
+      return res.status(400).json({ message: 'All fields must be filled' });
     }
     const pass = await bcrypt.hash(password, 2);
     const [currUser, isCreated] = await User.findOrCreate({
@@ -31,11 +71,11 @@ router.post('/signup', async (req, res) => {
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ message: 'Заполните все поля' });
+    return res.status(400).json({ message: 'All fields must be filled' });
   }
   const user = await User.findOne({ where: { email } });
   if (!user) {
-    return res.status(400).json({ message: 'Wrong login' });
+    return res.status(400).json({ message: "User with this email doesn't exist" });
   }
   const compare = await bcrypt.compare(password, user.pass);
   if (compare) {

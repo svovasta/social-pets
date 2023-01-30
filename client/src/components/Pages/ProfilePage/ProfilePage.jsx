@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Button, Image, Text, View, StyleSheet, Touchable,
+  Button, Image, Text, View, SafeAreaView, StyleSheet, ScrollView, RefreshControl, Modal, Pressable,
 } from 'react-native';
 import { Feather, Octicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 import PhotoCard from '../../UI/PhotoCard';
-import { userLogoutAction } from '../../../redux/Slices/userSlice';
+import { userLogoutAction, findUserAction } from '../../../redux/Slices/userSlice';
+import { gStyle } from '../../../styles/styles';
+import defaultAvatar from '../../../../assets/defaultavatar.png';
 
 export default function ProfilePage({ navigation }) {
   const photos = [{ img: 'https://static01.nyt.com/images/2022/11/29/science/00tb-cats1/00tb-cats1-mediumSquareAt3X.jpg' },
@@ -17,51 +21,159 @@ export default function ProfilePage({ navigation }) {
     { img: 'https://media.wired.com/photos/5932599a26780e6c04d2b1a7/master/w_2560%2Cc_limit/rat1.jpg' }];
 
   const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [avatar, setAvatar] = useState('');
+  const [changeAvatarStatus, setChangeAvatarStatus] = useState(false);
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    console.log('avatar--->', avatar);
+    if (avatar.length) {
+      console.log('changeAvatarStatus--->', changeAvatarStatus);
+      setChangeAvatarStatus(!changeAvatarStatus);
+    }
+  }, [avatar]);
+
+  useEffect(() => {
+    dispatch(findUserAction());
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(findUserAction());
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setAvatar(result.assets[0].uri);
+    }
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append('avatar', {
+      name: `${new Date().getTime()}`,
+      uri: avatar,
+      type: 'image/jpg',
+    });
+
+    try {
+      const uploadRes = await axios.post('/user/upload-avatar', formData, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setChangeAvatarStatus(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
-    <>
-      <View style={styles.profileRow}>
-        <View>
-          <Image
-            style={styles.avatar}
-            source={(require('../../../../assets/favicon.png'))}
-          />
+    <SafeAreaView style={gStyle.main}>
+      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <View style={styles.profileRow}>
+          <View>
+            <TouchableOpacity
+              onPress={
+              pickImage
+}
+              onLongPress={() => setShowModal(true)}
+            >
+              <Image
+                style={styles.avatar}
+                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
+              />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.profileText}>
+            {user?.Posts?.length}
+            {'\n'}
+            {user?.Posts?.length % 10 === 1 ? (
+              <Text>
+                Post
+              </Text>
+            )
+              : (
+                <Text>
+                  Posts
+                </Text>
+              )}
+          </Text>
+          <Text style={styles.profileText}>
+            15
+            {'\n'}
+            Comments
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen')}>
+            <Feather style={{ marginRight: 10, marginTop: 5 }} name="settings" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => dispatch(userLogoutAction())}>
+            <Octicons name="sign-out" size={24} color="black" style={{ marginRight: 10, marginTop: 5 }} />
+          </TouchableOpacity>
         </View>
+        <View>
+          <View style={{ alignItems: 'flex-start' }}>
+            {changeAvatarStatus && (
+            <Button
+              title="Save changes"
+              onPress={() => {
+                uploadImage();
+                setAvatar('');
+              }}
+            />
+            )}
 
-        <Text style={styles.profileText}>
-          15
-          {'\n'}
-          Posts
-        </Text>
-        <Text style={styles.profileText}>
-          15
-          {'\n'}
-          Comments
-        </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
-          <Feather style={{ marginRight: 20, marginTop: 5 }} name="settings" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => dispatch(userLogoutAction())}>
-          <Octicons name="sign-out" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-
-      <View>
-        <Text style={{ margin: 10, fontSize: 20 }}>C'est moi</Text>
-        <Text style={{ marginLeft: 10, fontSize: 20 }}>Bio</Text>
-      </View>
-
-      <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-        <Button title="My Posts" />
-        <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} />
-      </View>
-
-      <View style={styles.posts}>
-        {photos.map((el) => <PhotoCard key={photos.indexOf(el)} photo={el} />)}
-      </View>
-
-      <View />
-    </>
+          </View>
+          <Text style={{ margin: 10, fontSize: 20 }}>{user.name}</Text>
+          <Text style={{ marginLeft: 10, fontSize: 20 }}>Bio</Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Button title="My Posts" />
+          <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} />
+        </View>
+        <View style={styles.posts}>
+          {photos.map((el) => <PhotoCard key={photos.indexOf(el)} photo={el} />)}
+        </View>
+        <View />
+      </ScrollView>
+      <SafeAreaView style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={showModal}
+          onRequestClose={() => {
+            setShowModal(false);
+          }}
+        >
+          <SafeAreaView style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Image source={{ uri: avatar || defaultAvatar }} style={{ width: 400, height: 400, marginBottom: 20 }} />
+              <Pressable
+                style={[gStyle.btn, styles.buttonClose]}
+                onPress={() => setShowModal(false)}
+              >
+                <Text style={styles.textStyle}>Hide</Text>
+              </Pressable>
+            </View>
+          </SafeAreaView>
+        </Modal>
+      </SafeAreaView>
+    </SafeAreaView>
   );
 }
 
@@ -71,6 +183,20 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 50,
   },
+  buttonClose: {
+    width: 70,
+  },
+  centeredView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgb(216, 227, 232)',
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
   profileText: {
     fontSize: 20,
     justifyContent: 'center',
@@ -78,14 +204,15 @@ const styles = StyleSheet.create({
   },
   profileRow: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 20,
     justifyContent: 'space-around',
   },
   profileInfo: {
     margin: 20,
   },
   posts: {
-    display: 'flex',
+    marginLeft: '3%',
+    marginRight: 'auto',
     flexDirection: 'row',
     flexWrap: 'wrap',
   },

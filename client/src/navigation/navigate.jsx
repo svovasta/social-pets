@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons, Octicons } from '@expo/vector-icons';
+import { Ionicons, Octicons, MaterialIcons } from '@expo/vector-icons';
 // Screens
 import { useDispatch, useSelector } from 'react-redux';
 import MainPage from '../components/Pages/MainPage';
@@ -27,10 +27,11 @@ const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
+const postPage = 'PostPage';
 
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
-
+const discussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -51,12 +52,17 @@ export default function BottomTabNavigator() {
             if (rn === mainPage) {
               iconName = focused ? 'home' : 'home-outline';
               return <Ionicons name={iconName} size={size} color={color} />;
-            } if (rn === addPostPage) {
+            }
+            if (rn === discussionPage) {
+              iconName = focused ? 'chatbox' : 'chatbox-outline';
+              return <Ionicons name={iconName} size={size} color={color} />;
+            }
+            if (rn === addPostPage) {
               iconName = focused ? 'add' : 'add';
               return <Ionicons name={iconName} size={size} color={color} />;
             } if (rn === profilePage) {
-              iconName = focused ? 'person-circle-sharp' : 'person-circle-outline';
-              return <Ionicons name={iconName} size={size} color={color} />;
+              iconName = focused ? 'pets' : 'pets';
+              return <MaterialIcons name={iconName} size={size} color={color} />;
             }
             if (rn === healthPage) {
               iconName = focused ? 'md-medical' : 'md-medical';
@@ -66,7 +72,6 @@ export default function BottomTabNavigator() {
               iconName = focused ? 'sign-in' : 'sign-in';
               return <Octicons name={iconName} size={size} color={color} />;
             }
-            return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
       >
@@ -75,31 +80,34 @@ export default function BottomTabNavigator() {
             <BottomTab.Screen
               name="Home"
               component={HomeNavigator}
+              options={{ headerShown: false }}
+            />
+            <BottomTab.Screen
+              name="Discussions"
+              component={DiscussionNavigator}
             />
             <BottomTab.Screen
               name="Post"
               component={AddPostNavigator}
+              options={{ headerShown: false }}
             />
             <BottomTab.Screen
               name="Health"
               component={HealthNavigator}
+              options={{ headerShown: false }}
             />
             <BottomTab.Screen
               name="Profile"
               component={ProfileNavigator}
+              options={{ headerShown: false }}
             />
           </>
         ) : (
-          <>
-            <BottomTab.Screen
-              name="Home"
-              component={HomeNavigator}
-            />
-            <BottomTab.Screen
-              name="Sign In"
-              component={SignInNavigator}
-            />
-          </>
+          <BottomTab.Screen
+            name="Sign In"
+            component={SignInNavigator}
+            options={{ headerShown: false }}
+          />
         )}
 
       </BottomTab.Navigator>
@@ -126,6 +134,19 @@ function HomeNavigator() {
   );
 }
 
+const DiscussionStack = createStackNavigator();
+
+function DiscussionNavigator() {
+  return (
+    <DiscussionStack.Navigator initialRouteName="Discussions">
+      <DiscussionStack.Screen
+        name="Discussinos"
+        component={DiscussionsPage}
+        options={{ headerShown: false }}
+      />
+    </DiscussionStack.Navigator>
+  );
+}
 const AddPostStack = createStackNavigator();
 
 function AddPostNavigator() {
@@ -135,6 +156,7 @@ function AddPostNavigator() {
         name="AddPostScreen"
         component={AddPostPage}
         options={{ headerShown: false }}
+
       />
     </AddPostStack.Navigator>
   );
@@ -167,6 +189,12 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="FavouritesScreen"
         component={FavouritesPage}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditProfileScreen"
+        component={EditProfile}
+
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>
