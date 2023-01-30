@@ -50,7 +50,7 @@ router.post('/signup', async (req, res) => {
       name, email, password,
     } = req.body;
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Заполните все поля' });
+      return res.status(400).json({ message: 'All fields must be filled' });
     }
     const pass = await bcrypt.hash(password, 2);
     const [currUser, isCreated] = await User.findOrCreate({
@@ -71,11 +71,11 @@ router.post('/signup', async (req, res) => {
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ message: 'Заполните все поля' });
+    return res.status(400).json({ message: 'All fields must be filled' });
   }
   const user = await User.findOne({ where: { email } });
   if (!user) {
-    return res.status(400).json({ message: 'Wrong login' });
+    return res.status(400).json({ message: "User with this email doesn't exist" });
   }
   const compare = await bcrypt.compare(password, user.password);
   if (compare) {

@@ -12,9 +12,6 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCheckupAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
 
-import { TextInput } from 'react-native-gesture-handler';
-
-
 export default function HealthPage() {
   const [showModal, setShowModal] = useState(false);
   const [items, setItems] = useState({});
@@ -86,7 +83,6 @@ export default function HealthPage() {
     </TouchableOpacity>
   );
 
-
   return (
     // <ScrollView
     //   refreshControl={
@@ -94,8 +90,6 @@ export default function HealthPage() {
     //     }
     // >
     <>
-
-    <SafeAreaView style={{ flex: 1 }}>
 
       <Agenda
         selected={new Date()}
@@ -166,7 +160,6 @@ export default function HealthPage() {
         </Formik>
       </Modal>
     </>
-  // </ScrollView>
   );
 }
 

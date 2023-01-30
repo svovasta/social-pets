@@ -27,10 +27,12 @@ export default function ProfilePage({ navigation }) {
   const [changeAvatarStatus, setChangeAvatarStatus] = useState(false);
   const user = useSelector((state) => state.user);
 
-  console.log('changeAvatarStatus--->', changeAvatarStatus);
-
   useEffect(() => {
-    setChangeAvatarStatus(!changeAvatarStatus);
+    console.log('avatar--->', avatar);
+    if (avatar.length) {
+      console.log('changeAvatarStatus--->', changeAvatarStatus);
+      setChangeAvatarStatus(!changeAvatarStatus);
+    }
   }, [avatar]);
 
   useEffect(() => {
@@ -45,7 +47,6 @@ export default function ProfilePage({ navigation }) {
     }, 1500);
   }, []);
 
-
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -55,7 +56,6 @@ export default function ProfilePage({ navigation }) {
     });
 
     console.log(result);
-
 
     if (!result.canceled) {
       setAvatar(result.assets[0].uri);
@@ -88,14 +88,16 @@ export default function ProfilePage({ navigation }) {
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.profileRow}>
           <View>
-            <TouchableOpacity onPress={pickImage} onLongPress={() => setShowModal(true)}>
-              {avatar ? (
-                <Image source={{ uri: avatar }} style={styles.avatar} />) : (
-                  <Image
-                    style={styles.avatar}
-                    source={{ uri: `http://192.168.3.127:3001/user/${user.avatar}` || defaultAvatar }}
-                  />
-              )}
+            <TouchableOpacity
+              onPress={
+              pickImage
+}
+              onLongPress={() => setShowModal(true)}
+            >
+              <Image
+                style={styles.avatar}
+                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
+              />
             </TouchableOpacity>
           </View>
           <Text style={styles.profileText}>
@@ -129,7 +131,10 @@ export default function ProfilePage({ navigation }) {
             {changeAvatarStatus && (
             <Button
               title="Save changes"
-              onPress={uploadImage}
+              onPress={() => {
+                uploadImage();
+                setAvatar('');
+              }}
             />
             )}
 
