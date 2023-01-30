@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button } from '@ui-kitten/components';
 import React from 'react';
 import {
+  Alert,
   Image, StyleSheet, Text, View,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -20,7 +21,7 @@ export default function PhotoCard({ photo }) {
       <TouchableOpacity onPress={() => navigation.navigate('PostPage')}>
         <Image
           style={styles.photo}
-          source={{ uri: photo.img }}
+          source={{ uri: `http://localhost:3001/posts/${photo.Post?.image}` }}
         />
       </TouchableOpacity>
     </View>

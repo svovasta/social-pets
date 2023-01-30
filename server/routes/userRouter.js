@@ -33,7 +33,7 @@ router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) =
 
 router.get('/img/usersAvatars/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/home/vova/ElbrusFinalProject/SocialPets/server/img/usersAvatars/${name}.jpg`);
+  res.sendFile(`/Users/zarinaromanova/Desktop/Elbrus/social-pets/server/img/usersAvatars/${name}.jpg`);
 });
 
 router.get('/', async (req, res) => {

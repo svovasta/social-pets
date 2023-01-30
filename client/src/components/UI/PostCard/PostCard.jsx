@@ -7,16 +7,23 @@ import {
 } from '@ui-kitten/components';
 import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import logo from '../../../../assets/corgi2.png';
-import { addFavesAction } from '../../../redux/Slices/postsSlice';
+import {
+  addFavesAction, deleteFave, deleteFavesAction, getFavesAction,
+} from '../../../redux/Slices/faveSlice';
 
 export default function PostCard({ post }) {
   const [postLikes, setPostLikes] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
-  const [added, setAdded] = useState(false);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getFavesAction());
+  }, []);
+  const faves = useSelector((s) => s.faves);
+  console.log(faves);
 
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/posts/${postId}/likes`)
@@ -45,7 +52,7 @@ export default function PostCard({ post }) {
         <Text style={styles.username}>{post.User.name}</Text>
       </View>
       <View>
-        <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
+        <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
 
       </View>
 
@@ -81,12 +88,11 @@ export default function PostCard({ post }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.bookmark}
-            onPress={() => {
-              dispatch(addFavesAction(post.id));
-              setAdded(!added);
-            }}
+            onPress={() => (!faves.find((el) => el.postId === post.id)
+              ? dispatch(addFavesAction(post.id))
+              : dispatch(deleteFavesAction(post.id)))}
           >
-            <Feather name="bookmark" size={25} color={added ? 'red' : 'black'} />
+            <Feather name="bookmark" size={25} color={faves.find((el) => el.postId === post.id) ? 'red' : 'black'} />
           </TouchableOpacity>
         </View>
       </View>
