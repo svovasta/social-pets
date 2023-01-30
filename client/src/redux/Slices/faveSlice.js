@@ -8,12 +8,11 @@ const faveSlice = createSlice({
   reducers: {
     getFaves: (state, action) => action.payload,
     addFave: (state, action) => [...state, action.payload],
+    deleteFave: (state, action) => state.filter((el) => el.postId !== action.payload),
   },
 });
 
-export const {
-  getFaves, addFave,
-} = faveSlice.actions;
+export const { getFaves, addFave, deleteFave } = faveSlice.actions;
 
 export const getFavesAction = () => (dispatch) => {
   axios('/api/v1/favourites')
@@ -24,6 +23,12 @@ export const getFavesAction = () => (dispatch) => {
 export const addFavesAction = (id) => (dispatch) => {
   axios.post(`/api/v1/${id}/favourites`)
     .then((res) => dispatch(addFave(res.data)))
+    .catch(console.log);
+};
+
+export const deleteFavesAction = (id) => (dispatch) => {
+  axios.delete(`/api/v1/${id}/favourites/del`)
+    .then((res) => dispatch(deleteFave(res.data)))
     .catch(console.log);
 };
 

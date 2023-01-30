@@ -38,7 +38,7 @@ router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
 
 router.get('/img/postsImages/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/home/vova/ElbrusFinalProject/SocialPets/server/img/postsImages/${name}.jpg`);
+  res.sendFile(`/Users/zarinaromanova/Desktop/Elbrus/social-pets/server/img/postsImages/${name}.jpg`);
 });
 
 router.route('/')

@@ -46,12 +46,4 @@ export const getPersonalPostsAction = () => (dispatch) => {
   axios('/api/v1/posts').then((res) => dispatch(getPosts(res.data)));
 };
 
-export const getFavesAction = () => (dispatch) => {
-  axios('/api/v1/favourites').then((res) => dispatch(favePosts(res.data)));
-};
-
-export const addFavesAction = (id) => (dispatch) => {
-  axios(`/api/v1/${id}/favourites`).then((res) => dispatch(addFave(res.data)));
-};
-
 export default postsSlice.reducer;

@@ -1,22 +1,48 @@
 import {
-  StyleSheet, Text, View, SafeAreaView,
+  StyleSheet, Text, View, SafeAreaView, RefreshControl, ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PhotoCard from '../../UI/PhotoCard';
 import { gStyle } from '../../../styles/styles';
+import { getFavesAction } from '../../../redux/Slices/faveSlice';
 
 export default function FavouritesPage() {
-  const faves = [{ img: 'https://static01.nyt.com/images/2022/11/29/science/00tb-cats1/00tb-cats1-mediumSquareAt3X.jpg' },
-    { img: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1144982182.jpg?crop=0.669xw:1.00xh;0.166xw,0&resize=1200:*' },
-    { img: 'https://static01.nyt.com/images/2021/09/14/science/07CAT-STRIPES/07CAT-STRIPES-mediumSquareAt3X-v2.jpg' }];
+  const [refreshing, setRefreshing] = useState(false);
+  const faves = useSelector((s) => s.faves);
+  const dispatch = useDispatch();
+
+  console.log(faves);
+
+  useEffect(() => {
+    dispatch(getFavesAction());
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(getFavesAction());
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
   return (
-    <SafeAreaView style={[gStyle.main]}>
-      <Text style={[gStyle.gText, { textAlign: 'center', fontSize: 24 }]}>
-        Favourite Posts
-      </Text>
-      <View style={styles.posts}>
-        {faves.map((el) => <PhotoCard key={faves.indexOf(el)} photo={el} />)}
-      </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      >
+
+        <Text style={[gStyle.gText, { textAlign: 'center', fontSize: 24 }]}>
+          Favourite Posts
+        </Text>
+        <View style={styles.posts}>
+          {faves?.map((el) => <PhotoCard key={el.id} photo={el} />)}
+        </View>
+
+      </ScrollView>
     </SafeAreaView>
   );
 }
