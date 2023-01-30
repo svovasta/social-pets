@@ -9,14 +9,14 @@ import { gStyle } from '../../../styles/styles';
 import cat from '../../../../assets/cat.png';
 
 export default function LoginPage({ navigation }) {
-  const [error, setError] = useState('');
   const dispatch = useDispatch();
   return (
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
         initialValues={{ email: '', password: '' }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           dispatch(loginAction(values));
+          resetForm({ values: '' });
         }}
       >
         {(props) => (
@@ -70,11 +70,6 @@ export default function LoginPage({ navigation }) {
           </View>
         )}
       </Formik>
-      <View>
-        <Text>
-          Hello
-        </Text>
-      </View>
     </SafeAreaView>
   );
 }

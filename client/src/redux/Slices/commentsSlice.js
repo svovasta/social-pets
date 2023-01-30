@@ -18,13 +18,13 @@ export const {
 } = commentsSlice.actions;
 
 export const getCommentsAction = (PostId) => (dispatch) => {
-  axios(`/:${PostId}/comments`)
+  axios(`/posts/${PostId}/comments`)
     .then((res) => dispatch(getComments(res.data)))
     .catch(console.log);
 };
 
 export const addCommentAction = (PostId, input) => (dispatch) => {
-  axios.post(`/:${PostId}/comments`, input)
+  axios.post(`/posts/${PostId}/comments`, { text: input })
     .then((res) => {
       dispatch(addComment(res.data))
         .catch(console.log);

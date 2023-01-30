@@ -3,16 +3,12 @@ import {
   TextInput, SafeAreaView, StyleSheet, Button, Image, View,
 } from 'react-native';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import { addPostAction } from '../../../redux/Slices/postsSlice';
 import { gStyle } from '../../../styles/styles';
 import pic from '../../../../assets/dog.png';
 
 export default function AddPostPage({ navigation }) {
-  const dispatch = useDispatch();
-
   const [image, setImage] = useState('');
 
   const pickImage = async () => {
@@ -23,24 +19,19 @@ export default function AddPostPage({ navigation }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
 
-  const uploadImage = async () => {
+  const uploadImage = async (text) => {
     const formData = new FormData();
     formData.append('image', {
       name: `${new Date().getTime()}`,
       uri: image,
       type: 'image/jpg',
     });
-
-    console.log('====================================');
-    console.log(formData);
-    console.log('====================================');
+    formData.append('text', text);
 
     try {
       const uploadRes = await axios.post('/posts/upload-image', formData, {
@@ -58,25 +49,16 @@ export default function AddPostPage({ navigation }) {
   return (
     <SafeAreaView style={gStyle.main}>
       <Formik
-        initialValues={{ text: '', image: '' }}
+        initialValues={{ text: '' }}
         onSubmit={(values, { resetForm }) => {
-          uploadImage();
-          console.log('---------   ', values);
-          console.log('+++++++++   ', image);
-          // dispatch(addPostAction(values));
+          uploadImage(values.text);
+          setImage('');
           resetForm({ values: '' });
-          // navigation.navigate('HomeScreen');
         }}
       >
         {(props) => (
           <View>
             <View style={{ position: 'relative' }}>
-              {/* <TextInput
-                style={gStyle.input}
-                value={props.values.text}
-                onChangeText={props.handleChange('text')}
-                placeholder="Выберите фото"
-              /> */}
               <View style={[gStyle.btn, {
                 width: 125, marginTop: 30,
               }]}
@@ -92,16 +74,9 @@ export default function AddPostPage({ navigation }) {
                 {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 20 }} />}
               </View>
             </View>
-            {/* <TextInput
-              style={gStyle.input}
-              value={props.values.image}
-              onChangeText={props.handleChange('image')}
-              placeholder="Вставьте URL ссылку на изображение"
-            /> */}
             <TextInput
               style={gStyle.input}
               value={props.values.text}
-              // multiline
               onChangeText={props.handleChange('text')}
               placeholder="Post text"
             />

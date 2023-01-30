@@ -26,7 +26,7 @@ import { userCheckAction } from '../redux/Slices/userSlice';
 const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
-const healthPage = 'Health';
+const healthPage = 'Notes';
 const postPage = 'PostPage';
 
 const loginPage = 'Sign In';
@@ -92,7 +92,7 @@ export default function BottomTabNavigator() {
               options={{ headerShown: false }}
             />
             <BottomTab.Screen
-              name="Health"
+              name="Notes"
               component={HealthNavigator}
               options={{ headerShown: false }}
             />

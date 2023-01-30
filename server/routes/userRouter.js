@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const path = require('path');
 const {
   User, Post,
 } = require('../db/models');
@@ -33,7 +34,7 @@ router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) =
 
 router.get('/img/usersAvatars/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/Users/zarinaromanova/Desktop/Elbrus/social-pets/server/img/usersAvatars/${name}.jpg`);
+  res.sendFile(path.join(__dirname, `../img/usersAvatars/${name}.jpg`));
 });
 
 router.get('/', async (req, res) => {
@@ -77,7 +78,7 @@ router.post('/signin', async (req, res) => {
   if (!user) {
     return res.status(400).json({ message: "User with this email doesn't exist" });
   }
-  const compare = await bcrypt.compare(password, user.pass);
+  const compare = await bcrypt.compare(password, user.password);
   if (compare) {
     req.session.user = { id: user.id, name: user.name };
   } else {

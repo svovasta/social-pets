@@ -6,6 +6,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const userRouter = require('./routes/userRouter');
 const postsRouter = require('./routes/postsRouter');
+const myPostsRouter = require('./routes/myPostsRouter');
 const apiRouter = require('./routes/apiRouter');
 const discussionsRouter = require('./routes/discussionRouter');
 
@@ -39,6 +40,7 @@ app.use(
 
 app.use('/user', userRouter);
 app.use('/posts', postsRouter);
+app.use('/my-posts', myPostsRouter);
 app.use('/api/v1', apiRouter);
 app.use('/discussions', discussionsRouter);
 
