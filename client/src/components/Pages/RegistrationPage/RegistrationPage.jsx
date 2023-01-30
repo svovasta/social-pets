@@ -14,8 +14,9 @@ export default function RegistrationPage() {
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
         initialValues={{ name: '', email: '', password: '' }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           dispatch(registrationAction(values));
+          resetForm({ values: '' });
         }}
       >
         {(props) => (

@@ -30,7 +30,6 @@ export default function MainPage({ navigation }) {
   }, []);
 
   useEffect(() => {
-    console.log('CALLLLLLED');
     dispatch(getPostsAction());
   }, [isFocused]);
 
