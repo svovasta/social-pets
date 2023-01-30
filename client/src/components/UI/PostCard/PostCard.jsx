@@ -82,9 +82,14 @@ export default function PostCard({ post }) {
               {postLikes.length}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
-          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={() => navigation.navigate(
+            'CommentsPage',
+            { activePost: activePostId },
+          )}
+        >
+          <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+        </TouchableOpacity>
           <TouchableOpacity
             style={styles.bookmark}
             onPress={() => (!faves.find((el) => el.postId === post.id)

@@ -9,7 +9,9 @@ import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
+import CommentsPage from '../components/Pages/CommentsPage/CommentsPage';
 import LoginPage from '../components/Pages/LoginPage';
+
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 
 import PostPage from '../components/Pages/PostPage';
@@ -121,6 +123,11 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeScreen"
         component={MainPage}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="CommentScreen"
+        component={CommentsPage}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
