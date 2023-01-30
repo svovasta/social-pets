@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const path = require('path');
 const {
   User, Post,
 } = require('../db/models');
@@ -33,7 +34,7 @@ router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) =
 
 router.get('/img/usersAvatars/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/home/vova/ElbrusFinalProject/SocialPets/server/img/usersAvatars/${name}.jpg`);
+  res.sendFile(path.join(__dirname, `../img/usersAvatars/${name}.jpg`));
 });
 
 router.get('/', async (req, res) => {
