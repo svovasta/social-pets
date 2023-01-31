@@ -9,11 +9,12 @@ import { Formik } from 'formik';
 
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
+import { Divider, List, ListItem } from '@ui-kitten/components';
 import { addCheckupAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
+import WelcomeNotes from '../WelcomeNotes';
 
 export default function HealthPage() {
   const [showModal, setShowModal] = useState(false);
-  const [items, setItems] = useState({});
   const [dates, setDate] = useState(new Date());
   const [refreshing, setRefreshing] = useState(false);
 
@@ -21,16 +22,15 @@ export default function HealthPage() {
 
   const checkups = useSelector((s) => s.checkups);
 
-  // const user = useSelector((s) => s.user);
-
-  // useEffect(() => {
-  //   getCheckupsActon();
-  //   Alert.alert('VOILA');
-  // }, [user]);
+  useEffect(() => {
+    dispatch(getCheckupsActon());
+  }, []);
 
   const newData = checkups.reduce((acc, curr) => {
-    const { date, name, description } = curr;
-    acc[date] = [{ name, description }];
+    const { date } = curr;
+    acc[date] = {
+      marked: true, selected: true, selectedColor: 'blue', dotColor: 'pink',
+    };
     return acc;
   }, {});
 
@@ -42,76 +42,43 @@ export default function HealthPage() {
     }, 2000);
   }, []);
 
-  const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  };
-
-  const loadItems = (day) => {
-    for (let i = -15; i < 85; i += 1) {
-      const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-      const strTime = timeToString(time);
-      if (!newData[strTime]) {
-        newData[strTime] = [];
-        newData[strTime].push({
-          name: newData.name,
-          description: newData.description,
-        });
-      }
-    }
-    const newItems = {};
-    Object.keys(newData).forEach((key) => {
-      newItems[key] = newData[key];
-    });
-    setItems(newItems);
-  };
-
-  const renderItem = (item) => (
-    <TouchableOpacity style={{ marginRight: 10, marginTop: 17 }}>
-      <View>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Text>{item.name}</Text>
-            <Text>{item.description}</Text>
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item }) => (
+    <ListItem
+      title={`${item.date.split('-').reverse().join('/')} ${item.name}`}
+      description={`${item.description}`}
+    />
 
   return (
-    // <ScrollView
-    //   refreshControl={
-    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    //     }
-    // >
     <>
-
-      <Agenda
-        selected={new Date()}
-        loadItemsForMonth={loadItems}
-        maxDate="2023-12-31"
-        minDate="2020-12-31"
-        items={items}
-        renderItem={renderItem}
-        onDayPress={(res) => {
-          setDate(res.dateString);
-          setShowModal(!showModal);
-        }}
-        theme={{
-          agendaDayTextColor: 'black',
-          agendaDayNumColor: 'black',
-          agendaTodayColor: 'red',
-          agendaKnobColor: 'blue',
-        }}
-      />
+      <View>
+        <Calendar
+          style={{ marginTop: 80 }}
+          minDate="2010-05-10"
+          maxDate="2060-05-30"
+          onDayPress={(res) => {
+            setDate(res.dateString);
+            setShowModal(!showModal);
+          }}
+          monthFormat="dd MM yyyy"
+          onMonthChange={(month) => {
+            console.log('month changed', month);
+          }}
+          firstDay={1}
+          onPressArrowLeft={(subtractMonth) => subtractMonth()}
+          onPressArrowRight={(addMonth) => addMonth()}
+          disableAllTouchEventsForDisabledDays
+          enableSwipeMonths
+          markingType="dot"
+          markedDates={newData}
+        />
+      </View>
       <Button title="Add" onPress={() => setShowModal(!showModal)} />
+
+      <List
+        data={checkups}
+        ItemSeparatorComponent={Divider}
+        renderItem={renderItem}
+      />
 
       <Modal
         animationType="slide"
