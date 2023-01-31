@@ -27,7 +27,6 @@ export default function PostCard({ post }) {
   const dispatch = useDispatch();
   const followers = useSelector((s) => s.followers);
 
-  console.log('------', followers);
   useEffect(() => {
     dispatch(getFavesAction());
   }, []);

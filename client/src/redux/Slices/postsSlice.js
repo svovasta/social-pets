@@ -34,11 +34,11 @@ export const addPostAction = (input) => (dispatch) => {
 };
 
 export const deletePostAction = (postId) => (dispatch) => {
-  axios.post(`/${postId}`).then(() => dispatch(deletePost())).catch(console.log);
+  axios.delete(`/posts/${postId}/post`).then(() => dispatch(deletePost())).catch(console.log);
 };
 
 export const editPostAction = (postId, input) => (dispatch) => {
-  axios.patch(`/${postId}`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
+  axios.patch(`/posts/${postId}/post`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
 };
 
 export default postsSlice.reducer;
