@@ -2,27 +2,32 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons, Octicons, MaterialIcons } from '@expo/vector-icons';
+import {
+  Ionicons, Octicons, MaterialIcons, MaterialCommunityIcons,
+} from '@expo/vector-icons';
 // Screens
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
+import CommentsPage from '../components/Pages/CommentsPage/CommentsPage';
 import LoginPage from '../components/Pages/LoginPage';
+
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
 import HealthPage from '../components/Pages/HealthPage';
 import AllDiscussionsPage from '../components/Pages/AllDiscussionsPage';
-import DiscussionPage from '../components/Pages/DiscussionPage';
 import { useAuth } from '../redux/Slices/userFirestormSlice';
+
+import FollowersPage from '../components/Pages/FollowersPage';
 
 // Screens names
 
 const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
-const healthPage = 'Health';
+const healthPage = 'Notes';
 const postPage = 'PostPage';
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
@@ -55,8 +60,8 @@ export default function BottomTabNavigator() {
               return <MaterialIcons name={iconName} size={size} color={color} />;
             }
             if (rn === healthPage) {
-              iconName = focused ? 'md-medical' : 'md-medical';
-              return <Ionicons name={iconName} size={size} color={color} />;
+              iconName = focused ? 'note-check' : 'note-check-outline';
+              return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
             }
             if (rn === loginPage) {
               iconName = focused ? 'sign-in' : 'sign-in';
@@ -82,7 +87,7 @@ export default function BottomTabNavigator() {
               options={{ headerShown: false }}
             />
             <BottomTab.Screen
-              name="Health"
+              name="Notes"
               component={HealthNavigator}
               options={{ headerShown: false }}
             />
@@ -112,6 +117,16 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeScreen"
         component={MainPage}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="CommentScreen"
+        component={CommentsPage}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="FollowersPage"
+        component={FollowersPage}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
@@ -183,6 +198,11 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="EditProfileScreen"
         component={EditProfile}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="OnePostScreen"
+        component={PostPage}
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>

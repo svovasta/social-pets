@@ -1,6 +1,9 @@
 const express = require('express');
 const multer = require('multer');
-const { User, Post, Like } = require('../db/models');
+const path = require('path');
+const {
+  User, Post, Like, Comment,
+} = require('../db/models');
 
 const router = express.Router();
 
@@ -8,7 +11,7 @@ const imagesPath = './img/postsImages';
 
 const postsStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log('FILE =======>', file);
+    // console.log('FILE =======>', file);
     cb(null, imagesPath);
   },
 
@@ -20,25 +23,18 @@ const postsStorage = multer.diskStorage({
 const postsUpload = multer({ storage: postsStorage });
 
 router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
-  console.log('REQ BODY--->', req.body);
-  console.log('REQ FILE--->', req.file);
-  // const { text } = req.body;
   const userId = req.session.user.id;
   const newPost = await Post.create({
-    // text,
+    text: req.body.text,
     image: req.file ? req.file.path : '',
     userId,
   });
-  // const sendPost = await Post.findOne({
-  //   where: { text, userId },
-  //   include: User,
-  // });
   res.json(newPost);
 });
 
 router.get('/img/postsImages/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/Users/zarinaromanova/Desktop/Elbrus/social-pets/server/img/postsImages/${name}.jpg`);
+  res.sendFile(path.join(__dirname, `../img/postsImages/${name}.jpg`));
 });
 
 router.route('/')
@@ -49,7 +45,7 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const { text, image } = req.body;
-      console.log('REQ BODY--->', req.body);
+      // console.log('REQ BODY--->', req.body);
       await Post.create({
         text, image, userId: req.session.user.id,
       });
@@ -63,11 +59,22 @@ router.route('/')
     }
   });
 
-router.route('/:id')
+router.route('/:id/post')
+  .get(async (req, res) => {
+    const onePost = await Post.findOne({
+      where: { id: req.params.id },
+      include: User,
+    });
+    res.json(onePost);
+  })
   .delete(async (req, res) => {
     await Post.destroy({ where: { id: req.params.id } });
+    await Comment.destroy({ where: { postId: req.params.id } });
     res.sendStatus(200);
-  })
+  });
+
+router.route('/:id')
+
   .patch(async (req, res) => {
     const { text, image } = req.body;
     const post = await Post.findOne({ where: { id: req.params.id } });
@@ -75,6 +82,25 @@ router.route('/:id')
     post.image = image;
     post.save();
     res.json(post);
+  });
+
+router.route('/:id/comments')
+  .get(async (req, res) => {
+    const allComments = await Comment.findAll({
+      where: { postId: req.params.id },
+      include: [User, Post],
+    });
+    res.json(allComments);
+  })
+  .post(async (req, res) => {
+    const { text } = req.body;
+    console.log('====================================');
+    console.log(text);
+    console.log('====================================');
+    const commit = await Comment.create({
+      text: req.body.text, userId: req.session.user.id, postId: req.params.id,
+    });
+    res.json(commit);
   });
 
 router.route('/:id/likes')
@@ -98,6 +124,7 @@ router.route('/:id/likes')
     const allLikesPlusOne = await Like.findAll({ where: { postId } });
     return res.json(allLikesPlusOne);
   });
+
 router.get('/:id/user/like', async (req, res) => {
   const userId = req.session.user.id;
   const postId = req.params.id;
@@ -106,7 +133,6 @@ router.get('/:id/user/like', async (req, res) => {
       userId, postId,
     },
   });
-  console.log(userLike);
   if (userLike) {
     return res.json({ message: 'yes' });
   } return res.json({ message: 'no' });

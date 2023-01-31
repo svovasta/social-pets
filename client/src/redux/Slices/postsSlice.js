@@ -10,8 +10,7 @@ const postsSlice = createSlice({
     addPost: (state, action) => [action.payload, ...state],
     deletePost: (state, action) => state.filter((el) => el.id !== action.payload),
     editPost: (state, action) => state.map((el) => (el.id === action.payload ? { ...el, text: action.payload.editedInput.text, image: action.payload.editedInput.image } : el)),
-    favePosts: (state, action) => action.payload,
-    addFave: (state, action) => [...state, action.payload],
+    myPosts: (state, action) => action.payload,
   },
 });
 
@@ -35,15 +34,11 @@ export const addPostAction = (input) => (dispatch) => {
 };
 
 export const deletePostAction = (postId) => (dispatch) => {
-  axios.post(`/${postId}`).then(() => dispatch(deletePost())).catch(console.log);
+  axios.delete(`/posts/${postId}/post`).then(() => dispatch(deletePost())).catch(console.log);
 };
 
 export const editPostAction = (postId, input) => (dispatch) => {
-  axios.patch(`/${postId}`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
-};
-
-export const getPersonalPostsAction = () => (dispatch) => {
-  axios('/api/v1/posts').then((res) => dispatch(getPosts(res.data)));
+  axios.patch(`/posts/${postId}/post`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
 };
 
 export default postsSlice.reducer;

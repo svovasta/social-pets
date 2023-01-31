@@ -31,8 +31,12 @@ export default function LoginPage({ navigation }) {
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
         initialValues={{ email: '', password: '' }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           handleLogin(values.email, values.password);
+          resetForm({ values: '' });
+          
+        // onSubmit={(values, { resetForm }) => {
+        //   dispatch(loginAction(values));
         }}
       >
         {(props) => (
@@ -86,11 +90,6 @@ export default function LoginPage({ navigation }) {
           </View>
         )}
       </Formik>
-      <View>
-        <Text>
-          Hello
-        </Text>
-      </View>
     </SafeAreaView>
   );
 }

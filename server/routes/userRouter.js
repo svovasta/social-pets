@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const path = require('path');
 const {
   User, Post,
 } = require('../db/models');
@@ -15,7 +16,7 @@ const avatarsStorage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    console.log(file);
+    // console.log(file);
     cb(null, `${file.originalname}.jpg`);
   },
 });
@@ -23,7 +24,7 @@ const avatarsStorage = multer.diskStorage({
 const avatarsUpload = multer({ storage: avatarsStorage });
 
 router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) => {
-  console.log('REQ FILE--->', req.file);
+  // console.log('REQ FILE--->', req.file);
   const userId = req.session.user.id;
   const user = await User.findByPk(userId);
   user.avatar = req.file.path;
@@ -33,7 +34,7 @@ router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) =
 
 router.get('/img/usersAvatars/:name.jpg', (req, res) => {
   const { name } = req.params;
-  res.sendFile(`/Users/aleksejganuhin/Desktop/Elbrus/social-pets/server/img/usersAvatars/${name}.jpg`);
+  res.sendFile(path.join(__dirname, `../img/usersAvatars/${name}.jpg`));
 });
 
 router.get('/', async (req, res) => {
@@ -70,6 +71,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
     return res.status(400).json({ message: 'All fields must be filled' });
   }

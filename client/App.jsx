@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
@@ -9,6 +9,9 @@ import AppLoading from 'expo-app-loading';
 import Navigate from './src/navigation/navigate';
 import store from './src/redux/store';
 import './config/firebase';
+import 'react-native-gesture-handler';
+
+// axios.defaults.baseURL = 'http://localhost:3001';
 
 axios.defaults.baseURL = 'http://localhost:3001';
 
@@ -21,6 +24,7 @@ const fonts = () => Font.loadAsync({
 
 export default function App() {
   const [font, setFont] = useState(false);
+
   if (font) {
     return (
       <Provider store={store}>
