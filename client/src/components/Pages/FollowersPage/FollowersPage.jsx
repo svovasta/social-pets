@@ -18,7 +18,7 @@ export default function FollowersPage() {
       <View style={{ marginTop: 70, justifyContent: 'center' }}>
         {fposts.map((el) => (
           <View>
-            <Image style={styles.postImage} key={el.id} source={{ uri: `http://localhost:3001/posts/${el.image}` }} />
+            <Image style={styles.postImage} key={el.id} source={{ uri: `http://192.168.3.127:3001/posts/${el.image}` }} />
             <Text>{el.User.name}</Text>
           </View>
         ))}

@@ -34,7 +34,7 @@ export default function LoginPage({ navigation }) {
         onSubmit={(values, { resetForm }) => {
           handleLogin(values.email, values.password);
           resetForm({ values: '' });
-          
+
         // onSubmit={(values, { resetForm }) => {
         //   dispatch(loginAction(values));
         }}
