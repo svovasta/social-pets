@@ -8,11 +8,12 @@ import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import Navigate from './src/navigation/navigate';
 import store from './src/redux/store';
+import './config/firebase';
 import 'react-native-gesture-handler';
 
 // axios.defaults.baseURL = 'http://localhost:3001';
 
-axios.defaults.baseURL = 'http://192.168.3.127:3001';
+axios.defaults.baseURL = 'http://localhost:3001';
 
 const fonts = () => Font.loadAsync({
   'rob-bold': require('./assets/fonts/Roboto-Bold.ttf'),

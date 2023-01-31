@@ -6,7 +6,6 @@ import {
   Ionicons, Octicons, MaterialIcons, MaterialCommunityIcons,
 } from '@expo/vector-icons';
 // Screens
-import { useDispatch, useSelector } from 'react-redux';
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
@@ -15,13 +14,12 @@ import CommentsPage from '../components/Pages/CommentsPage/CommentsPage';
 import LoginPage from '../components/Pages/LoginPage';
 
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
-
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
 import HealthPage from '../components/Pages/HealthPage';
-import DiscussionsPage from '../components/Pages/DiscussionsPage';
+import AllDiscussionsPage from '../components/Pages/AllDiscussionsPage';
+import { useAuth } from '../redux/Slices/userFirestormSlice';
 
-import { userCheckAction } from '../redux/Slices/userSlice';
 import FollowersPage from '../components/Pages/FollowersPage';
 
 // Screens names
@@ -31,19 +29,13 @@ const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Notes';
 const postPage = 'PostPage';
-
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
-const discussionPage = 'Discussions';
+const allDiscussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(userCheckAction());
-  }, []);
+  const { isAuth } = useAuth();
   return (
     <NavigationContainer>
       <BottomTab.Navigator
@@ -56,7 +48,7 @@ export default function BottomTabNavigator() {
               iconName = focused ? 'home' : 'home-outline';
               return <Ionicons name={iconName} size={size} color={color} />;
             }
-            if (rn === discussionPage) {
+            if (rn === allDiscussionPage) {
               iconName = focused ? 'chatbox' : 'chatbox-outline';
               return <Ionicons name={iconName} size={size} color={color} />;
             }
@@ -78,7 +70,7 @@ export default function BottomTabNavigator() {
           },
         })}
       >
-        {user ? (
+        {isAuth ? (
           <>
             <BottomTab.Screen
               name="Home"
@@ -87,7 +79,7 @@ export default function BottomTabNavigator() {
             />
             <BottomTab.Screen
               name="Discussions"
-              component={DiscussionNavigator}
+              component={AllDiscussionNavigator}
             />
             <BottomTab.Screen
               name="Post"
@@ -112,7 +104,6 @@ export default function BottomTabNavigator() {
             options={{ headerShown: false }}
           />
         )}
-
       </BottomTab.Navigator>
     </NavigationContainer>
   );
@@ -144,12 +135,17 @@ function HomeNavigator() {
 
 const DiscussionStack = createStackNavigator();
 
-function DiscussionNavigator() {
+function AllDiscussionNavigator() {
   return (
-    <DiscussionStack.Navigator initialRouteName="Discussions">
+    <DiscussionStack.Navigator initialRouteName="AllDiscussions">
       <DiscussionStack.Screen
-        name="Discussinos"
-        component={DiscussionsPage}
+        name="AllDiscussinos"
+        component={AllDiscussionsPage}
+        options={{ headerShown: false }}
+      />
+      <DiscussionStack.Screen
+        name="Discussion"
+        component={DiscussionPage}
         options={{ headerShown: false }}
       />
     </DiscussionStack.Navigator>

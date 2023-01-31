@@ -1,22 +1,44 @@
-import { Input } from '@ui-kitten/components';
 import React from 'react';
 import {
   View, Button, Text, TextInput, SafeAreaView, StyleSheet,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
-import { registrationAction } from '../../../redux/Slices/userSlice';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../../config/firebase';
+import { setUserFirestorm } from '../../../redux/Slices/userFirestormSlice';
 import { gStyle } from '../../../styles/styles';
+import { registrationAction } from '../../../redux/Slices/userSlice';
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const handleRegistration = (email, password, name) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        console.log(user);
+        dispatch(setUserFirestorm({
+          email: user.email,
+          id: user.id,
+          token: user.accessToken,
+        }));
+      })
+      .catch(console.error);
+    dispatch(registrationAction({ email, password, name }));
+  };
   return (
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
-        initialValues={{ name: '', email: '', password: '' }}
+        initialValues={{ email: '', password: '', name: '' }}
         onSubmit={(values, { resetForm }) => {
-          dispatch(registrationAction(values));
+          handleRegistration(values.email, values.password, values.name);
           resetForm({ values: '' });
+
+        // initialValues={{ name: '', email: '', password: '' }}
+        // onSubmit={(values, { resetForm }) => {
+        //   dispatch(registrationAction(values));
+         
         }}
       >
         {(props) => (

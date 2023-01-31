@@ -9,9 +9,10 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import { useIsFocused } from '@react-navigation/native';
 import PhotoCard from '../../UI/PhotoCard';
-import { userLogoutAction, findUserAction } from '../../../redux/Slices/userSlice';
+import { removeUserFirestorm } from '../../../redux/Slices/userFirestormSlice';
 import { gStyle } from '../../../styles/styles';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
+import { findUserAction } from '../../../redux/Slices/userSlice';
 import { getMyPostsAction } from '../../../redux/Slices/myPostsSlice';
 import { getFavesAction } from '../../../redux/Slices/faveSlice';
 
@@ -118,7 +119,7 @@ export default function ProfilePage({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen')}>
             <Feather style={{ marginRight: 10, marginTop: 5 }} name="settings" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => dispatch(userLogoutAction())}>
+          <TouchableOpacity onPress={() => dispatch(removeUserFirestorm())}>
             <Octicons name="sign-out" size={24} color="black" style={{ marginRight: 10, marginTop: 5 }} />
           </TouchableOpacity>
         </View>
