@@ -1,43 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Alert } from 'react-native';
-import { useSelector } from 'react-redux';
 
-const initialState = {
-  email: null,
-  token: null,
-  id: null,
-};
+const initialState = null;
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.email = action.payload.email;
-      state.token = action.payload.token;
-      state.id = action.payload.id;
+    findUser(state, action) {
+      return action.payload;
     },
-    removeUser(state) {
-      state.email = null;
-      state.token = null;
-      state.id = null;
+    setUser(state, action) {
+      return action.payload;
+    },
+    logoutUser(state, action) {
+      return null;
     },
   },
 });
 
-export const { setUser, removeUser } = userSlice.actions;
+export const { findUser, setUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
 
-export function useAuth() {
-  const { email, token, id } = useSelector((state) => state.user);
-  return {
-    isAuth: !!email,
-    email,
-    token,
-    id,
-  };
-}
+export const findUserAction = () => (dispatch) => {
+  axios('/user')
+    .then((res) => dispatch(findUser(res.data)))
+    .catch(console.log);
+};
 
 export const registrationAction = (regInput) => (dispatch) => {
   axios.post('/user/signup', regInput)

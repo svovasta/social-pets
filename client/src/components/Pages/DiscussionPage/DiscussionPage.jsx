@@ -1,5 +1,4 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Button } from '@ui-kitten/components';
 import React, {
   useEffect,
   useState,
@@ -10,23 +9,18 @@ import {
   collection, addDoc, orderBy, query, onSnapshot,
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
-import {
-  SafeAreaView, Text, View, TouchableOpacity,
-} from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
+import { useSelector } from 'react-redux';
 import { auth, database } from '../../../../config/firebase';
 
 export default function DiscussionPage(props) {
   const route = useRoute();
-  useEffect(() => { console.log(props, '--------'); }, []);
-  console.log(route.params, 'route ----- ');
-
   const [messages, setMessages] = useState([]);
-  const navigation = useNavigation();
+  const userExpres = useSelector((state) => state.user);
 
-  const onSignOut = () => {
-    signOut(auth).catch((error) => console.error(error));
-  };
+  // const onSignOut = () => {
+  //   signOut(auth).catch((error) => console.error(error));
+  // };
 
   useLayoutEffect(() => {
     const collectionRef = collection(database, `${route.params.item.title}`);
@@ -42,6 +36,7 @@ export default function DiscussionPage(props) {
         })),
       );
     });
+    return unsubscribe;
   }, []);
 
   const onSend = useCallback((messages = []) => {
@@ -62,7 +57,7 @@ export default function DiscussionPage(props) {
       onSend={(messages) => onSend(messages)}
       user={{
         _id: auth?.currentUser?.email,
-        avatar: 'https://i.pravatar.cc/300',
+        avatar: userExpres.avatar,
       }}
       messagesContainerStyle={{
         backgroundColor: '#fff ',

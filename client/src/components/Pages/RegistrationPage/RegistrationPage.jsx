@@ -2,34 +2,37 @@ import React from 'react';
 import {
   View, Button, Text, TextInput, SafeAreaView, StyleSheet,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../config/firebase';
-import { setUser } from '../../../redux/Slices/userSlice';
+import { setUserFirestorm } from '../../../redux/Slices/userFirestormSlice';
 import { gStyle } from '../../../styles/styles';
+import { registrationAction } from '../../../redux/Slices/userSlice';
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
-  const handleRegistration = (email, password) => {
+  const handleRegistration = (email, password, name) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         console.log(user);
-        dispatch(setUser({
+        dispatch(setUserFirestorm({
           email: user.email,
           id: user.id,
           token: user.accessToken,
         }));
       })
       .catch(console.error);
+    dispatch(registrationAction({ email, password, name }));
   };
   return (
     <SafeAreaView style={[gStyle.main, styles.container]}>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ email: '', password: '', name: '' }}
         onSubmit={(values) => {
-          handleRegistration(values.email, values.password);
+          handleRegistration(values.email, values.password, values.name);
         }}
       >
         {(props) => (
@@ -40,7 +43,7 @@ export default function RegistrationPage() {
             >
               Create new account
             </Text>
-            {/* <Text style={[gStyle.gText, { textAlign: 'center', marginTop: 15 }]}>
+            <Text style={[gStyle.gText, { textAlign: 'center', marginTop: 15 }]}>
               Username
             </Text>
             <TextInput
@@ -48,7 +51,7 @@ export default function RegistrationPage() {
               value={props.values.name}
               onChangeText={props.handleChange('name')}
               placeholder="John Snow"
-            /> */}
+            />
             <Text style={[gStyle.gText, { textAlign: 'center', marginTop: 5 }]}>
               Email
             </Text>

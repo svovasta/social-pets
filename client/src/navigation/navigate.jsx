@@ -4,21 +4,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons, Octicons, MaterialIcons } from '@expo/vector-icons';
 // Screens
-import { useDispatch, useSelector } from 'react-redux';
 import MainPage from '../components/Pages/MainPage';
 import AddPostPage from '../components/Pages/AddPostPage';
 import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
 import LoginPage from '../components/Pages/LoginPage';
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
-
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
-
 import HealthPage from '../components/Pages/HealthPage';
 import AllDiscussionsPage from '../components/Pages/AllDiscussionsPage';
 import DiscussionPage from '../components/Pages/DiscussionPage';
-import { useAuth } from '../redux/Slices/userSlice';
+import { useAuth } from '../redux/Slices/userFirestormSlice';
+
 // Screens names
 
 const mainPage = 'Home';
@@ -26,19 +24,12 @@ const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Health';
 const postPage = 'PostPage';
-
 const loginPage = 'Sign In';
 const registrationPage = 'SignUp';
 const allDiscussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
-  // const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(userCheckAction());
-  // }, []);
   const { isAuth } = useAuth();
   return (
     <NavigationContainer>
@@ -192,7 +183,6 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="EditProfileScreen"
         component={EditProfile}
-
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>
