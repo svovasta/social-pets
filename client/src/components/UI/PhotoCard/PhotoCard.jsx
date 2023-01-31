@@ -16,7 +16,7 @@ export default function PhotoCard({ photo }) {
   const navigation = useNavigation();
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate('PostPage')}>
+      <TouchableOpacity onPress={() => navigation.navigate('OnePostScreen', { postId: photo.id })}>
         <Image
           style={styles.photo}
           source={{ uri: `http://192.168.3.127:3001/posts/${photo.image}` }}

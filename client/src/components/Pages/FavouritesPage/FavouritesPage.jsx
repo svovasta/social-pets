@@ -16,11 +16,7 @@ export default function FavouritesPage() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
-
   useEffect(() => {
-    console.log('====================================');
-    console.log(faves);
-    console.log('====================================');
     dispatch(getFavesAction());
   }, [isFocused]);
 

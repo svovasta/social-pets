@@ -1,11 +1,10 @@
 import {
   StyleSheet, Text, View,
   Modal,
-  TouchableOpacity, Button, Alert,
+  TouchableOpacity, Button, Alert, SafeAreaView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
 
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -49,7 +48,7 @@ export default function HealthPage() {
   };
 
   const loadItems = (day) => {
-    for (let i = -15; i < 85; i++) {
+    for (let i = -15; i < 85; i += 1) {
       const time = day.timestamp + i * 24 * 60 * 60 * 1000;
       const strTime = timeToString(time);
       if (!newData[strTime]) {
@@ -135,25 +134,25 @@ export default function HealthPage() {
               />
               <TextInput
                 style={styles.input1}
-                placeholder="Название"
+                placeholder="Name"
                 onChangeText={props.handleChange('name')}
                 value={props.values.name}
               />
               <TextInput
                 style={styles.input2}
-                placeholder="Описание"
+                placeholder="Description"
                 value={props.values.description}
                 onChangeText={props.handleChange('description')}
               />
               <Button
-                title="Добавить checkup"
+                title="Add note"
                 onPress={() => {
                   props.handleSubmit();
                   setShowModal(!showModal);
                 }}
               />
               <Button
-                title="Назад"
+                title="Back"
                 onPress={() => {
                   setShowModal(!showModal);
                 }}
