@@ -93,10 +93,6 @@ router.route('/:id/comments')
     res.json(allComments);
   })
   .post(async (req, res) => {
-    const { text } = req.body;
-    console.log('====================================');
-    console.log(text);
-    console.log('====================================');
     const commit = await Comment.create({
       text: req.body.text, userId: req.session.user.id, postId: req.params.id,
     });

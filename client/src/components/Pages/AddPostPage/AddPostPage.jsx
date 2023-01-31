@@ -32,7 +32,10 @@ export default function AddPostPage({ navigation }) {
       type: 'image/jpg',
     });
     formData.append('text', text);
-    if (formData._parts) {
+    console.log('====================================');
+    console.log(formData._parts[0][1].uri);
+    console.log('====================================');
+    if (!formData._parts[0][1].uri) {
       return Alert.alert('Pick photo, please', '');
     }
     try {

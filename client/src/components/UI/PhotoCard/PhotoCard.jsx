@@ -19,7 +19,7 @@ export default function PhotoCard({ photo }) {
       <TouchableOpacity onPress={() => navigation.navigate('OnePostScreen', { postId: photo.id })}>
         <Image
           style={styles.photo}
-          source={{ uri: `http://localhost:3001/posts/${photo.image}` }}
+          source={{ uri: `http://192.168.3.127:3001/posts/${photo.image}` }}
         />
       </TouchableOpacity>
     </View>
