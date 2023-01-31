@@ -13,26 +13,22 @@ export default function AllDiscussionsPage({ navigation }) {
     dispatch(getDiscussionsAction());
   }, []);
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-    >
-      {discussions?.map((discussion) => (
-        <DiscussionCard
-          key={discussion.id}
-          item={discussion}
-          navigation={navigation}
-        />
-      ))}
+    <SafeAreaView>
+      <View style={styles.container}>
+        {discussions?.map((discussion) => (
+          <DiscussionCard
+            key={discussion.id}
+            item={discussion}
+            navigation={navigation}
+          />
+        ))}
+      </View>
 
     </SafeAreaView>
   );
 }
-// const styles = StyleSheet.create({
-//   container: {
-//     justifyContent: 'space-around',
-//     alignItems: 'center',
-//   },
-// });
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'space-evenly',
+  },
+});

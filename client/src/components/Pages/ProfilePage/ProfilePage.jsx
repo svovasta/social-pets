@@ -12,7 +12,7 @@ import PhotoCard from '../../UI/PhotoCard';
 import { removeUserFirestorm } from '../../../redux/Slices/userFirestormSlice';
 import { gStyle } from '../../../styles/styles';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
-import { findUserAction } from '../../../redux/Slices/userSlice';
+import { findUserAction, userLogoutAction } from '../../../redux/Slices/userSlice';
 import { getMyPostsAction } from '../../../redux/Slices/myPostsSlice';
 import { getFavesAction } from '../../../redux/Slices/faveSlice';
 
@@ -49,6 +49,10 @@ export default function ProfilePage({ navigation }) {
     }, 1500);
   }, []);
 
+  const logOutEveryMode = () => {
+    dispatch(userLogoutAction());
+    dispatch(removeUserFirestorm());
+  };
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -131,7 +135,7 @@ export default function ProfilePage({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen')}>
             <Feather style={{ marginRight: 10, marginTop: 5 }} name="settings" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => dispatch(removeUserFirestorm())}>
+          <TouchableOpacity onPress={logOutEveryMode}>
             <Octicons name="sign-out" size={24} color="black" style={{ marginRight: 10, marginTop: 5 }} />
           </TouchableOpacity>
         </View>

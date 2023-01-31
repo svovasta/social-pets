@@ -22,6 +22,7 @@ import DiscussionPage from '../components/Pages/DiscussionPage';
 import { useAuth } from '../redux/Slices/userFirestormSlice';
 
 import FollowersPage from '../components/Pages/FollowersPage';
+import DiscussionPage from '../components/Pages/DiscussionPage/DiscussionPage';
 
 // Screens names
 
@@ -81,6 +82,8 @@ export default function BottomTabNavigator() {
             <BottomTab.Screen
               name="Discussions"
               component={AllDiscussionNavigator}
+              options={{ headerShown: false }}
+
             />
             <BottomTab.Screen
               name="Post"

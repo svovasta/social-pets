@@ -41,7 +41,6 @@ export default function HealthPage() {
       description={`${item.description}`}
     />
   );
-
   return (
     <>
       <View>

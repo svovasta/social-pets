@@ -32,6 +32,8 @@ export default function AddPostPage({ navigation }) {
       type: 'image/jpg',
     });
     formData.append('text', text);
+
+
     
     if (!formData._parts[0][1].uri) {
 
