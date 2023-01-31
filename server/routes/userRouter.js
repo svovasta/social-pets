@@ -3,7 +3,7 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const {
-  User, Post,
+  User, Post, Comment,
 } = require('../db/models');
 
 const router = express.Router();
@@ -40,7 +40,7 @@ router.get('/img/usersAvatars/:name.jpg', (req, res) => {
 router.get('/', async (req, res) => {
   const user = await User.findOne({
     where: { id: req.session.user.id },
-    include: Post,
+    include: [Post, Comment],
   });
   res.json(user);
 });

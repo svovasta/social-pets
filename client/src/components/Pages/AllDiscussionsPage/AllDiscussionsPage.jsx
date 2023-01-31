@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Text, View, StyleSheet, SafeAreaView,
+  StyleSheet, SafeAreaView,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscussionsAction } from '../../../redux/Slices/discussionsSlice';
@@ -26,7 +26,6 @@ export default function AllDiscussionsPage({ navigation }) {
           navigation={navigation}
         />
       ))}
-      <Text onPress={() => navigation.navigate('Discussion')}>lol</Text>
 
     </SafeAreaView>
   );
