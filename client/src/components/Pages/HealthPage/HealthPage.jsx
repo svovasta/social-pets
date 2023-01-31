@@ -1,15 +1,17 @@
 import {
   StyleSheet, Text, View,
   Modal,
-  TouchableOpacity, Button, Alert, SafeAreaView,
+  TouchableOpacity, Button, Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Formik } from 'formik';
 
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, List, ListItem } from '@ui-kitten/components';
+import { Ionicons } from '@expo/vector-icons';
 import { addCheckupAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
 
 export default function HealthPage() {
@@ -33,17 +35,9 @@ export default function HealthPage() {
     return acc;
   }, {});
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getCheckupsActon();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   const renderItem = ({ item }) => (
     <ListItem
-      title={`${item.date.split('-').reverse().join('/')} ${item.name}`}
+      title={`${item.date.split('-').reverse().join('/')} ${item.name} `}
       description={`${item.description}`}
     />
   );
@@ -59,9 +53,6 @@ export default function HealthPage() {
             setShowModal(!showModal);
           }}
           monthFormat="dd MM yyyy"
-          onMonthChange={(month) => {
-            console.log('month changed', month);
-          }}
           firstDay={1}
           onPressArrowLeft={(subtractMonth) => subtractMonth()}
           onPressArrowRight={(addMonth) => addMonth()}
@@ -73,11 +64,14 @@ export default function HealthPage() {
       </View>
       <Button title="Add" onPress={() => setShowModal(!showModal)} />
 
-      <List
-        data={checkups}
-        ItemSeparatorComponent={Divider}
-        renderItem={renderItem}
-      />
+      {!checkups.length ? <Text style={{ margin: 10, fontSize: 20, textAlign: 'center' }}>Here you can store your pet-related notes, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.</Text>
+        : (
+          <List
+            data={checkups}
+            ItemSeparatorComponent={Divider}
+            renderItem={renderItem}
+          />
+        )}
 
       <Modal
         animationType="slide"
@@ -100,7 +94,7 @@ export default function HealthPage() {
               />
               <TextInput
                 style={styles.input1}
-                placeholder="Name"
+                placeholder="Title"
                 onChangeText={props.handleChange('name')}
                 value={props.values.name}
               />
@@ -111,14 +105,14 @@ export default function HealthPage() {
                 onChangeText={props.handleChange('description')}
               />
               <Button
-                title="Add note"
+                title="Add a note"
                 onPress={() => {
                   props.handleSubmit();
                   setShowModal(!showModal);
                 }}
               />
               <Button
-                title="Back"
+                title="Go back"
                 onPress={() => {
                   setShowModal(!showModal);
                 }}

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   Text, View, StyleSheet, Button, Touchable, TouchableOpacity, SafeAreaView,
+
 } from 'react-native';
 
 export default function DiscussionCard(props) {

@@ -9,10 +9,11 @@ const checkUpSlice = createSlice({
   reducers: {
     getCheckups: (state, action) => action.payload,
     addCheckUp: (state, action) => [...state, action.payload],
+    deleteCheckUp: (state, action) => state.filter((el) => el.id !== action.payload),
   },
 });
 
-export const { getCheckups, addCheckUp } = checkUpSlice.actions;
+export const { getCheckups, addCheckUp, deleteCheckUp } = checkUpSlice.actions;
 
 export const getCheckupsActon = () => (dispatch) => {
   axios('api/v1/checkup')
@@ -23,6 +24,11 @@ export const getCheckupsActon = () => (dispatch) => {
 export const addCheckupAction = (input) => (dispatch) => {
   axios.post('api/v1/checkup', input)
     .then((res) => dispatch(addCheckUp(res.data)));
+};
+
+export const deleteCheckUpAction = (id) => (dispatch) => {
+  axios.post(`api/v1/checkup/${id}`)
+    .then((res) => dispatch(deleteCheckUp(res.data)));
 };
 
 export default checkUpSlice.reducer;

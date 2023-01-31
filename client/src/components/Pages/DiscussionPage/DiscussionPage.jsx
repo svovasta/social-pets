@@ -18,12 +18,10 @@ export default function DiscussionPage(props) {
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const userExpres = useSelector((state) => state.user);
-  console.log(userExpres, '-------');
   useLayoutEffect(() => {
     const collectionRef = collection(database, `${route.params.item.title}`);
     const q = query(collectionRef, orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      // console.log('snapshot', snapshot);
       setMessages(
         snapshot.docs.map((doc) => ({
           _id: doc.id,
@@ -48,6 +46,9 @@ export default function DiscussionPage(props) {
       user,
     });
   }, []);
+  console.log('====================================');
+  console.log(messages);
+  console.log('====================================');
   return (
     <GiftedChat
       messages={messages}
@@ -55,8 +56,10 @@ export default function DiscussionPage(props) {
       user={{
         _id: auth?.currentUser?.email,
         avatar: userExpres.avatar ? (`http://localhost:3001/user/${userExpres.avatar}`) : (defaultAvatar),
+
         name: userExpres.name,
       }}
+      renderUsernameOnMessage
       messagesContainerStyle={{
         backgroundColor: '#fff ',
       }}

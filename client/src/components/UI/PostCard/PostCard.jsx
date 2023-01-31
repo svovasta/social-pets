@@ -3,32 +3,53 @@ import {
   StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button,
 } from 'react-native';
 import {
-  Avatar,
+  Avatar, Card, Modal,
 } from '@ui-kitten/components';
-import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
+import {
+  AntDesign, FontAwesome5, Feather, MaterialIcons,
+} from '@expo/vector-icons';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+
+import { useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 import {
   addFavesAction, deleteFavesAction, getFavesAction,
 } from '../../../redux/Slices/faveSlice';
+import { followAction, getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
+import { findUserAction } from '../../../redux/Slices/userSlice';
+
 import { followAction } from '../../../redux/Slices/followersSlice';
+import { gStyle } from '../../../styles/styles';
+import { deletePostAction } from '../../../redux/Slices/postsSlice';
 
 export default function PostCard({ post }) {
   const [postLikes, setPostLikes] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
+  const [faved, setFaved] = useState(false);
+  const [followed, setFollowed] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+
 
   const user = useSelector((state) => state.user);
   const faves = useSelector((s) => s.faves);
   const navigation = useNavigation();
+  const route = useRoute();
 
   const dispatch = useDispatch();
   const followers = useSelector((s) => s.followers);
 
   useEffect(() => {
     dispatch(getFavesAction());
+    dispatch(findUserAction());
+    !faves.find((el) => el.postId === post.id) ? setFaved(false) : setFaved(true);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getFollowedPostsAction());
+    followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
   }, []);
 
   const addorDeleteLikeHandler = (postId) => {
@@ -63,14 +84,23 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={user.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
         />
         <Text style={styles.username}>{post.User.name}</Text>
-        <Button title={followers.some((el) => el.User.id === post.User.id) ? 'unfollow' : 'follow'} onPress={() => dispatch(followAction(post.User.id))} />
+        {user.id === post.User.id ? null : (
+          <Button
+            title={followed ? 'follow' : 'unfollow'}
+            onPress={() => {
+              dispatch(followAction(post.User.id));
+              setFollowed(!followed);
+              dispatch(getFollowedPostsAction());
+            }}
+          />
+        )}
       </View>
       <View>
         <GestureDetector gesture={tap}>
-          <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
+          <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
         </GestureDetector>
 
       </View>
@@ -111,14 +141,82 @@ export default function PostCard({ post }) {
           >
             <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.bookmark}
-            onPress={() => (!faves.find((el) => el.postId === post.id)
-              ? dispatch(addFavesAction(post.id))
-              : dispatch(deleteFavesAction(post.id)))}
+            onPress={() => {
+              if (!faves.find((el) => el.postId === post.id)) {
+                dispatch(addFavesAction(post.id));
+                dispatch(getFavesAction());
+                setFaved(true);
+              } else {
+                dispatch(deleteFavesAction(post.id));
+                dispatch(getFavesAction());
+                setFaved(false);
+              }
+            }}
           >
-            <Feather name="bookmark" size={25} color={faves.find((el) => el.postId === post.id) ? 'red' : 'black'} />
+            <Feather name="bookmark" size={25} color={faved ? 'red' : 'black'} />
           </TouchableOpacity>
+
+          {route.name === 'OnePostScreen' ? (
+            <View style={styles.rightButtons}>
+              <TouchableOpacity
+                style={styles.edit}
+              >
+                <Feather name="edit" size={24} color="green" />
+              </TouchableOpacity>
+              <View>
+                <TouchableOpacity
+                  style={styles.delete}
+                  onPress={() => setShowModal(true)}
+                >
+                  <MaterialIcons name="delete-outline" size={27} color="red" />
+                </TouchableOpacity>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <Modal
+                    visible={showModal}
+                  >
+                    <Card disabled style={styles.modalWindow}>
+                      <View style={styles.commentActions}>
+                        <Text style={[gStyle.title, { textAlign: 'center' }]}>
+                          Are you sure you want to delete this post?
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: 'row' }}>
+                        <View style={[gStyle.btn, { width: 70, marginTop: 20 }]}>
+                          <Button
+                            title="Yes"
+                            onPress={() => {
+                              setShowModal(false);
+                              dispatch(deletePostAction(post.id));
+                              navigation.navigate('ProfileScreen');
+                            }}
+                          />
+                        </View>
+                        <View style={[gStyle.btn, { width: 70, marginTop: 20 }]}>
+                          <Button
+                            title="No"
+                            onPress={() => setShowModal(false)}
+                          />
+                        </View>
+                      </View>
+                    </Card>
+                  </Modal>
+                </View>
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.bookmark}
+              onPress={() => (!faves.find((el) => el.postId === post.id)
+                ? dispatch(addFavesAction(post.id))
+                : dispatch(deleteFavesAction(post.id)))}
+            >
+              <Feather name="bookmark" size={25} color={faves.find((el) => el.postId === post.id) ? 'red' : 'black'} />
+            </TouchableOpacity>
+          )}
+
         </View>
       </View>
 
@@ -132,6 +230,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 5,
+  },
+  rightButtons: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 5,
+  },
+  delete: {
+    marginLeft: 5,
   },
   avatar: {
     width: 40,

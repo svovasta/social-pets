@@ -36,6 +36,9 @@ export default function ProfilePage({ navigation }) {
     dispatch(findUserAction());
     dispatch(getMyPostsAction());
     dispatch(getFavesAction());
+    console.log('====================================');
+    console.log(user);
+    console.log('====================================');
   }, [isFocused]);
 
   const onRefresh = useCallback(() => {
@@ -97,7 +100,7 @@ export default function ProfilePage({ navigation }) {
             >
               <Image
                 style={styles.avatar}
-                source={user.avatar ? ({ uri: `http://localhost:3001/user/${user.avatar}` }) : (defaultAvatar)}
+                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
               />
             </TouchableOpacity>
           </View>
@@ -116,9 +119,18 @@ export default function ProfilePage({ navigation }) {
               )}
           </Text>
           <Text style={styles.profileText}>
-            15
+            {user?.Comments?.length}
             {'\n'}
-            Comments
+            {user?.Comments?.length % 10 === 1 ? (
+              <Text>
+                Comment
+              </Text>
+            )
+              : (
+                <Text>
+                  Comments
+                </Text>
+              )}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen')}>
             <Feather style={{ marginRight: 10, marginTop: 5 }} name="settings" size={24} color="black" />

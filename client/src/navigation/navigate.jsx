@@ -18,6 +18,7 @@ import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
 import HealthPage from '../components/Pages/HealthPage';
 import AllDiscussionsPage from '../components/Pages/AllDiscussionsPage';
+import DiscussionPage from '../components/Pages/DiscussionPage';
 import { useAuth } from '../redux/Slices/userFirestormSlice';
 
 import FollowersPage from '../components/Pages/FollowersPage';
