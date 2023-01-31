@@ -11,7 +11,6 @@ export default function AllDiscussionsPage({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getDiscussionsAction());
-    console.log(discussions);
   }, []);
   return (
     <SafeAreaView style={{

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text, View, StyleSheet, TouchableOpacity, Pressable, Button,
 } from 'react-native';
@@ -6,13 +6,15 @@ import { Feather, AntDesign } from '@expo/vector-icons';
 import {
   Card, Modal, Avatar,
 } from '@ui-kitten/components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 import { gStyle } from '../../../styles/styles';
+import { deleteCommentAction, getCommentsAction } from '../../../redux/Slices/commentsSlice';
 
 export default function CommentCard({ comment }) {
   const user = useSelector((state) => state.user);
   const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.card}>
@@ -35,7 +37,12 @@ export default function CommentCard({ comment }) {
                   <TouchableOpacity style={{ marginRight: 20 }}>
                     <Feather name="edit" size={24} color="black" />
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => {
+                    dispatch(deleteCommentAction(comment.Post.id, comment.id));
+                    dispatch(getCommentsAction(comment.Post.id));
+                    setVisible(false);
+                  }}
+                  >
                     <AntDesign name="delete" size={24} color="red" />
                   </TouchableOpacity>
                 </View>

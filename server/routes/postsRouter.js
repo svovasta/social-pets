@@ -39,7 +39,7 @@ router.get('/img/postsImages/:name.jpg', (req, res) => {
 
 router.route('/')
   .get(async (req, res) => {
-    const allPosts = await Post.findAll({ include: User });
+    const allPosts = await Post.findAll({ include: User, order: [['createdAt', 'DESC']] });
     res.json(allPosts);
   })
   .post(async (req, res) => {
@@ -98,6 +98,11 @@ router.route('/:id/comments')
     });
     res.json(commit);
   });
+
+router.delete('/:id/comments/:commentId', async (req, res) => {
+  await Comment.destroy({ where: { id: req.params.commentId, postId: req.params.id } });
+  res.sendStatus(200);
+});
 
 router.route('/:id/likes')
   .get(async (req, res) => {
