@@ -13,6 +13,7 @@ import { addCommentAction, getCommentsAction } from '../../../redux/Slices/comme
 import { gStyle } from '../../../styles/styles';
 import CommentCard from './CommentCard';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
+import { findUserAction } from '../../../redux/Slices/userSlice';
 
 function CommentsPage({ route }) {
   const dispatch = useDispatch();
@@ -22,9 +23,13 @@ function CommentsPage({ route }) {
   const [input, setInput] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const { activePost } = route.params;
+
+  const posts = useSelector((s) => s.posts);
+  const chosenpost = posts.find((el) => el.id === activePost);
+
   useEffect(() => {
     dispatch(getCommentsAction(activePost));
-  }, [isFocused]);
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -33,10 +38,6 @@ function CommentsPage({ route }) {
       setRefreshing(false);
     }, 1500);
   }, []);
-
-  console.log('==========COMMENTS==============');
-  console.log(comments);
-  console.log('====================================');
 
   return (
     <SafeAreaView style={gStyle.main}>
@@ -53,7 +54,7 @@ function CommentsPage({ route }) {
                 source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
               />
               <Text style={styles.username}>
-                {comments[0]?.User?.name}
+                {chosenpost?.User?.name}
               </Text>
             </View>
             <View style={styles.postText}>
@@ -73,10 +74,18 @@ function CommentsPage({ route }) {
             style={gStyle.input}
             keyboardType="default"
             name="text"
+            value={input}
             onChangeText={(text) => setInput(text)}
             placeholder="Comment text"
           />
-          <Button title="Post" onPress={() => dispatch(addCommentAction(activePost, input))} />
+          <Button
+            title="Post"
+            onPress={() => {
+              dispatch(addCommentAction(activePost, input));
+              dispatch(getCommentsAction(activePost));
+              setInput('');
+            }}
+          />
         </View>
         <View style={styles.commentsList}>
           <FlatList

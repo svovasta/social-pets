@@ -9,16 +9,19 @@ import { AntDesign, FontAwesome5, Feather } from '@expo/vector-icons';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 import {
   addFavesAction, deleteFavesAction, getFavesAction,
 } from '../../../redux/Slices/faveSlice';
-import { followAction } from '../../../redux/Slices/followersSlice';
+import { followAction, getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
+import { findUserAction } from '../../../redux/Slices/userSlice';
 
 export default function PostCard({ post }) {
   const [postLikes, setPostLikes] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
+  const [faved, setFaved] = useState(false);
+  const [followed, setFollowed] = useState(false);
 
   const user = useSelector((state) => state.user);
   const faves = useSelector((s) => s.faves);
@@ -29,6 +32,13 @@ export default function PostCard({ post }) {
 
   useEffect(() => {
     dispatch(getFavesAction());
+    dispatch(findUserAction());
+    !faves.find((el) => el.postId === post.id) ? setFaved(false) : setFaved(true);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getFollowedPostsAction());
+    followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
   }, []);
 
   const addorDeleteLikeHandler = (postId) => {
@@ -66,7 +76,16 @@ export default function PostCard({ post }) {
           source={user.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
         />
         <Text style={styles.username}>{post.User.name}</Text>
-        <Button title={followers.some((el) => el.User.id === post.User.id) ? 'unfollow' : 'follow'} onPress={() => dispatch(followAction(post.User.id))} />
+        {user.id === post.User.id ? null : (
+          <Button
+            title={followed ? 'follow' : 'unfollow'}
+            onPress={() => {
+              dispatch(followAction(post.User.id));
+              setFollowed(!followed);
+              dispatch(getFollowedPostsAction());
+            }}
+          />
+        )}
       </View>
       <View>
         <GestureDetector gesture={tap}>
@@ -113,11 +132,19 @@ export default function PostCard({ post }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.bookmark}
-            onPress={() => (!faves.find((el) => el.postId === post.id)
-              ? dispatch(addFavesAction(post.id))
-              : dispatch(deleteFavesAction(post.id)))}
+            onPress={() => {
+              if (!faves.find((el) => el.postId === post.id)) {
+                dispatch(addFavesAction(post.id));
+                dispatch(getFavesAction());
+                setFaved(true);
+              } else {
+                dispatch(deleteFavesAction(post.id));
+                dispatch(getFavesAction());
+                setFaved(false);
+              }
+            }}
           >
-            <Feather name="bookmark" size={25} color={faves.find((el) => el.postId === post.id) ? 'red' : 'black'} />
+            <Feather name="bookmark" size={25} color={faved ? 'red' : 'black'} />
           </TouchableOpacity>
         </View>
       </View>

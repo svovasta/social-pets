@@ -1,6 +1,6 @@
 const express = require('express');
 const { Post } = require('../db/models');
-const { Favorites, Checkup } = require('../db/models');
+const { Favorites, Checkup, User } = require('../db/models');
 
 const router = express.Router();
 
@@ -27,11 +27,19 @@ router.post('/checkup', async (req, res) => {
   res.json(newCheckup);
 });
 
+router.post('/checkup/:id', async (req, res) => {
+  const delCheck = await Checkup.destroy({
+    where: { id: req.params.id },
+  });
+  res.json(delCheck);
+});
+
 router.post('/:id/favourites', async (req, res) => {
   const postId = req.params.id;
   const userId = req.session?.user?.id;
-  const fave = await Favorites.create({ postId, userId });
-  res.json(fave);
+  await Favorites.create({ postId, userId });
+  const newFave = await Favorites.findOne({ where: { postId, userId }, include: [User, Post] });
+  res.json(newFave);
 });
 
 router.delete('/:id/favourites/del', async (req, res) => {

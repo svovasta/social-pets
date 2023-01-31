@@ -7,7 +7,7 @@ const commentsSlice = createSlice({
   reducers: {
     getComments: (state, action) => action.payload,
     addComment: (state, action) => state.unshift(action.payload),
-    deleteComment: (state, action) => state.filter((el) => el.id !== action.payload),
+    deleteComment: (state, action) => state.filter((el) => el.id !== action.payload.commentId),
     editComment: (state, action) => state.map((el) => (el.id === action.payload
       ? { ...el, text: action.payload.editedInput.text } : el)),
   },
@@ -29,6 +29,11 @@ export const addCommentAction = (PostId, input) => (dispatch) => {
       dispatch(addComment(res.data))
         .catch(console.log);
     });
+};
+
+export const deleteCommentAction = (id, commentId) => (dispatch) => {
+  axios.delete(`/posts/${id}/comments/${commentId}`)
+    .then((res) => dispatch(deleteComment(res.data)));
 };
 
 export default commentsSlice.reducer;
