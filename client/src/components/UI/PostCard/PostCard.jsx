@@ -32,9 +32,6 @@ export default function PostCard({ post }) {
     dispatch(getFavesAction());
   }, []);
 
-  const faves = useSelector((s) => s.faves);
-
-
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/posts/${postId}/likes`)
       .then((res) => setPostLikes(res.data))
@@ -67,14 +64,14 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={user.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
         />
         <Text style={styles.username}>{post.User.name}</Text>
         <Button title={followers.some((el) => el.User.id === post.User.id) ? 'unfollow' : 'follow'} onPress={() => dispatch(followAction(post.User.id))} />
       </View>
       <View>
         <GestureDetector gesture={tap}>
-          <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
+          <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
         </GestureDetector>
 
       </View>

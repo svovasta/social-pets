@@ -8,7 +8,6 @@ import { getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
 export default function FollowersPage() {
   const dispatch = useDispatch();
   const fposts = useSelector((s) => s.followers);
-  console.log(fposts);
 
   useEffect(() => {
     dispatch(getFollowedPostsAction());

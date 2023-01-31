@@ -92,7 +92,7 @@ export default function ProfilePage({ navigation }) {
             >
               <Image
                 style={styles.avatar}
-                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
+                source={user.avatar ? ({ uri: `http://localhost:3001/user/${user.avatar}` }) : (defaultAvatar)}
               />
             </TouchableOpacity>
           </View>
