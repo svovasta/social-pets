@@ -12,16 +12,13 @@ import { signOut } from 'firebase/auth';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { useSelector } from 'react-redux';
 import { auth, database } from '../../../../config/firebase';
+import defaultAvatar from '../../../../assets/defaultavatar.png';
 
 export default function DiscussionPage(props) {
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const userExpres = useSelector((state) => state.user);
-
-  // const onSignOut = () => {
-  //   signOut(auth).catch((error) => console.error(error));
-  // };
-
+  console.log(userExpres, '-------');
   useLayoutEffect(() => {
     const collectionRef = collection(database, `${route.params.item.title}`);
     const q = query(collectionRef, orderBy('createdAt', 'desc'));
@@ -30,7 +27,7 @@ export default function DiscussionPage(props) {
       setMessages(
         snapshot.docs.map((doc) => ({
           _id: doc.id,
-          createdAt: doc.data().createdAt,
+          createdAt: doc.data().createdAt.toDate(),
           text: doc.data().text,
           user: doc.data().user,
         })),
@@ -57,11 +54,13 @@ export default function DiscussionPage(props) {
       onSend={(messages) => onSend(messages)}
       user={{
         _id: auth?.currentUser?.email,
-        avatar: userExpres.avatar,
+        avatar: userExpres.avatar ? (`http://localhost:3001/user/${userExpres.avatar}`) : (defaultAvatar),
+        name: userExpres.name,
       }}
       messagesContainerStyle={{
         backgroundColor: '#fff ',
       }}
+      renderUsernameOnMessage
     />
   );
 }

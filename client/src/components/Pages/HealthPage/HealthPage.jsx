@@ -11,7 +11,6 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, List, ListItem } from '@ui-kitten/components';
 import { addCheckupAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
-import WelcomeNotes from '../WelcomeNotes';
 
 export default function HealthPage() {
   const [showModal, setShowModal] = useState(false);
@@ -47,7 +46,7 @@ export default function HealthPage() {
       title={`${item.date.split('-').reverse().join('/')} ${item.name}`}
       description={`${item.description}`}
     />
-
+  );
   return (
     <>
       <View>

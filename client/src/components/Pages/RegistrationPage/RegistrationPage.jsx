@@ -35,10 +35,9 @@ export default function RegistrationPage() {
           handleRegistration(values.email, values.password, values.name);
           resetForm({ values: '' });
 
-        // initialValues={{ name: '', email: '', password: '' }}
-        // onSubmit={(values, { resetForm }) => {
-        //   dispatch(registrationAction(values));
-         
+          // initialValues={{ name: '', email: '', password: '' }}
+          // onSubmit={(values, { resetForm }) => {
+          //   dispatch(registrationAction(values));
         }}
       >
         {(props) => (
