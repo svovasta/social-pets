@@ -63,7 +63,6 @@ export default function DiscussionPage(props) {
       messagesContainerStyle={{
         backgroundColor: '#fff ',
       }}
-      renderUsernameOnMessage
     />
   );
 }

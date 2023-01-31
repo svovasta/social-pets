@@ -77,7 +77,7 @@ export default function LoginPage({ navigation }) {
                   textAlign: 'center', marginTop: 15, marginBottom: 15,
                 }]}
                 >
-                  Already have an account?
+                  New here?
                 </Text>
                 <View style={[gStyle.btn, { width: 200 }]}>
                   <Button
