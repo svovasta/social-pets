@@ -33,7 +33,9 @@ export default function PostCard({ post }) {
   const [faved, setFaved] = useState(false);
   const [followed, setFollowed] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
   const [editInputStatus, setEditInputStatus] = useState(false);
+
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -45,6 +47,16 @@ export default function PostCard({ post }) {
     dispatch(getFavesAction());
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
+
+
+  useEffect(() => {
+    axios(`/likes/${post.id}/user`)
+      .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [likeStatus]);
+
 
   useEffect(() => {
     dispatch(getFollowedPostsAction());
@@ -59,7 +71,7 @@ export default function PostCard({ post }) {
   useEffect(() => {
     dispatch(getFollowedPostsAction());
     followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
-  }, [isFocused]);
+  }, [isFocused, followed]);
 
   useEffect(() => {
     axios(`/likes/${post.id}/user`)

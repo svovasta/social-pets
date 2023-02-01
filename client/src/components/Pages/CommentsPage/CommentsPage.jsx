@@ -60,20 +60,26 @@ function CommentsPage({ route }) {
           <View style={styles.topContainer}>
             <Avatar
               style={styles.avatar}
-              source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
+
+              source={user.avatar ? ({ uri: `http://localhost:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
             />
             <Text style={styles.username}>
-              {onePost?.User?.name}
+              {chosenpost?.User?.name}
+
             </Text>
           </View>
           <View style={styles.postText}>
             <Text>
+
               {onePost?.text}
+
             </Text>
           </View>
           <View style={styles.postData}>
             <Text style={{ color: 'grey' }}>
+
               {new Date(onePost?.createdAt).toLocaleDateString()}
+
             </Text>
           </View>
         </View>
@@ -91,8 +97,10 @@ function CommentsPage({ route }) {
           title="Post"
           onPress={() => {
             dispatch(addCommentAction(activePost, input));
-            setInput('');
+
             dispatch(getCommentsAction(activePost));
+            setInput('');
+
           }}
         />
       </View>
