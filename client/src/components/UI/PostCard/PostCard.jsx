@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button,
+  StyleSheet, View, SafeAreaView, Text, TouchableOpacity, Image, Button, TextInput,
 } from 'react-native';
 import {
   Avatar, Card, Modal,
@@ -11,18 +11,17 @@ import {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
+import { Formik } from 'formik';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 import {
   addFavesAction, deleteFavesAction, getFavesAction,
 } from '../../../redux/Slices/faveSlice';
 import { followAction, getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
-
-import { findUser, findUserAction } from '../../../redux/Slices/userSlice';
-
+import { findUserAction } from '../../../redux/Slices/userSlice';
 import { gStyle } from '../../../styles/styles';
-import { deletePostAction } from '../../../redux/Slices/postsSlice';
+import { deletePostAction, editPostAction } from '../../../redux/Slices/postsSlice';
+import { getOnePostAction } from '../../../redux/Slices/onePostSlice';
 
 export default function PostCard({ post }) {
   const followers = useSelector((s) => s.followers);
@@ -35,8 +34,8 @@ export default function PostCard({ post }) {
   const [followed, setFollowed] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  // const user = useSelector((state) => state.user);
-  // const faves = useSelector((s) => s.faves);
+  const [editInputStatus, setEditInputStatus] = useState(false);
+
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -49,15 +48,6 @@ export default function PostCard({ post }) {
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(getFollowedPostsAction());
-  // }, [followed]);
-
-  // const addorDeleteLikeHandler = (postId) => {
-  //   axios(`/likes/${post.id}`)
-  //     .then((res) => setPostLikes(res.data))
-  //     .catch(console.log);
-  // }, []);
 
   useEffect(() => {
     axios(`/likes/${post.id}/user`)
@@ -66,6 +56,11 @@ export default function PostCard({ post }) {
         console.log(err);
       });
   }, [likeStatus]);
+
+
+  useEffect(() => {
+    dispatch(getFollowedPostsAction());
+  }, [followed]);
 
   useEffect(() => {
     dispatch(getFavesAction());
@@ -77,6 +72,15 @@ export default function PostCard({ post }) {
     dispatch(getFollowedPostsAction());
     followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
   }, [isFocused, followed]);
+
+  useEffect(() => {
+    axios(`/likes/${post.id}/user`)
+      .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
+      .catch((err) => {
+        console.log(err);
+      });
+    axios(`/likes/${post.id}`);
+  }, [likeStatus]);
 
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/likes/${postId}`)
@@ -98,7 +102,7 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={post.User.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={post.User.avatar ? ({ uri: `http://192.168.3.127:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
 
         />
         <Text style={styles.username}>{post.User.name}</Text>
@@ -111,7 +115,6 @@ export default function PostCard({ post }) {
                 dispatch(followAction(post.User.id));
                 dispatch(getFollowedPostsAction());
                 setFollowed(!followed);
-                // !followers.find((el) => el.User.id === post.User.id) ? setFollowed(false) : setFollowed(true);
               }}
             />
           )}
@@ -120,7 +123,7 @@ export default function PostCard({ post }) {
 
       <View>
         <GestureDetector gesture={tap}>
-          <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
+          <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
         </GestureDetector>
 
       </View>
@@ -130,11 +133,48 @@ export default function PostCard({ post }) {
           <Text style={styles.username}>
             {post?.User?.name}
           </Text>
+        </View>
+
+        {editInputStatus ? (
+          <Formik
+            initialValues={{ text: post.text }}
+            onSubmit={(values) => {
+              dispatch(editPostAction(post.id, values));
+              setEditInputStatus(false);
+              dispatch(getOnePostAction(post.id));
+              // navigation.navigate('ProfileScreen');
+            }}
+          >
+            {(props) => (
+              <View>
+                <View>
+                  <TextInput
+                    style={gStyle.input}
+                    value={props.values.text}
+                    onChangeText={props.handleChange('text')}
+                  />
+                </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                  <Button
+                    title="Save changes"
+                    type="submit"
+                    onPress={props.handleSubmit}
+                  />
+                  <Button
+                    title="Close"
+                    onPress={() => setEditInputStatus(false)}
+                  />
+                </View>
+              </View>
+            )}
+          </Formik>
+        ) : (
           <Text>
             {post?.text}
           </Text>
-        </View>
+        )}
         <View>
+
           <Text style={{ color: 'grey' }}>
             {new Date(post.createdAt).toLocaleDateString()}
           </Text>
@@ -171,6 +211,7 @@ export default function PostCard({ post }) {
             <View style={styles.rightButtons}>
               <TouchableOpacity
                 style={styles.edit}
+                onPress={() => setEditInputStatus(true)}
               >
                 <Feather name="edit" size={24} color="green" />
               </TouchableOpacity>
@@ -281,6 +322,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     marginBottom: 10,
+    alignItems: 'center',
   },
   username: {
     fontWeight: '700',
