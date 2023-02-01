@@ -12,7 +12,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, List, ListItem } from '@ui-kitten/components';
 import { Ionicons } from '@expo/vector-icons';
-import { addCheckupAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
+import { addCheckupAction, deleteCheckUpAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
 
 export default function HealthPage() {
   const [showModal, setShowModal] = useState(false);
@@ -36,10 +36,19 @@ export default function HealthPage() {
   }, {});
 
   const renderItem = ({ item }) => (
-    <ListItem
-      title={`${item.date.split('-').reverse().join('/')} ${item.name} `}
-      description={`${item.description}`}
-    />
+    <>
+      <ListItem
+        title={`${item.date.split('-').reverse().join('/')} ${item.name} `}
+        description={`${item.description}`}
+      />
+      <Button
+        title="delete"
+        onPress={() => {
+          dispatch(deleteCheckUpAction(item.id));
+          dispatch(getCheckupsActon());
+        }}
+      />
+    </>
   );
   return (
     <>
@@ -64,7 +73,14 @@ export default function HealthPage() {
       </View>
       <Button title="Add" onPress={() => setShowModal(!showModal)} />
 
-      {!checkups.length ? <Text style={{ margin: 10, fontSize: 20, textAlign: 'center' }}>Here you can store your pet-related notes, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.</Text>
+      {!checkups.length ? (
+        <Text style={{
+          margin: 10, fontSize: 20, textAlign: 'center', font: 'Roboto',
+        }}
+        >
+          Here you can store your pet-related notes, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
+        </Text>
+      )
         : (
           <List
             data={checkups}

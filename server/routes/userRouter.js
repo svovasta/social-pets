@@ -100,4 +100,15 @@ router.get('/logout', (req, res) => {
   res.clearCookie('sid').sendStatus(200);
 });
 
+router.patch('/:id/edit', async (req, res) => {
+  // const { id } = req.params;
+  const { name, description } = req.body.values;
+  const editedUser = await User.findOne({ where: { id: req.params.id } });
+  editedUser.name = name;
+  editedUser.description = description;
+  editedUser.save();
+  console.log(req.body, 'REQBODYYY');
+  res.json(editedUser);
+});
+
 module.exports = router;
