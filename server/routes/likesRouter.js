@@ -8,7 +8,6 @@ const router = express.Router();
 router.route('/:id')
   .get(async (req, res) => {
     try {
-      console.log('REQ PARAMS ++++++', req.params);
       const postLikes = await Like.findAll({ where: { postId: req.params.id } });
       res.json(postLikes);
     } catch (error) {
@@ -32,8 +31,6 @@ router.route('/:id')
   });
 
 router.get('/:id/user', async (req, res) => {
-  console.log('------->', req.params);
-
   try {
     const userId = req.session.user.id;
     const postId = req.params.id;

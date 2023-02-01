@@ -2,14 +2,14 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const {
-  User, Post, Comment,
+  User, Post, Comment, Like,
 } = require('../db/models');
 
 const router = express.Router();
 
 router.route('/')
   .get(async (req, res) => {
-    const allPosts = await Post.findAll({ include: User, order: [['createdAt', 'DESC']] });
+    const allPosts = await Post.findAll({ include: [User, Comment], order: [['createdAt', 'DESC']] });
     res.json(allPosts);
   })
   .post(async (req, res) => {
@@ -28,16 +28,6 @@ router.route('/')
     }
   });
 
-// router.route('/:id')
-//   .patch(async (req, res) => {
-//     const { text, image } = req.body;
-//     const post = await Post.findOne({ where: { id: req.params.id } });
-//     post.text = text;
-//     post.image = image;
-//     post.save();
-//     res.json(post);
-//   });
-
 router.route('/:id/post')
   .get(async (req, res) => {
     const onePost = await Post.findOne({
@@ -48,6 +38,7 @@ router.route('/:id/post')
   })
   .delete(async (req, res) => {
     await Post.destroy({ where: { id: req.params.id } });
+    await Like.destroy({ where: { postId: req.params.id } });
     await Comment.destroy({ where: { postId: req.params.id } });
     res.sendStatus(200);
   });

@@ -41,15 +41,8 @@ export default function PostCard({ post }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('==============IN USE EFFECT==============');
-    console.log(post);
-    console.log('====================================');
     axios(`/likes/${post.id}`)
-      .then((res) => {
-        console.log('============POST ID================');
-        console.log(post.id);
-        setPostLikes(res.data);
-      })
+      .then((res) => setPostLikes(res.data))
       .catch(console.log);
   }, []);
 
@@ -85,9 +78,14 @@ export default function PostCard({ post }) {
       addorDeleteLikeHandler(post.id);
     });
 
+  console.log('====================================');
+  console.log(post);
+  console.log('====================================');
+
   return (
     <SafeAreaView style={styles.card}>
 
+      {!(route.name === 'OnePostScreen') && (
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
@@ -105,6 +103,8 @@ export default function PostCard({ post }) {
           />
         )}
       </View>
+      )}
+
       <View>
         <GestureDetector gesture={tap}>
           <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
@@ -146,7 +146,12 @@ export default function PostCard({ post }) {
               { activePost: post.id },
             )}
           >
-            <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+            <View style={styles.commentsContainer}>
+              <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+              <Text style={{ fontSize: 20, marginLeft: 10 }}>
+                {post.Comments?.length}
+              </Text>
+            </View>
           </TouchableOpacity>
 
           {route.name === 'OnePostScreen' ? (
@@ -276,6 +281,9 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 5,
+  },
+  commentsContainer: {
+    flexDirection: 'row',
   },
   footerContainer: {
     flexDirection: 'row',

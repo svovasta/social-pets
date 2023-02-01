@@ -13,10 +13,7 @@ export const { getOnePost } = onePostSlice.actions;
 
 export const getOnePostAction = (postId) => (dispatch) => {
   axios.get(`/posts/${postId}/post`)
-    .then((res) => {
-      console.log('--------------->', res.data);
-      dispatch(getOnePost(res.data));
-    })
+    .then((res) => dispatch(getOnePost(res.data)))
     .catch(console.log);
 };
 

@@ -26,7 +26,6 @@ router.post('/:id', async (req, res) => {
   if (!created) {
     await Follower.destroy({ where: { follower_id, user_id } });
   }
-  console.log('FOLOWERS BACK', follower2);
   res.json(follower2);
 });
 

@@ -46,9 +46,7 @@ export default function DiscussionPage(props) {
       user,
     });
   }, []);
-  console.log('====================================');
-  console.log(messages);
-  console.log('====================================');
+
   return (
     <GiftedChat
       messages={messages}

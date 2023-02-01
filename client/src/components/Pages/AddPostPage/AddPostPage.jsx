@@ -33,10 +33,7 @@ export default function AddPostPage({ navigation }) {
     });
     formData.append('text', text);
 
-
-    
     if (!formData._parts[0][1].uri) {
-
       return Alert.alert('Pick photo, please', '');
     }
     try {

@@ -9,13 +9,8 @@ import PostCard from '../../UI/PostCard';
 
 export default function PostPage({ route }) {
   const { postId } = route.params;
-  console.log('postId ------>', postId);
   const dispatch = useDispatch();
   const onePost = useSelector((state) => state.onePost);
-
-  console.log('===============ONE POST=================');
-  console.log(onePost);
-  console.log('====================================');
 
   useEffect(() => {
     dispatch(getOnePostAction(postId));
