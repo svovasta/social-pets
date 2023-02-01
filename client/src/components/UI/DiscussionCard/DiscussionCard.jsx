@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 
 export default function DiscussionCard(props) {
-  useEffect(() => { console.log(props.item); }, []);
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity

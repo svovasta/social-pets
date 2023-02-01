@@ -35,8 +35,6 @@ export default function PostCard({ post }) {
   const [followed, setFollowed] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const user = useSelector((state) => state.user);
-  const faves = useSelector((s) => s.faves);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -54,11 +52,11 @@ export default function PostCard({ post }) {
     dispatch(getFollowedPostsAction());
   }, [followed]);
 
-  const addorDeleteLikeHandler = (postId) => {
-    axios(`/likes/${post.id}`)
-      .then((res) => setPostLikes(res.data))
-      .catch(console.log);
-  }, []);
+  // const addorDeleteLikeHandler = (postId) => {
+  //   axios(`/likes/${post.id}`)
+  //     .then((res) => setPostLikes(res.data))
+  //     .catch(console.log);
+  // }, []);
 
   useEffect(() => {
     axios(`/likes/${post.id}/user`)
