@@ -8,16 +8,25 @@ import { getPostsAction } from '../../../redux/Slices/postsSlice';
 import { gStyle } from '../../../styles/styles';
 import PostCard from '../../UI/PostCard';
 import { findUserAction } from '../../../redux/Slices/userSlice';
+import { getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
 
 export default function MainPage({ navigation }) {
   const posts = useSelector((state) => state.posts);
   const [refreshing, setRefreshing] = useState(false);
+  const user = useSelector((s) => s.user);
+  const [foll, setFoll] = useState(true);
   const dispatch = useDispatch();
 
   const isFocused = useIsFocused();
 
   useEffect(() => {
     dispatch(findUserAction());
+  }, []);
+
+  const fposts = useSelector((s) => s.followers).filter((el) => el.User.id !== user.id);
+
+  useEffect(() => {
+    dispatch(getFollowedPostsAction());
   }, []);
 
   const onRefresh = useCallback(() => {
@@ -41,12 +50,17 @@ export default function MainPage({ navigation }) {
             onRefresh={onRefresh}
           />
 )}
-        data={posts}
+        data={foll ? posts : fposts}
         renderItem={({ item }) => (
           <PostCard post={item} />
         )}
       />
-      <Button title="followers" onPress={() => navigation.navigate('FollowersPage')} />
+      <Button
+        title={foll ? 'All posts' : 'Following'}
+        onPress={() => setFoll(!foll)
+        // navigation.navigate('FollowersPage')
+        }
+      />
     </SafeAreaView>
   );
 }
