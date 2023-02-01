@@ -41,62 +41,62 @@ function CommentsPage({ route }) {
 
   return (
     <SafeAreaView style={gStyle.main}>
-        <View style={{
-          borderBottomColor: 'grey',
-          borderBottomWidth: 1,
-        }}
-        >
-          <View style={styles.postContainer}>
-            <View style={styles.topContainer}>
-              <Avatar
-                style={styles.avatar}
-                source={user.avatar ? ({ uri: `http://localhost:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
-              />
-              <Text style={styles.username}>
-                {chosenpost?.User?.name}
-              </Text>
-            </View>
-            <View style={styles.postText}>
-              <Text>
-                {comments[0]?.Post?.text}
-              </Text>
-            </View>
-            <View style={styles.postData}>
-              <Text style={{ color: 'grey' }}>
-                {new Date(comments[0]?.Post?.createdAt).toLocaleDateString()}
-              </Text>
-            </View>
+      <View style={{
+        borderBottomColor: 'grey',
+        borderBottomWidth: 1,
+      }}
+      >
+        <View style={styles.postContainer}>
+          <View style={styles.topContainer}>
+            <Avatar
+              style={styles.avatar}
+              source={user.avatar ? ({ uri: `http://localhost:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
+            />
+            <Text style={styles.username}>
+              {chosenpost?.User?.name}
+            </Text>
+          </View>
+          <View style={styles.postText}>
+            <Text>
+              {comments[0]?.Post?.text}
+            </Text>
+          </View>
+          <View style={styles.postData}>
+            <Text style={{ color: 'grey' }}>
+              {new Date(comments[0]?.Post?.createdAt).toLocaleDateString()}
+            </Text>
           </View>
         </View>
-        <View>
-          <TextInput
-            style={gStyle.input}
-            keyboardType="default"
-            name="text"
-            value={input}
-            onChangeText={(text) => setInput(text)}
-            placeholder="Comment text"
-          />
-          <Button
-            title="Post"
-            onPress={() => {
-              dispatch(addCommentAction(activePost, input));
-              dispatch(getCommentsAction(activePost));
-              setInput('');
-            }}
-          />
-        </View>
-        <View style={styles.commentsList}>
-          <FlatList
-            data={comments}
-            renderItem={({ item }) => (
-              <CommentCard
-                comment={item}
-                activePostId={activePost}
-              />
-            )}
-          />
-        </View>
+      </View>
+      <View>
+        <TextInput
+          style={gStyle.input}
+          keyboardType="default"
+          name="text"
+          value={input}
+          onChangeText={(text) => setInput(text)}
+          placeholder="Comment text"
+        />
+        <Button
+          title="Post"
+          onPress={() => {
+            dispatch(addCommentAction(activePost, input));
+            dispatch(getCommentsAction(activePost));
+            setInput('');
+          }}
+        />
+      </View>
+      <View style={styles.commentsList}>
+        <FlatList
+          data={comments}
+          renderItem={({ item }) => (
+            <CommentCard
+              comment={item}
+              activePostId={activePost}
+            />
+          )}
+        />
+      </View>
     </SafeAreaView>
 
   );
