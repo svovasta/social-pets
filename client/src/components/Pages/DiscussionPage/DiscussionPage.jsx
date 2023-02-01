@@ -9,8 +9,11 @@ import {
   collection, addDoc, orderBy, query, onSnapshot,
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import { useSelector } from 'react-redux';
+import { SafeAreaView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text } from '@ui-kitten/components';
 import { auth, database } from '../../../../config/firebase';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 
@@ -58,9 +61,12 @@ export default function DiscussionPage(props) {
         name: userExpres.name,
       }}
       renderUsernameOnMessage
+      showAvatarForEveryMessage
       messagesContainerStyle={{
-        backgroundColor: '#fff ',
+        backgroundColor: 'pink',
       }}
+      wrapInSafeArea={false}
+
     />
   );
 }

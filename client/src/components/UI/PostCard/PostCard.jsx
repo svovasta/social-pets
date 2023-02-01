@@ -20,6 +20,7 @@ import {
 import { followAction, getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
 
 import { findUser, findUserAction } from '../../../redux/Slices/userSlice';
+
 import { gStyle } from '../../../styles/styles';
 import { deletePostAction } from '../../../redux/Slices/postsSlice';
 
@@ -98,8 +99,8 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-
           source={post.User.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+
         />
         <Text style={styles.username}>{post.User.name}</Text>
 

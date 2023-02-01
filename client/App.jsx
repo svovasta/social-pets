@@ -11,8 +11,6 @@ import store from './src/redux/store';
 import './config/firebase';
 import 'react-native-gesture-handler';
 
-// axios.defaults.baseURL = 'http://localhost:3001';
-
 axios.defaults.baseURL = 'http://localhost:3001';
 
 const fonts = () => Font.loadAsync({

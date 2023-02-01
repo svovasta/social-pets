@@ -13,18 +13,16 @@ export default function AllDiscussionsPage({ navigation }) {
     dispatch(getDiscussionsAction());
   }, []);
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        {discussions?.map((discussion) => (
-          <DiscussionCard
-            key={discussion.id}
-            item={discussion}
-            navigation={navigation}
-          />
-        ))}
-      </View>
+    <View style={styles.container}>
+      {discussions?.map((discussion) => (
+        <DiscussionCard
+          key={discussion.id}
+          item={discussion}
+          navigation={navigation}
+        />
+      ))}
+    </View>
 
-    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
