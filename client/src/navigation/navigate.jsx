@@ -12,7 +12,7 @@ import ProfilePage from '../components/Pages/ProfilePage';
 import FavouritesPage from '../components/Pages/FavouritesPage';
 import CommentsPage from '../components/Pages/CommentsPage/CommentsPage';
 import LoginPage from '../components/Pages/LoginPage';
-
+import EditPostPage from '../components/Pages/EditPostPage';
 import RegistrationPage from '../components/Pages/RegistrationPage/RegistrationPage';
 import PostPage from '../components/Pages/PostPage';
 import EditProfile from '../components/Pages/EditProfile';
@@ -40,6 +40,7 @@ export default function BottomTabNavigator() {
   return (
     <NavigationContainer>
       <BottomTab.Navigator
+        sceneContainerStyle={{ color: 'green' }}
         initialRouteName="HomeScreen"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -64,11 +65,15 @@ export default function BottomTabNavigator() {
               iconName = focused ? 'note-check' : 'note-check-outline';
               return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
             }
+
             // if (rn === loginPage) {
             //   iconName = focused ? 'sign-in' : 'sign-in';
             //   return <Octicons name={iconName} size={size} color={color} />;
             // }
           },
+          tabBarActiveTintColor: '#58ceb2',
+          tabBarInactiveTintColor: 'white',
+          tabBarStyle: { backgroundColor: 'rgba(0,0,0,0.95)' },
         })}
       >
         {isAuth ? (
@@ -206,6 +211,11 @@ function ProfileNavigator() {
       <ProfileStack.Screen
         name="OnePostScreen"
         component={PostPage}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name="EditPostScreen"
+        component={EditPostPage}
         options={{ headerShown: false }}
       />
     </ProfileStack.Navigator>
