@@ -9,13 +9,14 @@ const postsSlice = createSlice({
     getPosts: (state, action) => action.payload,
     addPost: (state, action) => [action.payload, ...state],
     deletePost: (state, action) => state.filter((el) => el.id !== action.payload),
-    editPost: (state, action) => state.map((el) => (el.id === action.payload ? { ...el, text: action.payload.editedInput.text, image: action.payload.editedInput.image } : el)),
+    editPost: (state, action) => state.map((el) => (el.id === action.payload ? { ...el, text: action.payload.values.text } : el)),
     myPosts: (state, action) => action.payload,
+    addOrDeleteLike: (state, action) => action.payload,
   },
 });
 
 export const {
-  getPosts, addPost, deletePost, editPost, favePosts, addFave,
+  getPosts, addPost, deletePost, editPost, favePosts, addFave, addOrDeleteLike,
 } = postsSlice.actions;
 
 export const getPostsAction = () => (dispatch) => {
@@ -39,6 +40,12 @@ export const deletePostAction = (postId) => (dispatch) => {
 
 export const editPostAction = (postId, input) => (dispatch) => {
   axios.patch(`/posts/${postId}/post`, input).then((res) => dispatch(editPost(res.data))).catch(console.log);
+};
+
+export const addOrDeleteLikeAction = (postId) => (dispatch) => {
+  axios.post(`/likes/${postId}`)
+    .then((res) => dispatch(addOrDeleteLike(res.data)))
+    .catch(console.log);
 };
 
 export default postsSlice.reducer;

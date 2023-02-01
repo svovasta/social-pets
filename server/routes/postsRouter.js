@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.route('/')
   .get(async (req, res) => {
-    const allPosts = await Post.findAll({ include: [User, Comment], order: [['createdAt', 'DESC']] });
+    const allPosts = await Post.findAll({ include: [User, Like, Comment], order: [['createdAt', 'DESC']] });
     res.json(allPosts);
   })
   .post(async (req, res) => {
@@ -41,6 +41,12 @@ router.route('/:id/post')
     await Like.destroy({ where: { postId: req.params.id } });
     await Comment.destroy({ where: { postId: req.params.id } });
     res.sendStatus(200);
+  })
+  .patch(async (req, res) => {
+    const post = await Post.findByPk(req.params.id);
+    post.text = req.body.text;
+    post.save();
+    res.json(post);
   });
 
 const imagesPath = './img/postsImages';
@@ -65,6 +71,20 @@ router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
     userId,
   });
   res.json(newPost);
+});
+
+router.patch('/:id/edit-image', postsUpload.single('image'), async (req, res) => {
+  try {
+    console.log('REQ BODY ----->', req.body);
+    console.log('REQ FILE ----->', req.file);
+    const post = Post.findByPk(req.params.id);
+    post.text = req.body.text;
+    post.image = req.file ? req.file.path : '';
+    post.save();
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.get('/img/postsImages/:name.jpg', (req, res) => {
