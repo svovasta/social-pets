@@ -16,7 +16,6 @@ const avatarsStorage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    // console.log(file);
     cb(null, `${file.originalname}.jpg`);
   },
 });
@@ -24,7 +23,6 @@ const avatarsStorage = multer.diskStorage({
 const avatarsUpload = multer({ storage: avatarsStorage });
 
 router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) => {
-  // console.log('REQ FILE--->', req.file);
   const userId = req.session.user.id;
   const user = await User.findByPk(userId);
   user.avatar = req.file.path;

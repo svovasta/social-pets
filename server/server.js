@@ -10,6 +10,8 @@ const myPostsRouter = require('./routes/myPostsRouter');
 const apiRouter = require('./routes/apiRouter');
 const discussionsRouter = require('./routes/discussionRouter');
 const followersRouter = require('./routes/followersRouter');
+const likesRouter = require('./routes/likesRouter');
+const commentsRouter = require('./routes/commentsRouter');
 
 const app = express();
 
@@ -45,5 +47,7 @@ app.use('/my-posts', myPostsRouter);
 app.use('/api/v1', apiRouter);
 app.use('/discussions', discussionsRouter);
 app.use('/followers', followersRouter);
+app.use('/likes', likesRouter);
+app.use('/comments', commentsRouter);
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`));
