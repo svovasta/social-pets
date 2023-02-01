@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, LogBox } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 import { Provider } from 'react-redux';
@@ -21,6 +21,7 @@ const fonts = () => Font.loadAsync({
 });
 
 export default function App() {
+  LogBox.ignoreAllLogs();
   const [font, setFont] = useState(false);
 
   if (font) {

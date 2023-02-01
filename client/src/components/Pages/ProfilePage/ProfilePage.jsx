@@ -149,8 +149,8 @@ export default function ProfilePage({ navigation }) {
             )}
 
           </View>
-          <Text style={{ margin: 10, fontSize: 20 }}>{user.name}</Text>
-          <Text style={{ marginLeft: 10, fontSize: 20 }}>{user.description}</Text>
+          <Text style={{ margin: 10, marginLeft: 20, fontSize: 20 }}>{user.name}</Text>
+          <Text style={{ marginLeft: 20, fontSize: 20 }}>{user.description}</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} />

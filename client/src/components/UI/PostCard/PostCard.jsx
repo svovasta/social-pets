@@ -35,8 +35,8 @@ export default function PostCard({ post }) {
   const [followed, setFollowed] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const user = useSelector((state) => state.user);
-  const faves = useSelector((s) => s.faves);
+  // const user = useSelector((state) => state.user);
+  // const faves = useSelector((s) => s.faves);
 
   const navigation = useNavigation();
   const route = useRoute();
@@ -49,16 +49,15 @@ export default function PostCard({ post }) {
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
 
-  
-  useEffect(() => {
-    dispatch(getFollowedPostsAction());
-  }, [followed]);
+  // useEffect(() => {
+  //   dispatch(getFollowedPostsAction());
+  // }, [followed]);
 
-  const addorDeleteLikeHandler = (postId) => {
-    axios(`/likes/${post.id}`)
-      .then((res) => setPostLikes(res.data))
-      .catch(console.log);
-  }, []);
+  // const addorDeleteLikeHandler = (postId) => {
+  //   axios(`/likes/${post.id}`)
+  //     .then((res) => setPostLikes(res.data))
+  //     .catch(console.log);
+  // }, []);
 
   useEffect(() => {
     axios(`/likes/${post.id}/user`)
@@ -77,7 +76,7 @@ export default function PostCard({ post }) {
   useEffect(() => {
     dispatch(getFollowedPostsAction());
     followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
-  }, [isFocused]);
+  }, [isFocused, followed]);
 
   const addorDeleteLikeHandler = (postId) => {
     axios.post(`/likes/${postId}`)
