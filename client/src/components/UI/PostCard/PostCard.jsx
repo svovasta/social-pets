@@ -78,10 +78,6 @@ export default function PostCard({ post }) {
       addorDeleteLikeHandler(post.id);
     });
 
-  console.log('====================================');
-  console.log(post);
-  console.log('====================================');
-
   return (
     <SafeAreaView style={styles.card}>
 
