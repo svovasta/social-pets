@@ -64,9 +64,7 @@ export default function MainPage({ navigation }) {
       />
       <Button
         title={foll ? 'All posts' : 'Following'}
-        onPress={() => setFoll(!foll)
-        // navigation.navigate('FollowersPage')
-        }
+        onPress={() => setFoll(!foll)}
       />
     </View>
   );

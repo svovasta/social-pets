@@ -62,7 +62,10 @@ export default function HealthPage() {
           }}
         />
         <Calendar
-          style={{ marginTop: 30, backgroundColor: 'rgba(160,82,45,0.1)' }}
+          theme={{
+            calendarBackground: 'grey',
+          }}
+          style={{ marginTop: 80 }}
           minDate="2010-05-10"
           maxDate="2060-05-30"
           onDayPress={(res) => {
@@ -89,7 +92,7 @@ export default function HealthPage() {
           font: 'Roboto',
         }}
         >
-          Here you can store your pet-related notes, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
+          Here you can keep track of your pet-related events, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
         </Text>
       )
         : (
