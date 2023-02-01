@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
   cont: {
     marginTop: 20,
     flexWrap: 'wrap',
+    flexDirection: 'row',
   },
   photo: {
-    width: 180,
-    height: 180,
+    width: 130,
+    height: 130,
   },
   avatar: {
     width: 80,

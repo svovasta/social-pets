@@ -34,9 +34,9 @@ export default function CommentCard({ comment }) {
             <Modal visible={visible}>
               <Card disabled style={styles.modalWindow}>
                 <View style={styles.commentActions}>
-                  <TouchableOpacity style={{ marginRight: 20 }}>
+                  {/* <TouchableOpacity style={{ marginRight: 20 }}>
                     <Feather name="edit" size={24} color="black" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <TouchableOpacity onPress={() => {
                     dispatch(deleteCommentAction(comment.Post.id, comment.id));
                     dispatch(getCommentsAction(comment.Post.id));
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     left: 230,
   },
   modalWindow: {
-    position: 'absolute',
+    position: 'relative',
     top: '30%',
     left: '65%',
     borderRadius: 20,

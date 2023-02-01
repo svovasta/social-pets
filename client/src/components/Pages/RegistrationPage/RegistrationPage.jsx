@@ -18,7 +18,6 @@ export default function RegistrationPage({ navigation }) {
   const handleRegistration = (email, password, name) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        console.log(user);
         dispatch(setUserFirestorm({
           email: user.email,
           id: user.id,

@@ -18,13 +18,13 @@ export const {
 } = commentsSlice.actions;
 
 export const getCommentsAction = (PostId) => (dispatch) => {
-  axios(`/posts/${PostId}/comments`)
+  axios(`/comments/post/${PostId}`)
     .then((res) => dispatch(getComments(res.data)))
     .catch(console.log);
 };
 
 export const addCommentAction = (PostId, input) => (dispatch) => {
-  axios.post(`/posts/${PostId}/comments`, { text: input })
+  axios.post(`/comments/post/${PostId}`, { text: input })
     .then((res) => {
       dispatch(addComment(res.data))
         .catch(console.log);
@@ -32,7 +32,7 @@ export const addCommentAction = (PostId, input) => (dispatch) => {
 };
 
 export const deleteCommentAction = (id, commentId) => (dispatch) => {
-  axios.delete(`/posts/${id}/comments/${commentId}`)
+  axios.delete(`/comments/post/${id}/comment/${commentId}`)
     .then((res) => dispatch(deleteComment(res.data)));
 };
 

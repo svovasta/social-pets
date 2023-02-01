@@ -16,7 +16,6 @@ const avatarsStorage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    // console.log(file);
     cb(null, `${file.originalname}.jpg`);
   },
 });
@@ -24,7 +23,6 @@ const avatarsStorage = multer.diskStorage({
 const avatarsUpload = multer({ storage: avatarsStorage });
 
 router.post('/upload-avatar', avatarsUpload.single('avatar'), async (req, res) => {
-  // console.log('REQ FILE--->', req.file);
   const userId = req.session.user.id;
   const user = await User.findByPk(userId);
   user.avatar = req.file.path;
@@ -98,6 +96,17 @@ router.get('/check', (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.destroy();
   res.clearCookie('sid').sendStatus(200);
+});
+
+router.patch('/:id/edit', async (req, res) => {
+  // const { id } = req.params;
+  const { name, description } = req.body.values;
+  const editedUser = await User.findOne({ where: { id: req.params.id } });
+  editedUser.name = name;
+  editedUser.description = description;
+  editedUser.save();
+  console.log(req.body, 'REQBODYYY');
+  res.json(editedUser);
 });
 
 module.exports = router;

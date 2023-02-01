@@ -18,45 +18,50 @@ import {
   addFavesAction, deleteFavesAction, getFavesAction,
 } from '../../../redux/Slices/faveSlice';
 import { followAction, getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
-import { findUserAction } from '../../../redux/Slices/userSlice';
+
+import { findUser, findUserAction } from '../../../redux/Slices/userSlice';
 
 import { gStyle } from '../../../styles/styles';
 import { deletePostAction } from '../../../redux/Slices/postsSlice';
 
 export default function PostCard({ post }) {
+  const followers = useSelector((s) => s.followers);
+  const user = useSelector((state) => state.user);
+  const faves = useSelector((s) => s.faves);
+
   const [postLikes, setPostLikes] = useState([]);
   const [likeStatus, setLikeStatus] = useState(false);
   const [faved, setFaved] = useState(false);
   const [followed, setFollowed] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
 
   const user = useSelector((state) => state.user);
   const faves = useSelector((s) => s.faves);
+
   const navigation = useNavigation();
   const route = useRoute();
+  const isFocused = useIsFocused();
 
   const dispatch = useDispatch();
-  const followers = useSelector((s) => s.followers);
 
   useEffect(() => {
     dispatch(getFavesAction());
-    dispatch(findUserAction());
-    !faves.find((el) => el.postId === post.id) ? setFaved(false) : setFaved(true);
+    !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
 
+  
   useEffect(() => {
     dispatch(getFollowedPostsAction());
-    followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
-  }, []);
+  }, [followed]);
 
   const addorDeleteLikeHandler = (postId) => {
-    axios.post(`/posts/${postId}/likes`)
+    axios(`/likes/${post.id}`)
       .then((res) => setPostLikes(res.data))
       .catch(console.log);
-  };
+  }, []);
+
   useEffect(() => {
-    axios(`/posts/${post.id}/user/like`)
+    axios(`/likes/${post.id}/user`)
       .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
       .catch((err) => {
         console.log(err);
@@ -64,10 +69,21 @@ export default function PostCard({ post }) {
   }, [likeStatus]);
 
   useEffect(() => {
-    axios(`/posts/${post.id}/likes`)
+    dispatch(getFavesAction());
+    dispatch(findUserAction());
+    !faves.find((el) => el.postId === post.id) ? setFaved(false) : setFaved(true);
+  }, [isFocused]);
+
+  useEffect(() => {
+    dispatch(getFollowedPostsAction());
+    followers.find((el) => el.User.id === post.userId) ? setFollowed(false) : setFollowed(true);
+  }, [isFocused]);
+
+  const addorDeleteLikeHandler = (postId) => {
+    axios.post(`/likes/${postId}`)
       .then((res) => setPostLikes(res.data))
       .catch(console.log);
-  }, []);
+  };
 
   const tap = Gesture.Tap()
     .numberOfTaps(2)
@@ -79,23 +95,30 @@ export default function PostCard({ post }) {
   return (
     <SafeAreaView style={styles.card}>
 
+      {!(route.name === 'OnePostScreen') && (
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={user.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={post.User.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+
         />
         <Text style={styles.username}>{post.User.name}</Text>
-        {user.id === post.User.id ? null : (
-          <Button
-            title={followed ? 'follow' : 'unfollow'}
-            onPress={() => {
-              dispatch(followAction(post.User.id));
-              setFollowed(!followed);
-              dispatch(getFollowedPostsAction());
-            }}
-          />
-        )}
+
+        {user.id === post.User.id ? null
+          : (
+            <Button
+              title={!followers.find((el) => el.User.id === post.User.id) ? 'follow' : 'unfollow'}
+              onPress={() => {
+                dispatch(followAction(post.User.id));
+                dispatch(getFollowedPostsAction());
+                setFollowed(!followed);
+                // !followers.find((el) => el.User.id === post.User.id) ? setFollowed(false) : setFollowed(true);
+              }}
+            />
+          )}
       </View>
+      )}
+
       <View>
         <GestureDetector gesture={tap}>
           <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
@@ -106,10 +129,10 @@ export default function PostCard({ post }) {
       <View style={styles.cardBottom}>
         <View style={styles.text}>
           <Text style={styles.username}>
-            {post.User.name}
+            {post?.User?.name}
           </Text>
           <Text>
-            {post.text}
+            {post?.text}
           </Text>
         </View>
         <View>
@@ -127,7 +150,7 @@ export default function PostCard({ post }) {
           >
             <AntDesign style={styles.heart} name={likeStatus ? 'heart' : 'hearto'} size={25} color="red" />
             <Text style={{ alignSelf: 'center', fontSize: 20, marginRight: 15 }}>
-              {postLikes.length}
+              {postLikes?.length}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -137,24 +160,12 @@ export default function PostCard({ post }) {
               { activePost: post.id },
             )}
           >
-            <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.bookmark}
-            onPress={() => {
-              if (!faves.find((el) => el.postId === post.id)) {
-                dispatch(addFavesAction(post.id));
-                dispatch(getFavesAction());
-                setFaved(true);
-              } else {
-                dispatch(deleteFavesAction(post.id));
-                dispatch(getFavesAction());
-                setFaved(false);
-              }
-            }}
-          >
-            <Feather name="bookmark" size={25} color={faved ? 'red' : 'black'} />
+            <View style={styles.commentsContainer}>
+              <FontAwesome5 style={styles.comment} name="comment" size={25} color="black" />
+              <Text style={{ fontSize: 20, marginLeft: 10 }}>
+                {post.Comments?.length}
+              </Text>
+            </View>
           </TouchableOpacity>
 
           {route.name === 'OnePostScreen' ? (
@@ -164,14 +175,14 @@ export default function PostCard({ post }) {
               >
                 <Feather name="edit" size={24} color="green" />
               </TouchableOpacity>
-              <View>
+              <View style={{ position: 'relative' }}>
                 <TouchableOpacity
                   style={styles.delete}
                   onPress={() => setShowModal(true)}
                 >
                   <MaterialIcons name="delete-outline" size={27} color="red" />
                 </TouchableOpacity>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View>
                   <Modal
                     visible={showModal}
                   >
@@ -207,11 +218,19 @@ export default function PostCard({ post }) {
           ) : (
             <TouchableOpacity
               style={styles.bookmark}
-              onPress={() => (!faves.find((el) => el.postId === post.id)
-                ? dispatch(addFavesAction(post.id))
-                : dispatch(deleteFavesAction(post.id)))}
+              onPress={() => {
+                if (!faves.find((el) => el.postId === post.id)) {
+                  dispatch(addFavesAction(post.id));
+                  dispatch(getFavesAction());
+                  setFaved(true);
+                } else {
+                  dispatch(deleteFavesAction(post.id));
+                  dispatch(getFavesAction());
+                  setFaved(false);
+                }
+              }}
             >
-              <Feather name="bookmark" size={25} color={faves.find((el) => el.postId === post.id) ? 'red' : 'black'} />
+              <Feather name="bookmark" size={25} color={faved ? 'red' : 'black'} />
             </TouchableOpacity>
           )}
 
@@ -228,6 +247,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 5,
+  },
+  modalWindow: {
+    borderRadius: 30,
+    marginTop: 500,
   },
   rightButtons: {
     flexDirection: 'row',
@@ -272,6 +295,9 @@ const styles = StyleSheet.create({
   },
   card: {
     margin: 5,
+  },
+  commentsContainer: {
+    flexDirection: 'row',
   },
   footerContainer: {
     flexDirection: 'row',

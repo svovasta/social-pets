@@ -36,9 +36,6 @@ export default function ProfilePage({ navigation }) {
     dispatch(findUserAction());
     dispatch(getMyPostsAction());
     dispatch(getFavesAction());
-    console.log('====================================');
-    console.log(user);
-    console.log('====================================');
   }, [isFocused]);
 
   const onRefresh = useCallback(() => {
@@ -153,7 +150,7 @@ export default function ProfilePage({ navigation }) {
 
           </View>
           <Text style={{ margin: 10, fontSize: 20 }}>{user.name}</Text>
-          <Text style={{ marginLeft: 10, fontSize: 20 }}>Bio</Text>
+          <Text style={{ marginLeft: 10, fontSize: 20 }}>{user.description}</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} />

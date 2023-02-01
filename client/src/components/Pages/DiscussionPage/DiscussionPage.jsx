@@ -66,6 +66,7 @@ export default function DiscussionPage(props) {
         backgroundColor: 'pink',
       }}
       wrapInSafeArea={false}
+
     />
   );
 }
