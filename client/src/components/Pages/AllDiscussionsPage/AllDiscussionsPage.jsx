@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  StyleSheet, SafeAreaView,
+  StyleSheet, SafeAreaView, View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscussionsAction } from '../../../redux/Slices/discussionsSlice';
@@ -13,18 +13,16 @@ export default function AllDiscussionsPage({ navigation }) {
     dispatch(getDiscussionsAction());
   }, []);
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        {discussions?.map((discussion) => (
-          <DiscussionCard
-            key={discussion.id}
-            item={discussion}
-            navigation={navigation}
-          />
-        ))}
-      </View>
+    <View style={styles.container}>
+      {discussions?.map((discussion) => (
+        <DiscussionCard
+          key={discussion.id}
+          item={discussion}
+          navigation={navigation}
+        />
+      ))}
+    </View>
 
-    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

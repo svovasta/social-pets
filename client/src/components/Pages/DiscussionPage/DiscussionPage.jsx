@@ -9,12 +9,16 @@ import {
   collection, addDoc, orderBy, query, onSnapshot,
 } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import { useSelector } from 'react-redux';
+import { SafeAreaView, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Text } from '@ui-kitten/components';
 import { auth, database } from '../../../../config/firebase';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 
 export default function DiscussionPage(props) {
+  console.log(props, '-------');
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const userExpres = useSelector((state) => state.user);
@@ -46,10 +50,10 @@ export default function DiscussionPage(props) {
       user,
     });
   }, []);
-  console.log('====================================');
-  console.log(messages);
-  console.log('====================================');
+  const insets = useSafeAreaInsets();
+  console.log(insets);
   return (
+    // <SafeAreaView><Text>asd</Text></SafeAreaView>
     <GiftedChat
       messages={messages}
       onSend={(messages) => onSend(messages)}
@@ -60,10 +64,11 @@ export default function DiscussionPage(props) {
         name: userExpres.name,
       }}
       renderUsernameOnMessage
+      showAvatarForEveryMessage
       messagesContainerStyle={{
-        backgroundColor: '#fff ',
+        backgroundColor: 'pink',
       }}
-      renderUsernameOnMessage
+      wrapInSafeArea={false}
     />
   );
 }

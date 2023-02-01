@@ -21,7 +21,7 @@ export default function CommentCard({ comment }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${comment.User.avatar}` }) : (defaultAvatar)}
+          source={user.avatar ? ({ uri: `http://localhost:3001/user/${comment.User.avatar}` }) : (defaultAvatar)}
         />
         <Text style={styles.username}>{comment.User.name}</Text>
         <View style={styles.more}>

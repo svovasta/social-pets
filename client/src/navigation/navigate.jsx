@@ -22,7 +22,6 @@ import DiscussionPage from '../components/Pages/DiscussionPage';
 import { useAuth } from '../redux/Slices/userFirestormSlice';
 
 import FollowersPage from '../components/Pages/FollowersPage';
-import DiscussionPage from '../components/Pages/DiscussionPage/DiscussionPage';
 
 // Screens names
 
@@ -65,10 +64,10 @@ export default function BottomTabNavigator() {
               iconName = focused ? 'note-check' : 'note-check-outline';
               return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
             }
-            if (rn === loginPage) {
-              iconName = focused ? 'sign-in' : 'sign-in';
-              return <Octicons name={iconName} size={size} color={color} />;
-            }
+            // if (rn === loginPage) {
+            //   iconName = focused ? 'sign-in' : 'sign-in';
+            //   return <Octicons name={iconName} size={size} color={color} />;
+            // }
           },
         })}
       >
@@ -103,7 +102,7 @@ export default function BottomTabNavigator() {
           </>
         ) : (
           <BottomTab.Screen
-            name="Sign In"
+            name="Social-Pets ©"
             component={SignInNavigator}
             options={{ headerShown: false }}
           />
