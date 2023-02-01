@@ -35,9 +35,6 @@ export default function PostCard({ post }) {
   const [followed, setFollowed] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const user = useSelector((state) => state.user);
-  const faves = useSelector((s) => s.faves);
-
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
@@ -49,16 +46,9 @@ export default function PostCard({ post }) {
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
 
-  
   useEffect(() => {
     dispatch(getFollowedPostsAction());
   }, [followed]);
-
-  const addorDeleteLikeHandler = (postId) => {
-    axios(`/likes/${post.id}`)
-      .then((res) => setPostLikes(res.data))
-      .catch(console.log);
-  }, []);
 
   useEffect(() => {
     axios(`/likes/${post.id}/user`)
@@ -99,7 +89,7 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={post.User.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={post.User.avatar ? ({ uri: `http://192.168.3.127:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
 
         />
         <Text style={styles.username}>{post.User.name}</Text>
@@ -121,7 +111,7 @@ export default function PostCard({ post }) {
 
       <View>
         <GestureDetector gesture={tap}>
-          <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
+          <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
         </GestureDetector>
 
       </View>

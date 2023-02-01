@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import {
-  TextInput, SafeAreaView, StyleSheet, Button, Image, View, Alert,
+  TextInput, SafeAreaView, StyleSheet, Button, Image, View, Alert, TouchableOpacity, Text,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { gStyle } from '../../../styles/styles';
 import pic from '../../../../assets/dog.png';
+import topImg from '../../../../assets/Discussions/top2.png';
+import photoAdd from '../../../../assets/Discussions/photoAdd.png';
 
 export default function AddPostPage({ navigation }) {
   const [image, setImage] = useState('');
@@ -50,7 +52,13 @@ export default function AddPostPage({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={gStyle.main}>
+    <SafeAreaView style={styles.container}>
+      <Image
+        source={topImg}
+        style={{
+          width: '100%', height: 95, position: 'absolute', top: 4,
+        }}
+      />
       <Formik
         initialValues={{ text: '' }}
         onSubmit={(values, { resetForm }) => {
@@ -60,36 +68,89 @@ export default function AddPostPage({ navigation }) {
         }}
       >
         {(props) => (
-          <View>
-            <View style={{ position: 'relative' }}>
-              <View style={[gStyle.btn, {
-                width: 125, marginTop: 30,
-              }]}
+          <View style={{ alignItems: 'center' }}>
+
+            {image === '' ? (
+              <TouchableOpacity
+                style={{
+                  width: 300,
+                  height: 300,
+                  marginTop: 90,
+                  borderRadius: '150%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  alignSelf: 'auto',
+                  borderColor: '#A0522D',
+                  borderWidth: 4,
+                  backgroundColor: 'rgba(160,82,45,0.1)',
+                }}
+                onPress={pickImage}
               >
-                <Button title="Pick photo" onPress={pickImage} />
-              </View>
-            </View>
-            <View
-              value={props.values.image}
-              style={{ alignItems: 'center', justifyContent: 'center' }}
+                <Image
+                  source={photoAdd}
+                  style={{
+                    width: '40%',
+                    height: '40%',
+                  }}
+                />
+              </TouchableOpacity>
+            ) : (
+              <>
+                {image && (
+                <Image
+                  source={{ uri: image }}
+                  style={{
+                    width: '100%',
+                    height: '55%',
+                    marginTop: 90,
+                  }}
+                />
+                )}
+                <TouchableOpacity onPress={pickImage}>
+                  <Text style={{
+                    color: '#A0522D',
+                    fontWeight: '600',
+                    fontSize: 16,
+                    marginTop: 5,
+                  }}
+                  >
+                    Update photo
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+
+            <View style={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              marginTop: 50,
+            }}
             >
-              <View>
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, marginTop: 20 }} />}
-              </View>
-            </View>
-            <TextInput
-              style={gStyle.input}
-              value={props.values.text}
-              onChangeText={props.handleChange('text')}
-              placeholder="Post text"
-            />
-            <View style={[gStyle.btn, { width: 120 }]}>
-              <Button
-                title="Add post"
-                onPress={props.handleSubmit}
+              <TextInput
+                style={{
+                  backgroundColor: '#F6F7FB',
+                  height: 58,
+                  marginBottom: 20,
+                  fontSize: 16,
+                  borderRadius: 10,
+                  padding: 12,
+                  width: '80%',
+                }}
+                value={props.values.text}
+                onChangeText={props.handleChange('text')}
+                placeholder="Add description to your post"
+                multiline
               />
+              <TouchableOpacity
+                style={styles.botton}
+                onPress={props.handleSubmit}
+              >
+                <Text style={{ fontWeight: 'bold', color: '#FFF8DC', fontSize: 18 }}>
+                  Add post
+                </Text>
+              </TouchableOpacity>
             </View>
-            <Image source={pic} style={styles.pic} />
           </View>
         )}
       </Formik>
@@ -98,25 +159,28 @@ export default function AddPostPage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  uploadContainer: {
-    marginTop: 20,
+  container: {
+    justifyContent: 'space-between',
+    backgroundColor: '#FFF8DC',
+    height: '100%',
+  },
+  input: {
+    backgroundColor: '#F6F7FB',
+    height: 58,
+    marginBottom: 20,
+    fontSize: 16,
+    borderRadius: 10,
+    padding: 12,
+    width: '80%',
+    borderWidth: 2,
+    borderColor: '#A0522D',
+  },
+  botton: {
+    backgroundColor: '#A0522D',
+    height: 58,
+    borderRadius: 10,
+    width: '35%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  btnStyle: {
-    height: 48,
-    width: '30%',
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    backgroundColor: 'rgba(0, 249, 166, 1)',
-  },
-  pic: {
-    width: 150,
-    height: 300,
-    marginTop: 20,
-    marginLeft: 'auto',
-    marginRight: 20,
   },
 });

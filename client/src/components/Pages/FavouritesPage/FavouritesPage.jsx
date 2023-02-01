@@ -46,7 +46,7 @@ export default function FavouritesPage() {
           <TouchableOpacity key={el.id} onPress={() => navigation.navigate('PostPage')}>
             <Image
               style={styles.photo}
-              source={{ uri: `http://localhost:3001/posts/${el.Post.image}` }}
+              source={{ uri: `http://192.168.3.127:3001/posts/${el.Post.image}` }}
             />
           </TouchableOpacity>
         ))}

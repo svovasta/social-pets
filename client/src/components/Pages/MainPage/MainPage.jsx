@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  StyleSheet, SafeAreaView, FlatList, RefreshControl, Button,
+  StyleSheet, SafeAreaView, FlatList, RefreshControl, Button, Image, View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -9,6 +9,7 @@ import { gStyle } from '../../../styles/styles';
 import PostCard from '../../UI/PostCard';
 import { findUserAction } from '../../../redux/Slices/userSlice';
 import { getFollowedPostsAction } from '../../../redux/Slices/followersSlice';
+import mp from '../../../../assets/Discussions/mp.png';
 
 export default function MainPage({ navigation }) {
   const posts = useSelector((state) => state.posts);
@@ -42,7 +43,13 @@ export default function MainPage({ navigation }) {
   }, [isFocused]);
 
   return (
-    <SafeAreaView style={gStyle.main}>
+    <View style={{ width: '100%', backgroundColor: '#FFF8DC' }}>
+      <Image
+        source={mp}
+        style={{
+          width: '100%', height: 100, resizeMode: 'cover',
+        }}
+      />
       <FlatList
         refreshControl={(
           <RefreshControl
@@ -61,7 +68,7 @@ export default function MainPage({ navigation }) {
         // navigation.navigate('FollowersPage')
         }
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

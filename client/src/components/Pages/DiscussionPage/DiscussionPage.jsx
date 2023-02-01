@@ -56,14 +56,14 @@ export default function DiscussionPage(props) {
       onSend={(messages) => onSend(messages)}
       user={{
         _id: auth?.currentUser?.email,
-        avatar: userExpres.avatar ? (`http://localhost:3001/user/${userExpres.avatar}`) : (defaultAvatar),
+        avatar: userExpres.avatar ? (`http://192.168.3.127:3001/user/${userExpres.avatar}`) : (defaultAvatar),
 
         name: userExpres.name,
       }}
       renderUsernameOnMessage
       showAvatarForEveryMessage
       messagesContainerStyle={{
-        backgroundColor: 'pink',
+        backgroundColor: '#FFF8DC',
       }}
       wrapInSafeArea={false}
 
