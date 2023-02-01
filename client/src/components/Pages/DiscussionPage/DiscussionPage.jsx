@@ -18,7 +18,6 @@ import { auth, database } from '../../../../config/firebase';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
 
 export default function DiscussionPage(props) {
-  console.log(props, '-------');
   const route = useRoute();
   const [messages, setMessages] = useState([]);
   const userExpres = useSelector((state) => state.user);
@@ -50,10 +49,8 @@ export default function DiscussionPage(props) {
       user,
     });
   }, []);
-  const insets = useSafeAreaInsets();
-  console.log(insets);
+
   return (
-    // <SafeAreaView><Text>asd</Text></SafeAreaView>
     <GiftedChat
       messages={messages}
       onSend={(messages) => onSend(messages)}

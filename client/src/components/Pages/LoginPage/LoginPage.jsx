@@ -48,8 +48,6 @@ export default function LoginPage({ navigation }) {
             width: '100%', height: '70%', position: 'absolute', bottom: 0, backgroundColor: '#fff', borderTopLeftRadius: 60,
           }}
           >
-
-            {/* <Image source={cat} style={styles.cat} /> */}
             <View style={{ alignItems: 'center' }}>
               <Text style={{
                 fontSize: 42, fontWeight: 'bold', alignSelf: 'center', paddingBottom: 34, color: '#8B4513', marginTop: 40,
@@ -70,28 +68,9 @@ export default function LoginPage({ navigation }) {
                 onChangeText={props.handleChange('password')}
                 placeholder="Enter password..."
               />
-              {/* <Button
-                style={styles.botton}
-                title="Sign In"
-                onPress={props.handleSubmit}
-              /> */}
               <TouchableOpacity style={styles.botton} onPress={props.handleSubmit}>
                 <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}> Log in</Text>
               </TouchableOpacity>
-              {/* <View style={styles.haveAcc}>
-                <Text style={[gStyle.gText, {
-                  textAlign: 'center', marginTop: 15, marginBottom: 15,
-                }]}
-                >
-                  Already have an account?
-                </Text>
-                <View style={[gStyle.btn, { width: 200 }]}>
-                  <Button
-                    title="Create new account"
-                    onPress={() => navigation.navigate('SignUpScreen')}
-                  />
-                </View>
-              </View> */}
             </View>
             <View style={{
               marginTop: 30, flexDirection: 'row', alignItems: 'center', alignSelf: 'center',
@@ -110,20 +89,14 @@ export default function LoginPage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   justifyContent: 'center',
-  // },
-  // cat: {
-  //   position: 'absolute',
-  //   right: '12.5%',
-  //   top: '-1%',
-  //   width: 100,
-  //   height: 100,
-  //   zIndex: 100,
-  // },
-  // haveAcc: {
-  //   marginTop: 50,
-  // },
+  cat: {
+    position: 'absolute',
+    right: '12.5%',
+    top: '-1%',
+    width: 100,
+    height: 100,
+    zIndex: 100,
+  },
   input: {
     backgroundColor: '#F6F7FB',
     height: 58,

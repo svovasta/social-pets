@@ -41,10 +41,6 @@ export default function RegistrationPage({ navigation }) {
         onSubmit={(values, { resetForm }) => {
           handleRegistration(values.email, values.password, values.name);
           resetForm({ values: '' });
-
-          // initialValues={{ name: '', email: '', password: '' }}
-          // onSubmit={(values, { resetForm }) => {
-          //   dispatch(registrationAction(values));
         }}
       >
         {(props) => (
@@ -81,12 +77,6 @@ export default function RegistrationPage({ navigation }) {
               <TouchableOpacity style={styles.botton} onPress={props.handleSubmit}>
                 <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}> Create new account</Text>
               </TouchableOpacity>
-              {/* <View style={gStyle.btn}>
-              <Button
-                title="Sign Up"
-                onPress={props.handleSubmit}
-              />
-            </View> */}
             </View>
             <View style={{
               marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center',
