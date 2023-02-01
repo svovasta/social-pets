@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const onePostsSlice = createSlice({
-  name: 'onePosts',
-  initialState: [],
+const onePostSlice = createSlice({
+  name: 'onePost',
+  initialState: {},
   reducers: {
-    getOnePosts: (state, action) => action.payload,
+    getOnePost: (state, action) => action.payload,
   },
 });
 
-export const { getOnePosts } = onePostsSlice.actions;
+export const { getOnePost } = onePostSlice.actions;
 
-export const getOnePostsAction = (postId) => (dispatch) => {
-  axios(`/posts/${postId}/post`)
-    .then((res) => dispatch(getOnePosts(res.data)))
+export const getOnePostAction = (postId) => (dispatch) => {
+  axios.get(`/posts/${postId}/post`)
+    .then((res) => dispatch(getOnePost(res.data)))
     .catch(console.log);
 };
 
-export default onePostsSlice.reducer;
+export default onePostSlice.reducer;

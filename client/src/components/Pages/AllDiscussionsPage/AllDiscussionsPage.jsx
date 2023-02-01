@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  StyleSheet, SafeAreaView,
+  StyleSheet, SafeAreaView, View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiscussionsAction } from '../../../redux/Slices/discussionsSlice';

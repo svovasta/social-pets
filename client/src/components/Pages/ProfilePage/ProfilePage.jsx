@@ -36,9 +36,6 @@ export default function ProfilePage({ navigation }) {
     dispatch(findUserAction());
     dispatch(getMyPostsAction());
     dispatch(getFavesAction());
-    console.log('====================================');
-    console.log(user);
-    console.log('====================================');
   }, [isFocused]);
 
   const onRefresh = useCallback(() => {

@@ -1,28 +1,30 @@
 import React, { useEffect } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
+  View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOnePostsAction } from '../../../redux/Slices/onePostSlice';
+import { getOnePostAction } from '../../../redux/Slices/onePostSlice';
 import PostCard from '../../UI/PostCard';
 
 export default function PostPage({ route }) {
   const { postId } = route.params;
   const dispatch = useDispatch();
   const onePost = useSelector((state) => state.onePost);
+
   useEffect(() => {
-    dispatch(getOnePostsAction(postId));
+    dispatch(getOnePostAction(postId));
   }, []);
+
   return (
-    <SafeAreaView style={styles.postCard}>
-      <PostCard post={onePost} />
-    </SafeAreaView>
+    <View style={styles.postCard}>
+      {onePost && <PostCard post={onePost} />}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   postCard: {
-
+    marginTop: 20,
   },
 });

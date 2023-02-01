@@ -41,7 +41,6 @@ function CommentsPage({ route }) {
 
   return (
     <SafeAreaView style={gStyle.main}>
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={{
           borderBottomColor: 'grey',
           borderBottomWidth: 1,
@@ -98,7 +97,6 @@ function CommentsPage({ route }) {
             )}
           />
         </View>
-      </ScrollView>
     </SafeAreaView>
 
   );
