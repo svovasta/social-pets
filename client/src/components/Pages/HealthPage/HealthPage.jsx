@@ -1,7 +1,7 @@
 import {
   StyleSheet, Text, View,
   Modal,
-  TouchableOpacity, Button, Alert,
+  TouchableOpacity, Button, Alert, Image,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Divider, List, ListItem } from '@ui-kitten/components';
 import { Ionicons } from '@expo/vector-icons';
 import { addCheckupAction, deleteCheckUpAction, getCheckupsActon } from '../../../redux/Slices/checkUpSlice';
+import mp from '../../../../assets/Discussions/mp.png';
 
 export default function HealthPage() {
   const [showModal, setShowModal] = useState(false);
@@ -52,7 +53,14 @@ export default function HealthPage() {
   );
   return (
     <>
+
       <View>
+        <Image
+          source={mp}
+          style={{
+            width: '100%', height: 100, resizeMode: 'cover',
+          }}
+        />
         <Calendar
           theme={{
             calendarBackground: 'grey',
@@ -78,7 +86,10 @@ export default function HealthPage() {
 
       {!checkups.length ? (
         <Text style={{
-          margin: 10, fontSize: 20, textAlign: 'center', font: 'Roboto',
+          margin: 10,
+          fontSize: 20,
+          textAlign: 'center',
+          font: 'Roboto',
         }}
         >
           Here you can keep track of your pet-related events, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
@@ -149,7 +160,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: '#FFF8DC',
   },
   modal: {
     flex: 1,

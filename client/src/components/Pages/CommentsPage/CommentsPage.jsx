@@ -60,7 +60,6 @@ function CommentsPage({ route }) {
           <View style={styles.topContainer}>
             <Avatar
               style={styles.avatar}
-
               source={user.avatar ? ({ uri: `http://localhost:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
             />
             <Text style={styles.username}>
@@ -100,7 +99,6 @@ function CommentsPage({ route }) {
 
             dispatch(getCommentsAction(activePost));
             setInput('');
-
           }}
         />
       </View>

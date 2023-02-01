@@ -12,7 +12,6 @@ import 'react-native-gesture-handler';
 axios.defaults.baseURL = 'http://192.168.3.127:3001';
 
 export default function App() {
-
   LogBox.ignoreAllLogs();
 
   return (
@@ -23,7 +22,6 @@ export default function App() {
     </Provider>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

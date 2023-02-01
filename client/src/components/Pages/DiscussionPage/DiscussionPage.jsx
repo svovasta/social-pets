@@ -63,7 +63,7 @@ export default function DiscussionPage(props) {
       renderUsernameOnMessage
       showAvatarForEveryMessage
       messagesContainerStyle={{
-        backgroundColor: 'pink',
+        backgroundColor: '#FFF8DC',
       }}
       wrapInSafeArea={false}
 
