@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Image,
   SafeAreaView,
+  RefreshControl,
+  ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
@@ -15,22 +17,38 @@ export default function PostPage({ route }) {
   const dispatch = useDispatch();
   const onePost = useSelector((state) => state.onePost);
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     dispatch(getOnePostAction(postId));
   }, []);
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(getOnePostAction(postId));
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
+
   return (
-    <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
-      <Image
+
+    <ScrollView refreshControl={(
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+)}
+    >
+      <View style={{ backgroundColor: '#FFF8DC', height: '100%',marginTop: 20,}}>
+         <Image
         source={mp}
         style={{
           width: '100%', height: 100, resizeMode: 'cover',
         }}
-      />
-      <View style={styles.postCard}>
         {onePost && <PostCard post={onePost} />}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

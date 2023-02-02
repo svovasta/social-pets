@@ -31,28 +31,38 @@ export default function HealthPage() {
   const newData = checkups.reduce((acc, curr) => {
     const { date } = curr;
     acc[date] = {
-      marked: true, selected: true, selectedColor: 'blue', dotColor: 'pink',
+      marked: true, selected: true, selectedColor: '#58ceb2', dotColor: 'grey',
     };
     return acc;
   }, {});
 
   const renderItem = ({ item }) => (
-    <>
+    <View style={{ backgroundColor: '#FFF8DC' }}>
       <ListItem
-        title={`${item.date.split('-').reverse().join('/')} ${item.name} `}
+        style={{ backgroundColor: '#FFF8DC', fontSize: 20 }}
+        title={(
+          <Text>
+            {item.date.split('-').reverse().join('/')}
+            {' '}
+            {item.name}
+            {' '}
+          </Text>
+        )}
         description={`${item.description}`}
+        accessoryRight={(
+          <Button
+            title="delete"
+            onPress={() => {
+              dispatch(deleteCheckUpAction(item.id));
+              dispatch(getCheckupsActon());
+            }}
+          />
+)}
       />
-      <Button
-        title="delete"
-        onPress={() => {
-          dispatch(deleteCheckUpAction(item.id));
-          dispatch(getCheckupsActon());
-        }}
-      />
-    </>
+    </View>
   );
   return (
-    <>
+    <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
 
       <View>
         <Image
@@ -62,10 +72,8 @@ export default function HealthPage() {
           }}
         />
         <Calendar
-          theme={{
-            calendarBackground: 'grey',
-          }}
-          style={{ marginTop: 80 }}
+          style={{ marginTop: 80, backgroundColor: '#FFF8DC' }}
+          theme={{ calendarBackground: '#FFF8DC' }}
           minDate="2010-05-10"
           maxDate="2060-05-30"
           onDayPress={(res) => {
@@ -82,28 +90,31 @@ export default function HealthPage() {
           markedDates={newData}
         />
       </View>
-      <Button title="Add" onPress={() => setShowModal(!showModal)} />
+      <View style={{ backgroundColor: '#FFF8DC' }}>
+        <Button title="Add" onPress={() => setShowModal(!showModal)} />
 
-      {!checkups.length ? (
-        <Text style={{
-          margin: 10,
-          fontSize: 20,
-          textAlign: 'center',
-          font: 'Roboto',
-        }}
-        >
-          Here you can keep track of your pet-related events, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
-        </Text>
-      )
-        : (
-          <List
-            data={checkups}
-            ItemSeparatorComponent={Divider}
-            renderItem={renderItem}
-          />
-        )}
-
+        {!checkups.length ? (
+          <Text style={{
+            margin: 10,
+            fontSize: 20,
+            textAlign: 'center',
+            font: 'Roboto',
+            backgroundColor: '#FFF8DC',
+          }}
+          >
+            Here you can keep track of your pet-related events, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
+          </Text>
+        )
+          : (
+            <List
+              data={checkups}
+              ItemSeparatorComponent={Divider}
+              renderItem={renderItem}
+            />
+          )}
+      </View>
       <Modal
+        style={{ backgroundColor: '#FFF8DC', height: '100%' }}
         animationType="slide"
         transparent={false}
         visible={showModal}
@@ -117,7 +128,7 @@ export default function HealthPage() {
           onSubmit={(values) => dispatch(addCheckupAction(values))}
         >
           {(props) => (
-            <View>
+            <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
               <TextInput
                 style={styles.input1}
                 value={dates}
@@ -151,7 +162,7 @@ export default function HealthPage() {
           )}
         </Formik>
       </Modal>
-    </>
+    </View>
   );
 }
 

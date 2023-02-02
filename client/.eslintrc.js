@@ -34,5 +34,6 @@ module.exports = {
     'react/no-unstable-nested-components': 0,
     'global-require': 0,
     'no-unused-expressions': 0,
+    'no-unsafe-optional-chaining': 0,
   },
 };

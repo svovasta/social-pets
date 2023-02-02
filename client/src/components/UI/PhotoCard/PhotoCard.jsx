@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 export default function PhotoCard({ photo }) {
   const navigation = useNavigation();
   return (
-    <View>
+    <View style={{ marginRight: 2, marginBottom: 2 }}>
       <TouchableOpacity onPress={() => navigation.navigate('OnePostScreen', { postId: photo.id })}>
         <Image
           style={styles.photo}

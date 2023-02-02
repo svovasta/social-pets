@@ -27,23 +27,23 @@ export default function ProfilePage({ navigation }) {
   const myPosts = useSelector((state) => state.myPosts);
 
   useEffect(() => {
-    if (avatar.length) {
-      setChangeAvatarStatus(!changeAvatarStatus);
-    }
-  }, [avatar]);
-
-  useEffect(() => {
     dispatch(findUserAction());
     dispatch(getMyPostsAction());
     dispatch(getFavesAction());
   }, [isFocused]);
+
+  useEffect(() => {
+    if (avatar.length) {
+      setChangeAvatarStatus(!changeAvatarStatus);
+    }
+  }, [avatar]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     dispatch(findUserAction());
     setTimeout(() => {
       setRefreshing(false);
-    }, 1500);
+    }, 1000);
   }, []);
 
   const logOutEveryMode = () => {
@@ -79,6 +79,7 @@ export default function ProfilePage({ navigation }) {
         },
       });
       setChangeAvatarStatus(false);
+      dispatch(findUserAction());
     } catch (error) {
       console.log(error.message);
     }
@@ -243,9 +244,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 249, 166, 1)',
   },
   posts: {
-    marginLeft: '3%',
-    marginRight: 'auto',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    gap: '10px',
+    marginLeft: 10,
   },
 });
