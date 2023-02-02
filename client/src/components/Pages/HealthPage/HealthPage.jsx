@@ -63,7 +63,6 @@ export default function HealthPage() {
   );
   return (
     <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
-
       <View>
         <Image
           source={mp}
@@ -91,7 +90,14 @@ export default function HealthPage() {
         />
       </View>
       <View style={{ backgroundColor: '#FFF8DC' }}>
-        <Button title="Add" onPress={() => setShowModal(!showModal)} />
+
+        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+          <TouchableOpacity style={styles.botton} onPress={() => setShowModal(!showModal)}>
+            <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
+              Add
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {!checkups.length ? (
           <Text style={{
@@ -99,7 +105,9 @@ export default function HealthPage() {
             fontSize: 20,
             textAlign: 'center',
             font: 'Roboto',
+            fontWeight: 'bold',
             backgroundColor: '#FFF8DC',
+            color: '#8B4513',
           }}
           >
             Here you can keep track of your pet-related events, e.g. vet appointments, vaccinations etc. Just click on the date you want to add a note for.
@@ -119,45 +127,65 @@ export default function HealthPage() {
         transparent={false}
         visible={showModal}
       >
-        <Text style={{ textAlign: 'center', marginTop: 100 }}>Add a checkup</Text>
-        <Formik
-          initialValues={{ name: '', description: '', date: dates }}
-          onSubmit={(values) => dispatch(addCheckupAction(values))}
-        >
-          {(props) => (
-            <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
-              <TextInput
-                style={styles.input1}
-                value={dates}
-              />
-              <TextInput
-                style={styles.input1}
-                placeholder="Title"
-                onChangeText={props.handleChange('name')}
-                value={props.values.name}
-              />
-              <TextInput
-                style={styles.input2}
-                placeholder="Description"
-                value={props.values.description}
-                onChangeText={props.handleChange('description')}
-              />
-              <Button
-                title="Add a note"
-                onPress={() => {
-                  props.handleSubmit();
-                  setShowModal(!showModal);
-                }}
-              />
-              <Button
-                title="Go back"
-                onPress={() => {
-                  setShowModal(!showModal);
-                }}
-              />
-            </View>
-          )}
-        </Formik>
+        <Image
+          source={mp}
+          style={{
+            width: '100%', height: 95, position: 'absolute', top: 4,
+          }}
+        />
+        <View style={{ marginTop: 80 }}>
+          <Formik
+            initialValues={{ name: '', description: '', date: dates }}
+            onSubmit={(values) => dispatch(addCheckupAction(values))}
+          >
+            {(props) => (
+              <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
+                <TextInput
+                  style={styles.input1}
+                  value={dates.split('-').reverse().join('/')}
+                />
+                <TextInput
+                  style={styles.input1}
+                  placeholder="Title"
+                  onChangeText={props.handleChange('name')}
+                  value={props.values.name}
+                />
+                <TextInput
+                  style={styles.input2}
+                  placeholder="Description"
+                  value={props.values.description}
+                  onChangeText={props.handleChange('description')}
+                />
+
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                  <TouchableOpacity
+                    style={styles.botton}
+                    onPress={() => {
+                      props.handleSubmit();
+                      setShowModal(!showModal);
+                    }}
+                  >
+                    <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
+                      Add a note
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                  <TouchableOpacity
+                    style={styles.botton}
+                    onPress={() => setShowModal(!showModal)}
+
+                  >
+                    <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
+                      Go back
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </Formik>
+        </View>
       </Modal>
     </View>
   );
@@ -199,5 +227,14 @@ const styles = StyleSheet.create({
     width: '60%',
     borderColor: 'silver',
     borderRadius: 5,
+  },
+  botton: {
+    backgroundColor: 'rgba(160, 82, 45, 0.8)',
+    height: 40,
+    borderRadius: 10,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
   },
 });
