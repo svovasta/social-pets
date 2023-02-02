@@ -7,6 +7,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import PhotoCard from '../../UI/PhotoCard';
 import { gStyle } from '../../../styles/styles';
 import { getFavesAction } from '../../../redux/Slices/faveSlice';
+import topImg from '../../../../assets/Discussions/topDisc.png';
 
 export default function FavouritesPage() {
   const [refreshing, setRefreshing] = useState(false);
@@ -29,14 +30,19 @@ export default function FavouritesPage() {
   // }, []);
 
   return (
-    <SafeAreaView style={gStyle.main}>
+    <View style={gStyle.main}>
       {/* <ScrollView
         contentContainerStyle={styles.scrollView}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       > */}
-
+      <Image
+        source={topImg}
+        style={{
+          width: '100%', height: 90, resizeMode: 'cover', marginTop: 5,
+        }}
+      />
       <Text style={[gStyle.gText, { textAlign: 'center', fontSize: 24, marginTop: 20 }]}>
         Favourite Posts
       </Text>
@@ -46,14 +52,14 @@ export default function FavouritesPage() {
           <TouchableOpacity key={el.id} onPress={() => navigation.navigate('PostPage')}>
             <Image
               style={styles.photo}
-              source={{ uri: `http://192.168.3.127:3001/posts/${el.Post.image}` }}
+              source={{ uri: `http://localhost:3001/posts/${el.Post.image}` }}
             />
           </TouchableOpacity>
         ))}
       </View>
 
       {/* </ScrollView> */}
-    </SafeAreaView>
+    </View>
   );
 }
 

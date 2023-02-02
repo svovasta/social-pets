@@ -85,7 +85,7 @@ export default function ProfilePage({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={gStyle.main}>
+    <SafeAreaView style={[gStyle.main]}>
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.profileRow}>
           <View>
@@ -97,7 +97,7 @@ export default function ProfilePage({ navigation }) {
             >
               <Image
                 style={styles.avatar}
-                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
+                source={user.avatar ? ({ uri: `http://localhost:3001/user/${user.avatar}` }) : (defaultAvatar)}
               />
             </TouchableOpacity>
           </View>
@@ -139,27 +139,47 @@ export default function ProfilePage({ navigation }) {
         <View>
           <View style={{ alignItems: 'flex-start' }}>
             {changeAvatarStatus && (
-            <Button
-              title="Save changes"
-              onPress={() => {
-                uploadImage();
-                setAvatar('');
+            <TouchableOpacity onPress={() => {
+              uploadImage();
+              setAvatar('');
+            }}
+            >
+              <Text style={{
+                marginLeft: 8,
+                fontWeight: '600',
+                fontSize: 16,
               }}
-            />
+              >
+                Save changes
+              </Text>
+            </TouchableOpacity>
             )}
-
           </View>
-          <Text style={{ margin: 10, marginLeft: 20, fontSize: 20 }}>{user.name}</Text>
-          <Text style={{ marginLeft: 20, fontSize: 20 }}>{user.description}</Text>
+          <View>
+            <Text style={{ margin: 10, marginLeft: 20, fontSize: 20 }}>{user.name}</Text>
+            <Text style={{ marginLeft: 20, fontSize: 20 }}>{user.description}</Text>
+          </View>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} />
+        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('FavouritesScreen')}>
+            <Text style={{
+              fontWeight: '500',
+              fontSize: 19,
+            }}
+            >
+              /Favourites/
+            </Text>
+          </TouchableOpacity>
+          {/* <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} /> */}
         </View>
+
         <View style={styles.posts}>
           {myPosts.map((el) => <PhotoCard key={el.id} photo={el} style={{ marginRight: 20 }} />)}
         </View>
+
         <View />
       </ScrollView>
+
       <SafeAreaView style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -172,7 +192,7 @@ export default function ProfilePage({ navigation }) {
           <SafeAreaView style={styles.centeredView}>
             <View style={styles.modalView}>
               {user.avatar ? (
-                <Image source={{ uri: `http://192.168.3.127:3001/user/${user.avatar}` }} style={{ width: 400, height: 400, marginBottom: 20 }} />) : (
+                <Image source={{ uri: `http://localhost:3001/user/${user.avatar}` }} style={{ width: 400, height: 400, marginBottom: 20 }} />) : (
                   <Image source={defaultAvatar} style={{ width: 400, height: 400, marginBottom: 20 }} />)}
               <Pressable
                 style={[gStyle.btn, styles.buttonClose]}
@@ -201,7 +221,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(216, 227, 232)',
   },
   textStyle: {
     textAlign: 'center',
@@ -217,9 +236,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     justifyContent: 'space-around',
+    // backgroundColor: 'rgba(160,82,45,0.5)',
   },
   profileInfo: {
     margin: 20,
+    backgroundColor: 'rgba(0, 249, 166, 1)',
   },
   posts: {
     marginLeft: '3%',

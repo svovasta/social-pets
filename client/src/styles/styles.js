@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const gStyle = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: 'rgb(216, 227, 232)',
+    backgroundColor: '#FFF8DC',
   },
   title: {
     fontSize: 20,
