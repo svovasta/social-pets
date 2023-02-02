@@ -40,12 +40,13 @@ export default function PostPage({ route }) {
       />
 )}
     >
-      <View style={{ backgroundColor: '#FFF8DC', height: '100%',marginTop: 20,}}>
-         <Image
-        source={mp}
-        style={{
-          width: '100%', height: 100, resizeMode: 'cover',
-        }}
+      <View style={{ backgroundColor: '#FFF8DC', height: '300%' }}>
+        <Image
+          source={mp}
+          style={{
+            width: '100%', height: 90, resizeMode: 'cover',
+          }}
+        />
         {onePost && <PostCard post={onePost} />}
       </View>
     </ScrollView>

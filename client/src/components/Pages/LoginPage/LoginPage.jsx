@@ -31,7 +31,7 @@ export default function LoginPage({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
-      console.log('dismiss keyboard');
+      ('dismiss keyboard');
     }}
     >
 

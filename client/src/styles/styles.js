@@ -28,7 +28,6 @@ export const gStyle = StyleSheet.create({
     shadowColor: 'rgba(0, 0, 255, .2)',
   },
   gText: {
-    fontFamily: 'rob-regular',
     fontSize: 18,
   },
 });

@@ -15,6 +15,7 @@ import defaultAvatar from '../../../../assets/defaultavatar.png';
 import { findUserAction, userLogoutAction } from '../../../redux/Slices/userSlice';
 import { getMyPostsAction } from '../../../redux/Slices/myPostsSlice';
 import { getFavesAction } from '../../../redux/Slices/faveSlice';
+import topImg from '../../../../assets/Discussions/topDisc.png';
 
 export default function ProfilePage({ navigation }) {
   const dispatch = useDispatch();
@@ -86,7 +87,11 @@ export default function ProfilePage({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={[gStyle.main]}>
+    <View style={[gStyle.main]}>
+      <Image
+        source={topImg}
+        style={{ width: '100%', height: 90, resizeMode: 'cover' }}
+      />
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.profileRow}>
           <View>
@@ -162,13 +167,9 @@ export default function ProfilePage({ navigation }) {
           </View>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
-          <TouchableOpacity onPress={() => navigation.navigate('FavouritesScreen')}>
-            <Text style={{
-              fontWeight: '500',
-              fontSize: 19,
-            }}
-            >
-              /Favourites/
+          <TouchableOpacity style={styles.botton} onPress={() => navigation.navigate('FavouritesScreen')}>
+            <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>
+              Favourites
             </Text>
           </TouchableOpacity>
           {/* <Button title="Favourites" onPress={() => navigation.navigate('FavouritesScreen')} /> */}
@@ -205,7 +206,7 @@ export default function ProfilePage({ navigation }) {
           </SafeAreaView>
         </Modal>
       </SafeAreaView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -247,6 +248,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: '10px',
-    marginLeft: 10,
+    marginLeft: 5,
+  },
+  botton: {
+    backgroundColor: 'rgba(160, 82, 45, 0.6)',
+    height: 40,
+    borderRadius: 10,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
   },
 });

@@ -56,14 +56,13 @@ export default function AddPostPage({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
-      console.log('dismiss keyboard');
     }}
     >
       <SafeAreaView style={styles.container}>
         <Image
           source={topImg}
           style={{
-            width: '100%', height: 95, position: 'absolute', top: 4,
+            width: '100%', height: 90, position: 'absolute',
           }}
         />
         <Formik

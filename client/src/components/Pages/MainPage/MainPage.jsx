@@ -42,11 +42,11 @@ export default function MainPage() {
   }, [isFocused]);
 
   return (
-    <View style={{ backgroundColor: '#FFF8DC' }}>
+    <View style={{ backgroundColor: '#FFF8DC', height: '100%' }}>
       <Image
         source={mp}
         style={{
-          width: '100%', height: 100, resizeMode: 'cover',
+          width: '100%', height: 90, resizeMode: 'cover',
         }}
       />
       <View style={{ alignItems: 'center' }}>
@@ -56,7 +56,7 @@ export default function MainPage() {
       </View>
       <SafeAreaView>
         <FlatList
-          style={{ marginBottom: 350 }}
+          // style={{ marginBottom: 350 }}
           refreshControl={(
             <RefreshControl
               refreshing={refreshing}

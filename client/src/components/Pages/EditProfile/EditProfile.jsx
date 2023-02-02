@@ -63,7 +63,6 @@ export default function EditProfile({ navigation }) {
 
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
-      console.log('dismiss keyboard');
     }}
     >
 
@@ -112,11 +111,6 @@ export default function EditProfile({ navigation }) {
                 >
                   <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}>Save Changes</Text>
                 </TouchableOpacity>
-                <Button
-                  title="Save changes"
-                  type="submit"
-                  onPress={props.handleSubmit}
-                />
               </View>
             </View>
           )}

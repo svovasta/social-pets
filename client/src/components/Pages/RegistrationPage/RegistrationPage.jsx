@@ -30,7 +30,6 @@ export default function RegistrationPage({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
-      console.log('dismiss keyboard');
     }}
     >
       <SafeAreaView style={[gStyle.main, styles.container]}>

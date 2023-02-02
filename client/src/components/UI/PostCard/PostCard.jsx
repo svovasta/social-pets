@@ -45,6 +45,7 @@ export default function PostCard({ post }) {
   useEffect(() => {
     dispatch(getFavesAction());
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
+    postLikes.find((el) => el.postId === post.id) ? setLikeStatus(true) : setLikeStatus(false);
   }, []);
 
   useEffect(() => {
@@ -63,6 +64,8 @@ export default function PostCard({ post }) {
     dispatch(getFavesAction());
     dispatch(findUserAction());
     !faves.find((el) => el.postId === post.id) ? setFaved(false) : setFaved(true);
+    axios(`/likes/${post.id}`)
+      .then((res) => setPostLikes(res.data));
   }, [isFocused]);
 
   useEffect(() => {
@@ -76,7 +79,8 @@ export default function PostCard({ post }) {
       .catch((err) => {
         console.log(err);
       });
-    axios(`/likes/${post.id}`);
+    axios(`/likes/${post.id}`)
+      .then((res) => setPostLikes(res.data));
   }, [likeStatus]);
 
   const addorDeleteLikeHandler = (postId) => {
@@ -111,14 +115,20 @@ export default function PostCard({ post }) {
 
         {user.id === post.User.id ? null
           : (
-            <Button
-              title={!followers.find((el) => el.User.id === post.User.id) ? 'follow' : 'unfollow'}
+            <TouchableOpacity
               onPress={() => {
                 dispatch(followAction(post.User.id));
                 dispatch(getFollowedPostsAction());
                 setFollowed(!followed);
               }}
-            />
+            >
+              <Text style={{
+                color: '#58CEB2', fontSize: 15, textAlign: 'right', fontWeight: 'bold',
+              }}
+              >
+                {!followers.find((el) => el.User.id === post.User.id) ? 'follow' : 'unfollow'}
+              </Text>
+            </TouchableOpacity>
           )}
       </View>
       )}
@@ -186,6 +196,7 @@ export default function PostCard({ post }) {
           <TouchableOpacity
             onPress={() => {
               setLikeStatus((prev) => !prev);
+              setPostLikes(post);
               addorDeleteLikeHandler(post.id);
             }}
             style={styles.heartContainer}

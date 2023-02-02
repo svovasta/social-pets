@@ -7,8 +7,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   photo: {
-    width: 130,
-    height: 130,
+    width: 125,
+    height: 125,
   },
 });
 

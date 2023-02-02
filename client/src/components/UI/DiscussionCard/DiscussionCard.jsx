@@ -28,7 +28,7 @@ export default function DiscussionCard(props) {
       image = random;
       break;
     default:
-      console.log('kek');
+      console.log;
   }
   return (
     <SafeAreaView style={styles.container}>

@@ -40,7 +40,7 @@ export default function FavouritesPage() {
       <Image
         source={topImg}
         style={{
-          width: '100%', height: 90, resizeMode: 'cover', marginTop: 5,
+          width: '100%', height: 90, resizeMode: 'cover',
         }}
       />
       <Text style={[gStyle.gText, { textAlign: 'center', fontSize: 24, marginTop: 20 }]}>

@@ -68,7 +68,7 @@ export default function HealthPage() {
         <Image
           source={mp}
           style={{
-            width: '100%', height: 100, resizeMode: 'cover',
+            width: '100%', height: 90, resizeMode: 'cover',
           }}
         />
         <Calendar
@@ -118,9 +118,6 @@ export default function HealthPage() {
         animationType="slide"
         transparent={false}
         visible={showModal}
-        onRequestClose={() => {
-          console.log('Modal has been closed.');
-        }}
       >
         <Text style={{ textAlign: 'center', marginTop: 100 }}>Add a checkup</Text>
         <Formik

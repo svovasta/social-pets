@@ -66,7 +66,7 @@ export default function DiscussionPage(props) {
         backgroundColor: '#FFF8DC',
       }}
       wrapInSafeArea={false}
-
+      bottomOffset={80}
     />
   );
 }

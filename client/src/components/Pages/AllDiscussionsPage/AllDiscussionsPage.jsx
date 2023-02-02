@@ -18,11 +18,11 @@ export default function AllDiscussionsPage({ navigation }) {
       <Image
         source={topImg}
         style={{
-          width: '100%', height: 90, position: 'absolute', top: 7,
+          width: '100%', height: 90, position: 'absolute',
         }}
       />
       <View style={{
-        borderTopStartRadius: 50, height: '90%', justifyContent: 'space-around', marginTop: 50,
+        borderTopStartRadius: 50, height: '90%', justifyContent: 'space-around', marginTop: 35,
       }}
       >
         {discussions?.map((discussion) => (
