@@ -104,7 +104,7 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={post.User.avatar ? ({ uri: `http://192.168.3.127:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={post.User.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
 
         />
         <Text style={styles.username}>{post.User.name}</Text>
@@ -125,7 +125,7 @@ export default function PostCard({ post }) {
 
       <View>
         <GestureDetector gesture={tap}>
-          <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
+          <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
         </GestureDetector>
 
       </View>

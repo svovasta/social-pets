@@ -98,7 +98,7 @@ export default function ProfilePage({ navigation }) {
             >
               <Image
                 style={styles.avatar}
-                source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${user.avatar}` }) : (defaultAvatar)}
+                source={user.avatar ? ({ uri: `http://localhost:3001/user/${user.avatar}` }) : (defaultAvatar)}
               />
             </TouchableOpacity>
           </View>
@@ -173,7 +173,7 @@ export default function ProfilePage({ navigation }) {
           <SafeAreaView style={styles.centeredView}>
             <View style={styles.modalView}>
               {user.avatar ? (
-                <Image source={{ uri: `http://192.168.3.127:3001/user/${user.avatar}` }} style={{ width: 400, height: 400, marginBottom: 20 }} />) : (
+                <Image source={{ uri: `http://localhost:3001/user/${user.avatar}` }} style={{ width: 400, height: 400, marginBottom: 20 }} />) : (
                   <Image source={defaultAvatar} style={{ width: 400, height: 400, marginBottom: 20 }} />)}
               <Pressable
                 style={[gStyle.btn, styles.buttonClose]}
