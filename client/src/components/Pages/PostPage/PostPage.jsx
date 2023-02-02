@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  Image,
+  SafeAreaView,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -8,6 +10,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getOnePostAction } from '../../../redux/Slices/onePostSlice';
 import PostCard from '../../UI/PostCard';
+import mp from '../../../../assets/Discussions/mp.png';
 
 export default function PostPage({ route }) {
   const { postId } = route.params;
@@ -29,6 +32,7 @@ export default function PostPage({ route }) {
   }, []);
 
   return (
+
     <ScrollView refreshControl={(
       <RefreshControl
         refreshing={refreshing}
@@ -36,7 +40,12 @@ export default function PostPage({ route }) {
       />
 )}
     >
-      <View style={styles.postCard}>
+      <View style={{ backgroundColor: '#FFF8DC', height: '100%',marginTop: 20,}}>
+         <Image
+        source={mp}
+        style={{
+          width: '100%', height: 100, resizeMode: 'cover',
+        }}
         {onePost && <PostCard post={onePost} />}
       </View>
     </ScrollView>
