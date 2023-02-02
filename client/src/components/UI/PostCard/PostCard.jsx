@@ -36,7 +36,6 @@ export default function PostCard({ post }) {
 
   const [editInputStatus, setEditInputStatus] = useState(false);
 
-
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
@@ -48,7 +47,6 @@ export default function PostCard({ post }) {
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
 
-
   useEffect(() => {
     axios(`/likes/${post.id}/user`)
       .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
@@ -56,7 +54,6 @@ export default function PostCard({ post }) {
         console.log(err);
       });
   }, [likeStatus]);
-
 
   useEffect(() => {
     dispatch(getFollowedPostsAction());
@@ -102,7 +99,7 @@ export default function PostCard({ post }) {
       <View style={styles.topContainer}>
         <Avatar
           style={styles.avatar}
-          source={post.User.avatar ? ({ uri: `http://192.168.3.127:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
+          source={post.User.avatar ? ({ uri: `http://localhost:3001/user/${post.User.avatar}` }) : (defaultAvatar)}
 
         />
         <Text style={styles.username}>{post.User.name}</Text>
@@ -123,7 +120,7 @@ export default function PostCard({ post }) {
 
       <View>
         <GestureDetector gesture={tap}>
-          <Image style={styles.postImage} source={{ uri: `http://192.168.3.127:3001/posts/${post.image}` }} />
+          <Image style={styles.postImage} source={{ uri: `http://localhost:3001/posts/${post.image}` }} />
         </GestureDetector>
 
       </View>
