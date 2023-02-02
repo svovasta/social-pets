@@ -1,32 +1,26 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 
-  View, ScrollView, TextInput, Button, StyleSheet, SafeAreaView, Text, RefreshControl,
+  View, TextInput, Button, StyleSheet, SafeAreaView, Text,
 
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Avatar } from '@ui-kitten/components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
 import { addCommentAction, getCommentsAction } from '../../../redux/Slices/commentsSlice';
 import { gStyle } from '../../../styles/styles';
 import CommentCard from './CommentCard';
 import defaultAvatar from '../../../../assets/defaultavatar.png';
-import { findUserAction } from '../../../redux/Slices/userSlice';
 import { getOnePostAction } from '../../../redux/Slices/onePostSlice';
 
 function CommentsPage({ route }) {
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
   const comments = useSelector((state) => state.comment);
   const user = useSelector((state) => state.user);
   const [input, setInput] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
   const { activePost } = route.params;
 
-  const posts = useSelector((s) => s.posts);
-  const chosenpost = posts.find((el) => el.id === activePost);
   const onePost = useSelector((state) => state.onePost);
 
   useEffect(() => {
@@ -41,14 +35,6 @@ function CommentsPage({ route }) {
     dispatch(getCommentsAction(activePost));
   }, [input]);
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    dispatch(getCommentsAction(activePost));
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1500);
-  }, []);
-
   return (
     <SafeAreaView style={gStyle.main}>
       <View style={{
@@ -60,10 +46,10 @@ function CommentsPage({ route }) {
           <View style={styles.topContainer}>
             <Avatar
               style={styles.avatar}
-              source={user.avatar ? ({ uri: `http://localhost:3001/user/${comments[0]?.User?.avatar}` }) : (defaultAvatar)}
+              source={user.avatar ? ({ uri: `http://192.168.3.127:3001/user/${onePost?.User?.avatar}` }) : (defaultAvatar)}
             />
             <Text style={styles.username}>
-              {chosenpost?.User?.name}
+              {onePost?.User?.name}
 
             </Text>
           </View>

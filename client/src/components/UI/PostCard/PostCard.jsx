@@ -36,7 +36,6 @@ export default function PostCard({ post }) {
 
   const [editInputStatus, setEditInputStatus] = useState(false);
 
-
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
@@ -48,7 +47,6 @@ export default function PostCard({ post }) {
     !faves.find((el) => el.Post.id === post.id) ? setFaved(false) : setFaved(true);
   }, []);
 
-
   useEffect(() => {
     axios(`/likes/${post.id}/user`)
       .then((res) => (res.data.message === 'yes' ? setLikeStatus(true) : setLikeStatus(false)))
@@ -56,7 +54,6 @@ export default function PostCard({ post }) {
         console.log(err);
       });
   }, [likeStatus]);
-
 
   useEffect(() => {
     dispatch(getFollowedPostsAction());
@@ -94,6 +91,11 @@ export default function PostCard({ post }) {
       setLikeStatus((prev) => !prev);
       addorDeleteLikeHandler(post.id);
     });
+
+  function editPostFunction(values) {
+    dispatch(editPostAction(post.id, values));
+    dispatch(getOnePostAction(post.id));
+  }
 
   return (
     <SafeAreaView style={styles.card}>
@@ -139,10 +141,11 @@ export default function PostCard({ post }) {
           <Formik
             initialValues={{ text: post.text }}
             onSubmit={(values) => {
-              dispatch(editPostAction(post.id, values));
+              // dispatch(editPostAction(post.id, values));
+              editPostFunction(values);
               setEditInputStatus(false);
-              dispatch(getOnePostAction(post.id));
               // navigation.navigate('ProfileScreen');
+              dispatch(getOnePostAction(post.id));
             }}
           >
             {(props) => (

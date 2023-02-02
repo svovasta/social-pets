@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {
   TextInput, SafeAreaView, StyleSheet, Button, Image, View, Alert, TouchableOpacity, Text,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
@@ -52,109 +54,113 @@ export default function AddPostPage({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image
-        source={topImg}
-        style={{
-          width: '100%', height: 95, position: 'absolute', top: 4,
-        }}
-      />
-      <Formik
-        initialValues={{ text: '' }}
-        onSubmit={(values, { resetForm }) => {
-          uploadImage(values.text);
-          setImage('');
-          resetForm({ values: '' });
-        }}
-      >
-        {(props) => (
-          <View style={{ alignItems: 'center' }}>
-
-            {image === '' ? (
-              <TouchableOpacity
-                style={{
-                  width: 300,
-                  height: 300,
-                  marginTop: 90,
-                  borderRadius: '150%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  alignSelf: 'auto',
-                  borderColor: '#A0522D',
-                  borderWidth: 4,
-                  backgroundColor: 'rgba(160,82,45,0.1)',
-                }}
-                onPress={pickImage}
-              >
-                <Image
-                  source={photoAdd}
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss();
+      console.log('dismiss keyboard');
+    }}
+    >
+      <SafeAreaView style={styles.container}>
+        <Image
+          source={topImg}
+          style={{
+            width: '100%', height: 95, position: 'absolute', top: 4,
+          }}
+        />
+        <Formik
+          initialValues={{ text: '' }}
+          onSubmit={(values, { resetForm }) => {
+            uploadImage(values.text);
+            setImage('');
+            resetForm({ values: '' });
+          }}
+        >
+          {(props) => (
+            <View style={{ alignItems: 'center' }}>
+              {image === '' ? (
+                <TouchableOpacity
                   style={{
-                    width: '40%',
-                    height: '40%',
-                  }}
-                />
-              </TouchableOpacity>
-            ) : (
-              <>
-                {image && (
-                <Image
-                  source={{ uri: image }}
-                  style={{
-                    width: '100%',
-                    height: '55%',
+                    width: 300,
+                    height: 300,
                     marginTop: 90,
+                    borderRadius: '150%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    alignSelf: 'auto',
+                    borderColor: '#A0522D',
+                    borderWidth: 4,
+                    backgroundColor: 'rgba(160,82,45,0.1)',
                   }}
-                />
-                )}
-                <TouchableOpacity onPress={pickImage}>
-                  <Text style={{
-                    color: '#A0522D',
-                    fontWeight: '600',
+                  onPress={pickImage}
+                >
+                  <Image
+                    source={photoAdd}
+                    style={{
+                      width: '40%',
+                      height: '40%',
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <>
+                  {image && (
+                  <Image
+                    source={{ uri: image }}
+                    style={{
+                      width: '100%',
+                      height: '55%',
+                      marginTop: 90,
+                    }}
+                  />
+                  )}
+                  <TouchableOpacity onPress={pickImage}>
+                    <Text style={{
+                      color: '#A0522D',
+                      fontWeight: '600',
+                      fontSize: 16,
+                      marginTop: 5,
+                    }}
+                    >
+                      Update photo
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
+              <View style={{
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                marginTop: 50,
+              }}
+              >
+                <TextInput
+                  style={{
+                    backgroundColor: '#F6F7FB',
+                    height: 58,
+                    marginBottom: 20,
                     fontSize: 16,
-                    marginTop: 5,
+                    borderRadius: 10,
+                    padding: 12,
+                    width: '80%',
                   }}
-                  >
-                    Update photo
+                  value={props.values.text}
+                  onChangeText={props.handleChange('text')}
+                  placeholder="Add description to your post"
+                  multiline
+                />
+                <TouchableOpacity
+                  style={styles.botton}
+                  onPress={props.handleSubmit}
+                >
+                  <Text style={{ fontWeight: 'bold', color: '#FFF8DC', fontSize: 18 }}>
+                    Add post
                   </Text>
                 </TouchableOpacity>
-              </>
-            )}
-
-            <View style={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              marginTop: 50,
-            }}
-            >
-              <TextInput
-                style={{
-                  backgroundColor: '#F6F7FB',
-                  height: 58,
-                  marginBottom: 20,
-                  fontSize: 16,
-                  borderRadius: 10,
-                  padding: 12,
-                  width: '80%',
-                }}
-                value={props.values.text}
-                onChangeText={props.handleChange('text')}
-                placeholder="Add description to your post"
-                multiline
-              />
-              <TouchableOpacity
-                style={styles.botton}
-                onPress={props.handleSubmit}
-              >
-                <Text style={{ fontWeight: 'bold', color: '#FFF8DC', fontSize: 18 }}>
-                  Add post
-                </Text>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
-      </Formik>
-    </SafeAreaView>
+          )}
+        </Formik>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 

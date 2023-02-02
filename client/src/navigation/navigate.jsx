@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
-  Ionicons, Octicons, MaterialIcons, MaterialCommunityIcons,
+  Ionicons, MaterialIcons, MaterialCommunityIcons,
 } from '@expo/vector-icons';
 // Screens
 import MainPage from '../components/Pages/MainPage';
@@ -29,9 +29,6 @@ const mainPage = 'Home';
 const addPostPage = 'Post';
 const profilePage = 'Profile';
 const healthPage = 'Notes';
-const postPage = 'PostPage';
-const loginPage = 'Sign In';
-const registrationPage = 'SignUp';
 const allDiscussionPage = 'Discussions';
 const BottomTab = createBottomTabNavigator();
 
@@ -40,7 +37,6 @@ export default function BottomTabNavigator() {
   return (
     <NavigationContainer>
       <BottomTab.Navigator
-        sceneContainerStyle={{ color: 'green' }}
         initialRouteName="HomeScreen"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
