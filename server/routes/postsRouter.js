@@ -75,8 +75,6 @@ router.post('/upload-image', postsUpload.single('image'), async (req, res) => {
 
 router.patch('/:id/edit-image', postsUpload.single('image'), async (req, res) => {
   try {
-    console.log('REQ BODY ----->', req.body);
-    console.log('REQ FILE ----->', req.file);
     const post = Post.findByPk(req.params.id);
     post.text = req.body.text;
     post.image = req.file ? req.file.path : '';

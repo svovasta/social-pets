@@ -105,7 +105,6 @@ router.patch('/:id/edit', async (req, res) => {
   editedUser.name = name;
   editedUser.description = description;
   editedUser.save();
-  console.log(req.body, 'REQBODYYY');
   res.json(editedUser);
 });
 
